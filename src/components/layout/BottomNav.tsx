@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Link, useLocation } from 'react-router-dom';
-import { Home, Heart, UserPlus, User } from 'lucide-react';
+import { Home, Heart, UserPlus, User, Search } from 'lucide-react';
 import { useAuth } from '@/contexts/AuthContext';
 import { useLanguage } from '@/contexts/LanguageContext';
 import { supabase } from '@/lib/supabase';
@@ -10,6 +10,7 @@ const BottomNav: React.FC = () => {
     const { t } = useLanguage();
     const location = useLocation();
     const [profileId, setProfileId] = useState<string | null>(null);
+    const [showPublicProfiles, setShowPublicProfiles] = useState(false);
 
     useEffect(() => {
         if (!user) {
@@ -21,6 +22,12 @@ const BottomNav: React.FC = () => {
             if (data) setProfileId(data.id);
         };
         fetchProfile();
+
+        const checkPublicSetting = async () => {
+            const { data } = await supabase.from('app_settings').select('value').eq('key', 'enable_public_profiles').maybeSingle();
+            setShowPublicProfiles(data?.value === 'true');
+        };
+        checkPublicSetting();
     }, [user]);
 
     // Only show if user is logged in
@@ -28,6 +35,7 @@ const BottomNav: React.FC = () => {
 
     const navLinks = [
         { path: '/', icon: Home, label: t('nav.home') },
+        { path: '/all-profiles', icon: Search, label: t('nav.allProfiles') || 'All Profiles' },
         { path: '/my-matches', icon: Heart, label: t('nav.myMatches') },
         { path: '/request-match', icon: UserPlus, label: t('nav.requestMatch') },
         { path: profileId ? `/profile/view/${profileId}` : '/submit-profile', icon: User, label: t('nav.viewProfile') },
