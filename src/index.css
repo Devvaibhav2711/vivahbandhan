@@ -1,0 +1,182 @@
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600;700&family=Poppins:wght@300;400;500;600&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* VivahBandhan Design System - Traditional Indian Wedding Theme
+   Colors: Deep Maroon, Royal Gold, Warm Cream
+   All colors MUST be HSL.
+*/
+
+
+
+@layer base {
+  :root {
+    /* Primary: Deep Maroon - represents tradition, love, prosperity */
+    --primary: 348 70% 28%;
+    --primary-foreground: 40 30% 96%;
+
+    /* Secondary: Warm Cream - elegance, warmth */
+    --secondary: 40 30% 94%;
+    --secondary-foreground: 348 70% 28%;
+
+    /* Accent: Royal Gold - celebration, richness */
+    --accent: 43 74% 49%;
+    --accent-foreground: 348 70% 18%;
+
+    /* Background: Soft cream white */
+    --background: 40 25% 98%;
+    --foreground: 348 50% 15%;
+
+    /* Card: Pure white with subtle warmth */
+    --card: 40 20% 99%;
+    --card-foreground: 348 50% 15%;
+
+    /* Popover */
+    --popover: 40 20% 99%;
+    --popover-foreground: 348 50% 15%;
+
+    /* Muted: Soft beige */
+    --muted: 40 20% 92%;
+    --muted-foreground: 348 30% 40%;
+
+    /* Destructive */
+    --destructive: 0 84% 60%;
+    --destructive-foreground: 0 0% 100%;
+
+    /* Border & Input */
+    --border: 40 25% 85%;
+    --input: 40 25% 88%;
+    --ring: 43 74% 49%;
+
+    --radius: 0.75rem;
+
+    /* Custom: Gold gradient */
+    --gold-light: 43 80% 60%;
+    --gold-dark: 38 70% 40%;
+
+    /* Custom: Maroon shades */
+    --maroon-light: 348 60% 40%;
+    --maroon-dark: 348 80% 20%;
+
+    /* Sidebar */
+    --sidebar-background: 348 70% 25%;
+    --sidebar-foreground: 40 30% 96%;
+    --sidebar-primary: 43 74% 49%;
+    --sidebar-primary-foreground: 348 70% 18%;
+    --sidebar-accent: 348 60% 35%;
+    --sidebar-accent-foreground: 40 30% 96%;
+    --sidebar-border: 348 50% 30%;
+    --sidebar-ring: 43 74% 49%;
+  }
+
+  .dark {
+    --primary: 43 74% 55%;
+    --primary-foreground: 348 70% 15%;
+
+    --secondary: 348 50% 20%;
+    --secondary-foreground: 40 30% 96%;
+
+    --accent: 43 74% 49%;
+    --accent-foreground: 348 70% 10%;
+
+    --background: 348 50% 8%;
+    --foreground: 40 25% 95%;
+
+    --card: 348 45% 12%;
+    --card-foreground: 40 25% 95%;
+
+    --popover: 348 45% 12%;
+    --popover-foreground: 40 25% 95%;
+
+    --muted: 348 40% 18%;
+    --muted-foreground: 40 20% 70%;
+
+    --destructive: 0 62% 50%;
+    --destructive-foreground: 0 0% 100%;
+
+    --border: 348 40% 20%;
+    --input: 348 40% 22%;
+    --ring: 43 74% 49%;
+
+    --sidebar-background: 348 60% 10%;
+    --sidebar-foreground: 40 30% 96%;
+    --sidebar-primary: 43 74% 55%;
+    --sidebar-primary-foreground: 348 70% 10%;
+    --sidebar-accent: 348 50% 18%;
+    --sidebar-accent-foreground: 40 30% 96%;
+    --sidebar-border: 348 40% 18%;
+    --sidebar-ring: 43 74% 55%;
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+
+  body {
+    @apply bg-background text-foreground font-sans antialiased;
+    font-family: 'Poppins', sans-serif;
+  }
+
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
+    font-family: 'Playfair Display', serif;
+  }
+}
+
+@layer components {
+  .gold-gradient {
+    background: linear-gradient(135deg, hsl(var(--gold-light)), hsl(var(--accent)), hsl(var(--gold-dark)));
+  }
+
+  .gold-text {
+    background: linear-gradient(135deg, hsl(var(--gold-light)), hsl(var(--accent)));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+
+  .maroon-gradient {
+    background: linear-gradient(135deg, hsl(var(--maroon-light)), hsl(var(--primary)), hsl(var(--maroon-dark)));
+  }
+
+  .pattern-mandala {
+    background-image: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23d4a34a' fill-opacity='0.08'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+  }
+
+  .card-elegant {
+    @apply bg-card rounded-xl shadow-lg border border-border/50;
+    box-shadow: 0 4px 20px -5px hsl(var(--primary) / 0.1), 0 2px 8px -2px hsl(var(--accent) / 0.1);
+  }
+
+  .btn-gold {
+    @apply bg-accent text-accent-foreground font-medium px-6 py-3 rounded-lg transition-all duration-300;
+    box-shadow: 0 4px 14px -4px hsl(var(--accent) / 0.5);
+  }
+
+  .btn-gold:hover {
+    @apply scale-105;
+    box-shadow: 0 6px 20px -4px hsl(var(--accent) / 0.6);
+  }
+
+  .section-divider {
+    @apply h-1 w-24 mx-auto rounded-full gold-gradient;
+  }
+}
+
+@layer utilities {
+  .text-balance {
+    text-wrap: balance;
+  }
+
+  .pb-safe {
+    padding-bottom: env(safe-area-inset-bottom);
+  }
+}
