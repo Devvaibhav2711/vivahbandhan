@@ -52,7 +52,7 @@ const EditProfile: React.FC = () => {
         college: '',
         profession: '',
         company: '',
-        country: '',
+
         state: '',
         city: '',
         familyType: '',
@@ -178,7 +178,6 @@ const EditProfile: React.FC = () => {
                     profession: job.prof || '',
                     company: job.comp || '',
                     birthPlace: bpVal,
-                    country: loc.country || '',
                     state: loc.state || '',
                     city: loc.city || '',
                     familyType: family.type || '',
@@ -297,7 +296,7 @@ const EditProfile: React.FC = () => {
                 income: '',
                 religion: formData.religion,
                 caste: formData.caste,
-                location: `${formData.city}, ${formData.state}, ${formData.country}`,
+                location: `${formData.city}, ${formData.state}`,
                 family_background: `Type: ${formData.familyType}, Values: ${formData.familyValues}. Father: ${formData.fatherOccupation}, Mother: ${formData.motherOccupation}, Siblings: ${formData.siblings}`,
                 about: formData.about,
                 lifestyle: `Rashi: ${formData.rashi} | Birth Time: ${formData.birthTime} | Birth Place: ${formData.birthPlace}`,
@@ -521,10 +520,6 @@ const EditProfile: React.FC = () => {
                                         <MapPin className="w-5 h-5" /> {t('register.location')}
                                     </h2>
                                     <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-                                        <div className="space-y-2">
-                                            <Label>{t('register.country')}</Label>
-                                            <Input value={formData.country} onChange={(e) => handleChange('country', e.target.value)} />
-                                        </div>
                                         <div className="space-y-2">
                                             <Label>{t('register.state')}</Label>
                                             <Input value={formData.state} onChange={(e) => handleChange('state', e.target.value)} />

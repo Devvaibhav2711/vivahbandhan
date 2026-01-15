@@ -447,14 +447,14 @@ const Admin: React.FC = () => {
 
                       <div className="w-full space-y-1 mb-4">
                         <h3 className="font-serif font-bold text-lg text-gray-900 truncate px-2" title={profile.full_name || profile.fullName}>{profile.full_name || profile.fullName}</h3>
-                        <p className="text-xs text-muted-foreground truncate w-full">By: {profile.userEmail}</p>
+                        <p className="text-xs text-muted-foreground truncate w-full">{profile.userEmail}</p>
                       </div>
 
                       <div className="w-full grid grid-cols-2 gap-2 text-xs text-left bg-secondary/5 p-3 rounded-lg mb-4 border border-secondary/10">
                         <div className="space-y-1 text-center sm:text-left"><p className="text-muted-foreground">{t('common.age')}</p><p className="font-medium text-gray-700">{profile.age} {t('common.yrs')}</p></div>
                         <div className="space-y-1 text-center sm:text-left"><p className="text-muted-foreground">{t('profile.location')}</p><p className="font-medium text-gray-700 truncate" title={profile.location}>{profile.location}</p></div>
                         <div className="space-y-1 text-center sm:text-left"><p className="text-muted-foreground">{t('profile.education')}</p><p className="font-medium text-gray-700 truncate" title={profile.education}>{profile.education}</p></div>
-                        <div className="space-y-1 text-center sm:text-left"><p className="text-muted-foreground">{t('profile.income')}</p><p className="font-medium text-gray-700 truncate" title={profile.income}>{profile.income}</p></div>
+
                       </div>
 
                       <div className="w-full flex gap-2">
@@ -599,7 +599,7 @@ const Admin: React.FC = () => {
                         </div>
 
                         <div className="w-full bg-secondary/5 p-3 rounded-lg mb-4 text-xs text-left grid grid-cols-2 gap-y-2 gap-x-1 border border-secondary/10">
-                          <div className="col-span-2 border-b border-border/50 pb-1 mb-1 font-semibold text-center text-primary">Looking For</div>
+
 
                           <div><span className="text-muted-foreground">{t('common.age')}:</span> <span className="font-medium">{req.age_min || req.ageMin}-{req.age_max || req.ageMax}</span></div>
                           <div><span className="text-muted-foreground">{t('common.height')}:</span> <span className="font-medium truncate">{req.height_min || req.heightMin || ''}-{req.height_max || req.heightMax || ''}</span></div>

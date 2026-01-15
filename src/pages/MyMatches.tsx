@@ -163,14 +163,18 @@ const MyMatches: React.FC = () => {
 
                                                     <h3 className="font-serif font-bold text-lg mb-1">{profile.full_name || t('common.nameHidden')}</h3>
                                                     <p className="text-xs text-muted-foreground mb-4">
-                                                        {profile.age} {t('common.yrs')} • {profile.religion} • NA
+                                                        {[
+                                                            `${profile.age} ${t('common.yrs')}`,
+                                                            profile.religion,
+                                                            profile.location && profile.location !== 'NA' ? profile.location : null
+                                                        ].filter(Boolean).join(' • ')}
                                                     </p>
 
                                                     <div className="w-full grid grid-cols-2 gap-2 text-xs text-left bg-secondary/5 p-3 rounded-lg mb-4">
                                                         <div>
                                                             <span className="text-muted-foreground">{t('profile.education')}:</span>
                                                             <div className="font-medium truncate">
-                                                                {profile.education ? profile.education.replace(' - NA', '').replace('- NA', '') : '-'}
+                                                                {profile.education ? profile.education.replace(/\s*-\s*NA\s*$/, '').replace(/\s*-\s*$/, '') : '-'}
                                                             </div>
                                                         </div>
                                                         <div>

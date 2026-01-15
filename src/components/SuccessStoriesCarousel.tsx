@@ -24,6 +24,9 @@ const SuccessStoriesCarousel: React.FC = () => {
     const { t } = useLanguage();
     const [stories, setStories] = useState<Story[]>([]);
     const [isLoading, setIsLoading] = useState(true);
+    const plugin = React.useRef(
+        Autoplay({ delay: 5000, stopOnInteraction: false, stopOnMouseEnter: true })
+    );
 
     useEffect(() => {
         fetchStories();
@@ -68,19 +71,15 @@ const SuccessStoriesCarousel: React.FC = () => {
         return null;
     }
 
+
+
     return (
         <Carousel
             opts={{
                 align: 'start',
                 loop: true,
             }}
-            plugins={[
-                Autoplay({
-                    delay: 5000, // Slower for smoother experience 5s
-                    stopOnMouseEnter: true, // Stops on hover
-                    stopOnInteraction: false,
-                }),
-            ]}
+            plugins={[plugin.current]}
             className="w-full max-w-6xl mx-auto"
         >
             <CarouselContent className="-ml-4">

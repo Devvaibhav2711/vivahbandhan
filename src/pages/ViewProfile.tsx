@@ -239,7 +239,7 @@ const ViewProfile: React.FC = () => {
 
                                             {/* Marital Status Removed */}
                                             <InfoItem label={t('profile.religion')} value={profile.religion ? (t(`religion.${profile.religion}`) || profile.religion) : null} />
-                                            <InfoItem label={t('profile.caste')} value={profile.caste} />
+                                            <InfoItem label={t('profile.caste')} value={profile.caste ? (t(`caste.${profile.caste.toLowerCase()}`) || profile.caste) : null} />
 
                                             <InfoItem label={t('register.rashi')} value={(() => {
                                                 const raw = profile.lifestyle ? profile.lifestyle.split('|')[0].replace('Rashi: ', '').trim() : '';
@@ -253,10 +253,7 @@ const ViewProfile: React.FC = () => {
                                                 return raw || '-';
                                             })()} />
 
-                                            <InfoItem label={t('profile.birthPlace')} value={(() => {
-                                                const raw = profile.lifestyle ? profile.lifestyle.match(/Birth Place: ([^|]*)/)?.[1]?.trim() : '';
-                                                return raw || '-';
-                                            })()} />
+
                                         </div>
                                     </div>
 
@@ -333,7 +330,7 @@ const ViewProfile: React.FC = () => {
                                                     return displayJob;
                                                 })()
                                             } />
-                                            <InfoItem label={t('profile.income')} value={t(`income.${profile.income}`) || profile.income} />
+
                                         </div>
                                     </div>
 

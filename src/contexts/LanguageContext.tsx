@@ -289,6 +289,8 @@ export const translations: Translations = {
 
   'match.status.submitted.title': { en: 'Request Submitted', hi: 'अनुरोध जमा किया गया', mr: 'विनंती सबमिट केली' },
   'match.status.submitted.desc': { en: 'You have submitted a request. The VivahBandhan team will review your profile and send you matches shortly.', hi: 'आपने एक अनुरोध जमा किया है। हमारी टीम आपकी समीक्षा करेगी और जल्द ही मैच भेजेगी।', mr: 'तुम्ही विनंती सबमिट केली आहे. आमची टीम तुमच्या प्रोफाइलचे पुनरावलोकन करेल आणि तुम्हाला लवकरच जोड्या पाठवेल.' },
+  'match.success.title': { en: 'Request Sent Successfully', hi: 'अनुरोध सफलतापूर्वक भेजा गया', mr: 'विनंती यशस्वीरित्या पाठवली' },
+  'match.success.desc': { en: 'We have received your partner preferences.', hi: 'हमें आपकी प्राथमिकताएं प्राप्त हुई हैं।', mr: 'आम्हाला तुमची जोडीदाराबद्दलची पसंती मिळाली आहे.' },
   'match.status.found.title': { en: 'Matches Found!', hi: 'मैच मिले!', mr: 'जोड्या सापडल्या!' },
   'match.status.found.desc': { en: 'Admin has shared matches with you based on your preferences.', hi: 'एडमिन ने आपके साथ मैच साझा किए हैं।', mr: 'प्रशासकाने तुमच्या पसंतीनुसार तुमच्यासोबत जोड्या शेअर केल्या आहेत.' },
   'common.viewMatches': { en: 'View Matches', hi: 'मैच देखें', mr: 'जोड्या पहा' },
@@ -326,7 +328,7 @@ export const translations: Translations = {
 
   // Sections
   'register.accountInfo': { en: 'Account Information', hi: 'खाता जानकारी', mr: 'तुमची माहिती' },
-  'register.basicInfo': { en: 'Basic Information', hi: 'मूलभूत जानकारी', mr: 'तुमची मुख्य ओळख' },
+  'register.basicInfo': { en: 'Basic Information', hi: 'मूलभूत जानकारी', mr: 'बायो-डेटा' },
   'register.eduCareer': { en: 'Education & Career', hi: 'शिक्षा और करियर', mr: 'शिक्षण' },
   'register.location': { en: 'Location', hi: 'स्थान', mr: 'राहण्याचे ठिकाण' },
   'register.familyDetails': { en: 'Family Details', hi: 'पारिवारिक विवरण', mr: 'घरच्यांची माहिती' },
@@ -455,12 +457,6 @@ export const translations: Translations = {
     hi: 'प्रत्येक प्रोफाइल हमारी सत्यापन प्रक्रिया से गुजरती है। हम प्रामाणिकता सुनिश्चित करते हैं और विश्वास के उच्चतम मानकों को बनाए रखते हैं। हमारी सफलता की कहानियां खुद बोलती हैं - विश्वास और परंपरा की नींव पर बनी सैकड़ों खुशहाल शादियां।',
     mr: 'आम्ही माहिती जमा करून ती तुमच्यासमोर मांडतो. नातं जोडण्यापूर्वी माहितीची स्वतःकडून शहानिशा करून घेणं सोयीचं ठरेल, जेणेकरून तुमचा पुढचा प्रवास सुखकर होईल.'
   },
-
-  'income.0-5': { en: '0 - 5 LPA', hi: '0 - 5 लाख प्रति वर्ष', mr: '0 - 5 लाख प्रति वर्ष' },
-  'income.5-10': { en: '5 - 10 LPA', hi: '5 - 10 लाख प्रति वर्ष', mr: '5 - 10 लाख प्रति वर्ष' },
-  'income.10-15': { en: '10 - 15 LPA', hi: '10 - 15 लाख प्रति वर्ष', mr: '10 - 15 लाख प्रति वर्ष' },
-  'income.15-20': { en: '15 - 20 LPA', hi: '15 - 20 लाख प्रति वर्ष', mr: '15 - 20 लाख प्रति वर्ष' },
-  'income.20+': { en: '20+ LPA', hi: '20+ लाख प्रति वर्ष', mr: '20+ लाख प्रति वर्ष' },
 
   'family.nuclear': { en: 'Nuclear', hi: 'एकल', mr: 'विभक्त' },
   'family.joint': { en: 'Joint', hi: 'संयुक्त', mr: 'एकत्र' },
