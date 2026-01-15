@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Calendar, Loader2, Heart } from 'lucide-react';
+import { Calendar, Loader2 } from 'lucide-react';
 import { useLanguage } from '@/contexts/LanguageContext';
 import { supabase } from '@/lib/supabase';
 import {
@@ -9,6 +9,7 @@ import {
     CarouselNext,
     CarouselPrevious,
 } from '@/components/ui/carousel';
+import Autoplay from 'embla-carousel-autoplay';
 
 interface Story {
     id: string;
@@ -23,65 +24,17 @@ const SuccessStoriesCarousel: React.FC = () => {
     const { t } = useLanguage();
     const [stories, setStories] = useState<Story[]>([]);
     const [isLoading, setIsLoading] = useState(true);
-    const [api, setApi] = useState<any>();
+    // Removed manual api state and useEffect
 
     useEffect(() => {
         fetchStories();
     }, []);
 
-    useEffect(() => {
-        if (!api) {
-            return;
-        }
+    // ... (fetchStories function)
 
-        const intervalId = setInterval(() => {
-            // Only scroll if the tab is visible to prevent "catch-up" speed issues
-            if (!document.hidden) {
-                api.scrollNext();
-            }
-        }, 2000);
+    // ... (getStoryText function)
 
-        return () => clearInterval(intervalId);
-    }, [api]);
-
-    const fetchStories = async () => {
-        try {
-            setIsLoading(true);
-            const { data, error } = await supabase
-                .from('success_stories')
-                .select('*')
-                .order('created_at', { ascending: false });
-
-            if (!error && data) {
-                setStories(data);
-            }
-        } catch (error) {
-            console.error('Error fetching stories:', error);
-        } finally {
-            setIsLoading(false);
-        }
-    };
-
-    // Helper to get translated story or raw text
-    const getStoryText = (text: string) => {
-        if (text.startsWith('success.story')) {
-            return t(text);
-        }
-        return text;
-    };
-
-    if (isLoading) {
-        return (
-            <div className="flex justify-center items-center py-12">
-                <Loader2 className="h-8 w-8 animate-spin text-primary" />
-            </div>
-        );
-    }
-
-    if (stories.length === 0) {
-        // Optional: Return nothing or a placeholder if no stories exist
-        return null;
-    }
+    // ... (loading and empty state checks)
 
     return (
         <Carousel
@@ -89,18 +42,23 @@ const SuccessStoriesCarousel: React.FC = () => {
                 align: 'start',
                 loop: true,
             }}
-            setApi={setApi}
+            plugins={[
+                Autoplay({
+                    delay: 2000,
+                    stopOnMouseEnter: true, // Stops on hover
+                    stopOnInteraction: false,
+                }),
+            ]}
             className="w-full max-w-6xl mx-auto"
         >
             <CarouselContent className="-ml-4">
-                {/* 
-           Duplicating stories if we have fewer than 6 ensures smooth looping behavior 
-           on wider screens where multiple slides are visible. 
-        */}
+                {/* ... (rest of the component) */}
                 {(stories.length > 0 && stories.length < 6 ? [...stories, ...stories, ...stories] : stories).map((story, index) => (
                     // Use index in key to handle duplicates
                     <CarouselItem key={`${story.id}-${index}`} className="pl-4 md:basis-1/2 lg:basis-1/3">
+                        {/* ... (card content) */}
                         <div className="card-elegant overflow-hidden h-full flex flex-col group relative">
+                            {/* ... (image and content) */}
                             {/* Image Section */}
                             <div className="relative h-64 overflow-hidden">
                                 <img
