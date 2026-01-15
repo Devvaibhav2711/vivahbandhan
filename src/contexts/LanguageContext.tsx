@@ -375,7 +375,7 @@ export const translations: Translations = {
   'admin.noFile': { en: 'No file chosen', hi: 'कोई फ़ाइल नहीं चुनी गई', mr: 'कोणतीही फाइल निवडली नाही' },
   'admin.createUser': { en: 'Create User & Profile', hi: 'उपयोगकर्ता और प्रोफाइल बनाएं', mr: 'वापरकर्ता आणि प्रोफाइल तयार करा' },
   'admin.creatingUser': { en: 'Creating User...', hi: 'उपयोगकर्ता बना रहे हैं...', mr: 'वापरकर्ता तयार करत आहे...' },
-  'register.accountInfo': { en: 'Account Information', hi: 'खाता जानकारी', mr: 'खात्याची माहिती' },
+
 
   // Dropdown Options
   'gender.male': { en: 'Male', hi: 'पुरुष', mr: 'पुरुष' },
@@ -473,8 +473,6 @@ export const translations: Translations = {
   'contact.loginMsg': { en: 'Please login to send a message.', hi: 'संदेश भेजने के लिए कृपया लॉगिन करें।', mr: 'संदेश पाठवण्यासाठी कृपया लॉगिन करा.' },
 
   'common.success': { en: 'Success', hi: 'सफल', mr: 'यशस्वी' },
-  'common.error': { en: 'Error', hi: 'त्रुटी', mr: 'त्रुटी' },
-  'common.warning': { en: 'Warning', hi: 'चेतावनी', mr: 'चेतावणी' },
   'common.deleted': { en: 'Deleted', hi: 'हटाया गया', mr: 'काढून टाकले' },
 
   'toast.successLine': { en: 'Operation successful.', hi: 'ऑपरेशन सफल रहा।', mr: 'प्रक्रिया यशस्वी झाली.' },
