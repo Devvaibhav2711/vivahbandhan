@@ -6,6 +6,8 @@ import { useAuth } from '@/contexts/AuthContext';
 import { Button } from '@/components/ui/button';
 import Layout from '@/components/layout/Layout';
 import { supabase } from '@/lib/supabase';
+import SuccessStoriesCarousel from '@/components/SuccessStoriesCarousel';
+
 
 const Index: React.FC = () => {
   const { t } = useLanguage();
@@ -44,11 +46,12 @@ const Index: React.FC = () => {
     <Layout>
       {/* Hero Section */}
       <section className="relative py-12 md:py-32 overflow-hidden">
-        <div className="absolute inset-0 maroon-gradient opacity-95" />
-        <div className="absolute inset-0 pattern-mandala opacity-20" />
+        {/* Pure CSS Background - No Images */}
+        <div className="absolute inset-0 maroon-gradient z-0" />
+
         <div className="container mx-auto px-4 relative z-10">
           <div className="max-w-3xl mx-auto text-center text-primary-foreground">
-            <h1 className="font-serif text-3xl md:text-5xl lg:text-6xl font-bold mb-4 animate-fade-in leading-tight whitespace-pre-line">
+            <h1 className="font-serif text-3xl md:text-5xl lg:text-6xl font-bold mb-4 animate-fade-in leading-tight whitespace-pre-line text-shadow-sm">
               {t('hero.title')}
             </h1>
             <p className="text-lg md:text-2xl font-medium mb-6 gold-text">
@@ -72,6 +75,23 @@ const Index: React.FC = () => {
               </Button>
             </div>
           </div>
+        </div>
+      </section>
+
+      {/* Success Stories CTA */}
+      <section className="py-16 md:py-24 bg-secondary">
+        <div className="container mx-auto px-4 text-center">
+          <Heart className="w-12 h-12 mx-auto mb-4 text-primary fill-current" />
+          <h2 className="font-serif text-3xl md:text-4xl font-bold mb-4">{t('success.title')}</h2>
+          <p className="text-lg text-muted-foreground mb-8">{t('success.subtitle')}</p>
+
+          <div className="mb-12">
+            <SuccessStoriesCarousel />
+          </div>
+
+          <Button asChild size="lg" className="btn-gold">
+            <Link to="/success-stories">{t('success.viewAll')}</Link>
+          </Button>
         </div>
       </section>
 
@@ -121,18 +141,6 @@ const Index: React.FC = () => {
             <h2 className="font-serif text-3xl md:text-4xl font-bold mb-4">{t('privacy.title')}</h2>
             <p className="text-lg text-muted-foreground">{t('privacy.description')}</p>
           </div>
-        </div>
-      </section>
-
-      {/* Success Stories CTA */}
-      <section className="py-16 md:py-24 bg-secondary">
-        <div className="container mx-auto px-4 text-center">
-          <Heart className="w-12 h-12 mx-auto mb-4 text-primary fill-current" />
-          <h2 className="font-serif text-3xl md:text-4xl font-bold mb-4">{t('success.title')}</h2>
-          <p className="text-lg text-muted-foreground mb-8">{t('success.subtitle')}</p>
-          <Button asChild size="lg" className="btn-gold">
-            <Link to="/success-stories">{t('success.viewAll')}</Link>
-          </Button>
         </div>
       </section>
     </Layout>
