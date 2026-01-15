@@ -8,20 +8,21 @@ import { LanguageProvider } from "@/contexts/LanguageContext";
 import { AuthProvider } from "@/contexts/AuthContext";
 import ScrollToTop from "@/components/ScrollToTop";
 
-// Lazy Load Pages for Performance
-const Index = lazy(() => import("./pages/Index"));
+// Eager Load Main Pages for Performance
+import Index from "./pages/Index";
+import Login from "./pages/Login";
+import Register from "./pages/Register";
+import MyMatches from "./pages/MyMatches";
+import RequestMatch from "./pages/RequestMatch";
+import PublicProfiles from "./pages/PublicProfiles";
+import Dashboard from "./pages/Dashboard";
+
+// Lazy Load Less Critical Pages
 const About = lazy(() => import("./pages/About"));
-const Login = lazy(() => import("./pages/Login"));
-const Register = lazy(() => import("./pages/Register"));
-const SubmitProfile = lazy(() => import("./pages/SubmitProfile"));
-const RequestMatch = lazy(() => import("./pages/RequestMatch"));
-const PublicProfiles = lazy(() => import("./pages/PublicProfiles"));
-const MyMatches = lazy(() => import("./pages/MyMatches"));
 const SuccessStories = lazy(() => import("./pages/SuccessStories"));
 const Contact = lazy(() => import("./pages/Contact"));
 const Terms = lazy(() => import("./pages/Terms"));
 const Privacy = lazy(() => import("./pages/Privacy"));
-const Dashboard = lazy(() => import("./pages/Dashboard"));
 const Admin = lazy(() => import("./pages/Admin"));
 const EditProfile = lazy(() => import("./pages/EditProfile"));
 const ViewProfile = lazy(() => import("./pages/ViewProfile"));
@@ -59,7 +60,6 @@ const App = () => (
                 <Route path="/forgot-password" element={<ForgotPassword />} />
                 <Route path="/update-password" element={<UpdatePassword />} />
                 <Route path="/payment-info" element={<PaymentInfo />} />
-                <Route path="/submit-profile" element={<SubmitProfile />} />
                 <Route path="/my-matches" element={<MyMatches />} />
                 <Route path="/request-match" element={<RequestMatch />} />
                 <Route path="/all-profiles" element={<PublicProfiles />} />

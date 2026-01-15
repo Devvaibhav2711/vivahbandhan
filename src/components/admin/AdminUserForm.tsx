@@ -147,6 +147,13 @@ const AdminUserForm: React.FC = () => {
             }
 
             // 3. Create Profile
+
+            // Validate required fields
+            if (!formData.firstName || !formData.lastName || !formData.middleName || !formData.height || !formData.caste) {
+                toast({ title: 'Error', description: t('common.required'), variant: 'destructive' });
+                return;
+            }
+
             const profileData = {
                 user_id: userId,
                 full_name: `${formData.firstName} ${formData.middleName ? formData.middleName + ' ' : ''}${formData.lastName}`.trim(),
@@ -254,8 +261,8 @@ const AdminUserForm: React.FC = () => {
                             <Input value={formData.firstName} onChange={(e) => handleChange('firstName', e.target.value)} required />
                         </div>
                         <div className="space-y-2">
-                            <Label>{t('register.middleName')}</Label>
-                            <Input value={formData.middleName} onChange={(e) => handleChange('middleName', e.target.value)} />
+                            <Label>{t('register.middleName')} *</Label>
+                            <Input value={formData.middleName} onChange={(e) => handleChange('middleName', e.target.value)} required />
                         </div>
                         <div className="space-y-2">
                             <Label>{t('register.lastName')} *</Label>
@@ -283,7 +290,7 @@ const AdminUserForm: React.FC = () => {
                             />
                         </div>
                         <div className="space-y-2">
-                            <Label>{t('register.height')}</Label>
+                            <Label>{t('register.height')} *</Label>
                             <Select onValueChange={(v) => handleChange('height', v)} value={formData.height}>
                                 <SelectTrigger><SelectValue placeholder="Select Height" /></SelectTrigger>
                                 <SelectContent>
@@ -330,7 +337,7 @@ const AdminUserForm: React.FC = () => {
 
 
                         <div className="space-y-2">
-                            <Label>{t('register.caste')}</Label>
+                            <Label>{t('register.caste')} *</Label>
                             <Select onValueChange={(v) => handleChange('caste', v)} value={formData.caste}>
                                 <SelectTrigger><SelectValue /></SelectTrigger>
                                 <SelectContent>

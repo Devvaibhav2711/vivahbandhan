@@ -132,6 +132,16 @@ const Register: React.FC = () => {
       return;
     }
 
+    // Validate required fields explicitly
+    if (!formData.firstName || !formData.lastName || !formData.middleName || !formData.dob || !formData.gender || !formData.height || !formData.birthTime || !formData.birthPlace || !formData.caste || !formData.rashi) {
+      toast({
+        title: t('validation.errorTitle'),
+        description: t('common.required'), // Or more specific message "Please fill all required fields"
+        variant: 'destructive'
+      });
+      return;
+    }
+
     setIsLoading(true);
 
     try {
@@ -307,10 +317,11 @@ const Register: React.FC = () => {
                       />
                     </div>
                     <div className="space-y-2">
-                      <Label>{t('register.middleName')}</Label>
+                      <Label>{t('register.middleName')} *</Label>
                       <Input
                         value={formData.middleName}
                         onChange={(e) => handleChange('middleName', e.target.value)}
+                        required
                         className="bg-background"
                       />
                     </div>
@@ -334,7 +345,7 @@ const Register: React.FC = () => {
                       />
                     </div>
                     <div className="space-y-2">
-                      <Label>{t('register.height')}</Label>
+                      <Label>{t('register.height')} *</Label>
                       <Select onValueChange={(v) => handleChange('height', v)} value={formData.height}>
                         <SelectTrigger className="bg-background">
                           <SelectValue placeholder={t('common.select')} />
@@ -401,7 +412,7 @@ const Register: React.FC = () => {
                     </div>
 
                     <div className="space-y-2">
-                      <Label>{t('register.caste')}</Label>
+                      <Label>{t('register.caste')} *</Label>
                       <Select value={formData.caste} onValueChange={(v) => handleChange('caste', v)}>
                         <SelectTrigger className="bg-background">
                           <SelectValue placeholder={t('common.select') || "Select"} />

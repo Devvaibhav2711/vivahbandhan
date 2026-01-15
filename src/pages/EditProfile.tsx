@@ -259,6 +259,13 @@ const EditProfile: React.FC = () => {
         e.preventDefault();
         setSaving(true);
         try {
+            // Validate required fields
+            if (!formData.firstName || !formData.lastName || !formData.middleName || !formData.height || !formData.caste) {
+                toast({ title: t('common.error'), description: t('common.required'), variant: 'destructive' });
+                setSaving(false);
+                return;
+            }
+
             // 1. Upload Photo if changed
             let photoUrl = photoPreview;
             if (photoFile) {
@@ -390,8 +397,8 @@ const EditProfile: React.FC = () => {
                                             <Input value={formData.firstName} onChange={(e) => handleChange('firstName', e.target.value)} />
                                         </div>
                                         <div className="space-y-2">
-                                            <Label>{t('register.middleName')}</Label>
-                                            <Input value={formData.middleName} onChange={(e) => handleChange('middleName', e.target.value)} />
+                                            <Label>{t('register.middleName')} *</Label>
+                                            <Input value={formData.middleName} onChange={(e) => handleChange('middleName', e.target.value)} required />
                                         </div>
                                         <div className="space-y-2">
                                             <Label>{t('register.lastName')}</Label>
@@ -403,8 +410,8 @@ const EditProfile: React.FC = () => {
                                             {/* Note: DOB is not stored, so it will be empty initially */}
                                         </div>
                                         <div className="space-y-2">
-                                            <Label>{t('register.height')}</Label>
-                                            <Input value={formData.height} onChange={(e) => handleChange('height', e.target.value)} />
+                                            <Label>{t('register.height')} *</Label>
+                                            <Input value={formData.height} onChange={(e) => handleChange('height', e.target.value)} required />
                                         </div>
 
                                         <div className="space-y-2">
@@ -421,7 +428,7 @@ const EditProfile: React.FC = () => {
                                             </Select>
                                         </div>
                                         <div className="space-y-2">
-                                            <Label>{t('register.caste')}</Label>
+                                            <Label>{t('register.caste')} *</Label>
                                             <Select value={formData.caste} onValueChange={(v) => handleChange('caste', v)}>
                                                 <SelectTrigger><SelectValue placeholder={t('common.select') || "Select"} /></SelectTrigger>
                                                 <SelectContent>

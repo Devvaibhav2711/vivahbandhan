@@ -48,7 +48,7 @@ const Footer: React.FC = () => {
                 </Link>
               </li>
               <li>
-                <Link to="/submit-profile" className="text-primary-foreground/80 hover:text-accent transition-colors text-sm">
+                <Link to="/register" className="text-primary-foreground/80 hover:text-accent transition-colors text-sm">
                   {t('nav.submitProfile')}
                 </Link>
               </li>

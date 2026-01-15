@@ -180,7 +180,7 @@ export const translations: Translations = {
   'profile.profession': { en: 'Profession', hi: 'पेशा', mr: 'व्यवसाय' },
   'profile.income': { en: 'Annual Income', hi: 'वार्षिक आय', mr: 'वार्षिक उत्पन्न' },
   'profile.religion': { en: 'Religion (Optional)', hi: 'धर्म (वैकल्पिक)', mr: 'धर्म (पर्यायी)' },
-  'profile.caste': { en: 'Caste (Optional)', hi: 'जाति (वैकल्पिक)', mr: 'जात (पर्यायी)' },
+  'profile.caste': { en: 'Caste', hi: 'जाति', mr: 'जात' },
   'profile.location': { en: 'Location', hi: 'स्थान', mr: 'स्थान' },
   'profile.familyBackground': { en: 'Family Background', hi: 'पारिवारिक पृष्ठभूमि', mr: 'कौटुंबिक पार्श्वभूमी' },
   'profile.lifestyle': { en: 'Lifestyle Preferences', hi: 'जीवनशैली प्राथमिकताएं', mr: 'जीवनशैली प्राधान्ये' },

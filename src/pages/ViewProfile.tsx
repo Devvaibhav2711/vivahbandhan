@@ -242,7 +242,7 @@ const ViewProfile: React.FC = () => {
                                             <InfoItem label={t('profile.caste')} value={profile.caste} />
 
                                             <InfoItem label={t('register.rashi')} value={(() => {
-                                                const raw = profile.lifestyle ? profile.lifestyle.replace('Rashi: ', '').trim() : '';
+                                                const raw = profile.lifestyle ? profile.lifestyle.split('|')[0].replace('Rashi: ', '').trim() : '';
                                                 if (!raw) return '-';
                                                 const key = `rashi.${raw.toLowerCase()}`;
                                                 return t(key) === key ? raw : t(key);

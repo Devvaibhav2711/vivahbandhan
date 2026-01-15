@@ -38,7 +38,7 @@ const BottomNav: React.FC = () => {
         { path: '/all-profiles', icon: Search, label: t('nav.allProfiles') || 'All Profiles' },
         { path: '/my-matches', icon: Heart, label: t('nav.myMatches') },
         { path: '/request-match', icon: UserPlus, label: t('nav.requestMatch') },
-        { path: profileId ? `/profile/view/${profileId}` : '/submit-profile', icon: User, label: t('nav.viewProfile') },
+        { path: profileId ? `/profile/view/${profileId}` : '/register', icon: User, label: t('nav.viewProfile') },
     ];
 
     const isActive = (path: string) => {
