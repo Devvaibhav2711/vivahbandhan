@@ -365,6 +365,7 @@ export const translations: Translations = {
   'register.familyValues': { en: 'Family Values', hi: 'पारिवारिक मूल्य', mr: 'कौटुंबिक मूल्ये' },
   'register.birthTime': { en: 'Time of Birth', hi: 'जन्म समय', mr: 'जन्माची वेळ' },
   'profile.birthTime': { en: 'Time of Birth', hi: 'जन्म समय', mr: 'जन्माची वेळ' },
+  'profile.birthPlace': { en: 'Place of Birth', hi: 'जन्म स्थान', mr: 'जन्म ठिकाण' },
 
   // Actions
   'register.submit': { en: 'Create Profile', hi: 'प्रोफाइल बनाएं', mr: 'आजच नाव नोंदवा' },
@@ -384,7 +385,7 @@ export const translations: Translations = {
   'marital.never': { en: 'Never Married', hi: 'कभी शादी नहीं की', mr: 'अविवाहित' },
   'marital.divorced': { en: 'Divorced', hi: 'तलाकशुदा', mr: 'घटस्फोटित' },
   'marital.widowed': { en: 'Widowed', hi: 'विधवा/विधुर', mr: 'विधवा/विधुर' },
-  'marital.awaiting': { en: 'Awaiting Divorce', hi: 'तलाक की प्रतीक्षा', mr: 'काडीमोड व्हायचा आहे' },
+  'marital.awaiting': { en: 'Awaiting Divorce', hi: 'तलाक की प्रतीक्षा', mr: 'घटस्पोट व्हायचा आहे' },
 
   'religion.hindu': { en: 'Hindu', hi: 'हिन्दू', mr: 'हिंदू' },
   'religion.muslim': { en: 'Muslim', hi: 'मुस्लिम', mr: 'मुस्लिम' },
@@ -456,6 +457,8 @@ export const translations: Translations = {
   'family.father': { en: 'Father', hi: 'पिता', mr: 'वडील' },
   'family.mother': { en: 'Mother', hi: 'माता', mr: 'आई' },
   'family.siblings': { en: 'Siblings', hi: 'भाई-बहन', mr: 'भावंडे' },
+  'family.brother': { en: 'Brothers', hi: 'भाई', mr: 'भाऊ' },
+  'family.sister': { en: 'Sisters', hi: 'बहनें', mr: 'बहिणी' },
   'family.type_label': { en: 'Family Type', hi: 'परिवार का प्रकार', mr: 'कुटुंब प्रकार' },
   'profile.contactHidden': { en: 'Sensitive information is hidden for privacy.', hi: 'गोपनीयता के लिए संवेदनशील जानकारी छिपी हुई है।', mr: 'गोपनीयतेसाठी संवेदनशील माहिती लपवलेली आहे.' },
   'profile.contactAdmin': {

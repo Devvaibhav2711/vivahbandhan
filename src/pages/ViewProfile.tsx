@@ -138,6 +138,9 @@ const ViewProfile: React.FC = () => {
     // If not authorized, hide value completely or show "Restricted"
     // Also, if restricted, we might want to hide the entire row or show a placeholder.
     const InfoItem = ({ icon: Icon, label, value, restricted = false }: any) => {
+        // Check if value is effectively empty
+        const isEmpty = !value || value === '-' || (typeof value === 'string' && value.trim() === '');
+
         if (restricted && !canViewContact) {
             // Option: Don't render anything if restricted and hidden
             // return null; 
@@ -151,12 +154,15 @@ const ViewProfile: React.FC = () => {
                 </div>
             );
         }
+
+        if (isEmpty) return null;
+
         return (
             <div className="space-y-1">
                 <Label className="text-muted-foreground text-xs uppercase tracking-wider flex items-center gap-1.5">
                     {Icon && <Icon className="w-3 h-3" />} {label}
                 </Label>
-                <p className="font-medium">{value || '-'}</p>
+                <p className="font-medium">{value}</p>
             </div>
         );
     };
@@ -228,11 +234,11 @@ const ViewProfile: React.FC = () => {
                                         <h2 className="text-xl font-serif font-bold text-primary border-b pb-2">{t('register.basicInfo')}</h2>
                                         <div className="grid grid-cols-2 gap-4">
                                             <InfoItem label={t('profile.age')} value={`${profile.age} ${t('common.yrs')}`} />
-                                            <InfoItem label={t('profile.gender')} value={t(`gender.${profile.gender}`) || profile.gender} />
+                                            <InfoItem label={t('profile.gender')} value={profile.gender ? (t(`gender.${profile.gender}`) || profile.gender) : null} />
                                             <InfoItem label={t('profile.height')} value={profile.height} />
-                                            <InfoItem label={t('profile.height')} value={profile.height} />
+
                                             {/* Marital Status Removed */}
-                                            <InfoItem label={t('profile.religion')} value={t(`religion.${profile.religion}`) || profile.religion} />
+                                            <InfoItem label={t('profile.religion')} value={profile.religion ? (t(`religion.${profile.religion}`) || profile.religion) : null} />
                                             <InfoItem label={t('profile.caste')} value={profile.caste} />
 
                                             <InfoItem label={t('register.rashi')} value={(() => {
@@ -247,13 +253,16 @@ const ViewProfile: React.FC = () => {
                                                 return raw || '-';
                                             })()} />
 
-                                            <InfoItem label={t('profile.income')} value={t(`income.${profile.income}`) || profile.income} />
-                                            if (!profile.income) return '-';
-                                            // Try to match key by removing "LPA" and spaces
-                                            // e.g., "5 - 10 LPA" -> "5-10"
-                                            const raw = profile.income.replace(/LPA/i, '').replace(/\s/g, '');
-                                            const key = `income.${raw}`;
-                                            return t(key) === key ? profile.income : t(key);
+                                            <InfoItem label={t('profile.income')} value={(() => {
+                                                if (!profile.income) return null;
+                                                const val = profile.income.toLowerCase().trim();
+                                                if (val === 'na' || val === 'income.' || val.includes('income.')) return null;
+
+                                                const raw = profile.income.replace(/LPA/i, '').replace(/\s/g, '');
+                                                if (!raw || raw.toLowerCase() === 'income.') return null;
+
+                                                const key = `income.${raw}`;
+                                                return t(key) === key ? profile.income : t(key);
                                             })()} />
                                         </div>
                                     </div>
@@ -340,20 +349,23 @@ const ViewProfile: React.FC = () => {
                                         <h2 className="text-xl font-serif font-bold text-primary border-b pb-2">{t('profile.familyBackground')}</h2>
                                         <div className="bg-muted/30 p-4 rounded-lg text-sm space-y-2">
                                             {profile.family_background ? (
-                                                profile.family_background.split(/[.,]/).map((part: string, i: number) => {
+                                                profile.family_background.split(/[.,|]/).map((part: string, i: number) => {
                                                     const cleanPart = part.trim();
                                                     if (!cleanPart) return null;
 
+                                                    // Helper to check for "None", "NA", "0"
+                                                    const isInvalid = (val: string) => !val || val.toLowerCase() === 'none' || val.toLowerCase() === 'na' || val === '0';
+
                                                     // Handle Type
                                                     if (cleanPart.toLowerCase().startsWith('type:')) {
-                                                        const typeVal = cleanPart.split(':')[1]?.trim().toLowerCase();
-                                                        return <p key={i} className="text-gray-700"><span className="font-semibold">{t('family.type_label')}:</span> {t(`family.${typeVal}`) || typeVal}</p>;
+                                                        const typeVal = cleanPart.split(':')[1]?.trim();
+                                                        if (isInvalid(typeVal)) return null;
+                                                        return <p key={i} className="text-gray-700"><span className="font-semibold">{t('family.type_label')}:</span> {t(`family.${typeVal.toLowerCase()}`) || typeVal}</p>;
                                                     }
                                                     // Handle Father
                                                     if (cleanPart.toLowerCase().startsWith('father:')) {
                                                         const val = cleanPart.split(':')[1]?.trim();
-                                                        // Attempt to translate occupation if simple, else show value
-                                                        // For better results we'd parse occupation separately, but here we just label "Father"
+                                                        if (isInvalid(val)) return null;
                                                         return <p key={i} className="text-gray-700"><span className="font-semibold">{t('family.father')}:</span> {t(`prof.${val}`) === `prof.${val}` ? val : t(`prof.${val}`)}</p>;
                                                     }
                                                     // Handle Father Contact (HIDE HERE)
@@ -363,15 +375,31 @@ const ViewProfile: React.FC = () => {
                                                     // Handle Mother
                                                     if (cleanPart.toLowerCase().startsWith('mother:')) {
                                                         const val = cleanPart.split(':')[1]?.trim();
+                                                        if (isInvalid(val)) return null;
                                                         return <p key={i} className="text-gray-700"><span className="font-semibold">{t('family.mother')}:</span> {t(`prof.${val}`) === `prof.${val}` ? val : t(`prof.${val}`)}</p>;
                                                     }
-                                                    // Handle Siblings
-                                                    if (cleanPart.toLowerCase().startsWith('siblings:')) {
+                                                    // Handle Brother Name
+                                                    if (cleanPart.toLowerCase().startsWith('brothers:')) {
                                                         const val = cleanPart.split(':')[1]?.trim();
+                                                        if (isInvalid(val)) return null;
+                                                        return <p key={i} className="text-gray-700"><span className="font-semibold">{t('family.brother')}:</span> {val}</p>;
+                                                    }
+                                                    // Handle Sister Name
+                                                    if (cleanPart.toLowerCase().startsWith('sisters:')) {
+                                                        const val = cleanPart.split(':')[1]?.trim();
+                                                        if (isInvalid(val)) return null;
+                                                        return <p key={i} className="text-gray-700"><span className="font-semibold">{t('family.sister')}:</span> {val}</p>;
+                                                    }
+                                                    // Handle Siblings (Count)
+                                                    if (cleanPart.toLowerCase().startsWith('siblings:') || cleanPart.toLowerCase().includes('total siblings')) {
+                                                        const val = cleanPart.split(':')[1]?.trim();
+                                                        if (!val || val.toLowerCase() === 'none' || val.toLowerCase() === 'na') return null;
                                                         return <p key={i} className="text-gray-700"><span className="font-semibold">{t('family.siblings')}:</span> {val}</p>;
                                                     }
 
-                                                    // Fallback
+                                                    // Fallback check
+                                                    if (cleanPart.toLowerCase().includes('none') || cleanPart.toLowerCase().includes('na')) return null;
+
                                                     return <p key={i} className="text-gray-700">{cleanPart}</p>;
                                                 })
                                             ) : (
