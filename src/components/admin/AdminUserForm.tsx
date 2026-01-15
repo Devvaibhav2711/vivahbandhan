@@ -34,6 +34,7 @@ const AdminUserForm: React.FC = () => {
         lastName: '',
         dob: '',
         birthTime: '',
+        birthPlace: '',
         height: '',
         religion: '',
         caste: '',
@@ -42,7 +43,6 @@ const AdminUserForm: React.FC = () => {
         college: '',
         profession: '',
         company: '',
-        income: '',
         country: '',
         state: '',
         city: '',
@@ -155,13 +155,13 @@ const AdminUserForm: React.FC = () => {
                 height: formData.height,
                 education: `${formData.educationLevel} - ${formData.college}`,
                 profession: `${formData.profession} at ${formData.company}`,
-                income: formData.income,
+                income: '',
                 religion: formData.religion,
                 caste: formData.caste,
                 location: `${formData.fullAddress} | ${formData.city}, ${formData.state}`,
                 family_background: `Father: ${formData.fatherName} (${formData.fatherOccupation}), Father Contact: ${formData.fatherContact}, Mother: ${formData.motherName} (${formData.motherOccupation}), Brothers: ${formData.brotherName || 'None'}, Sisters: ${formData.sisterName || 'None'}, Total Siblings: ${formData.siblings}`,
                 about: formData.about,
-                lifestyle: `Rashi: ${formData.rashi} | Birth Time: ${formData.birthTime}`,
+                lifestyle: `Rashi: ${formData.rashi} | Birth Time: ${formData.birthTime} | Birth Place: ${formData.birthPlace}`,
                 status: 'pending',
                 profile_photo: photoUrl
             };
@@ -181,8 +181,8 @@ const AdminUserForm: React.FC = () => {
             // Reset form
             setFormData({
                 email: '', password: '', phone: '', gender: '', firstName: '', middleName: '', lastName: '',
-                dob: '', birthTime: '', height: '', religion: '', caste: '', rashi: '',
-                educationLevel: '', college: '', profession: '', company: '', income: '',
+                dob: '', birthTime: '', birthPlace: '', height: '', religion: '', caste: '', rashi: '',
+                educationLevel: '', college: '', profession: '', company: '',
                 country: '', state: '', city: '', fullAddress: '',
                 fatherName: '', fatherOccupation: '', fatherContact: '', motherName: '', motherOccupation: '',
                 brotherName: '', sisterName: '', siblings: '', about: ''
@@ -275,6 +275,14 @@ const AdminUserForm: React.FC = () => {
                             />
                         </div>
                         <div className="space-y-2">
+                            <Label>{t('profile.birthPlace')} *</Label>
+                            <Input
+                                value={formData.birthPlace}
+                                onChange={(e) => handleChange('birthPlace', e.target.value)}
+                                required
+                            />
+                        </div>
+                        <div className="space-y-2">
                             <Label>{t('register.height')}</Label>
                             <Select onValueChange={(v) => handleChange('height', v)} value={formData.height}>
                                 <SelectTrigger><SelectValue placeholder="Select Height" /></SelectTrigger>
@@ -323,7 +331,13 @@ const AdminUserForm: React.FC = () => {
 
                         <div className="space-y-2">
                             <Label>{t('register.caste')}</Label>
-                            <Input value={formData.caste} onChange={(e) => handleChange('caste', e.target.value)} />
+                            <Select onValueChange={(v) => handleChange('caste', v)} value={formData.caste}>
+                                <SelectTrigger><SelectValue /></SelectTrigger>
+                                <SelectContent>
+                                    <SelectItem value="kumbhar">{t('caste.kumbhar')}</SelectItem>
+                                    <SelectItem value="other">{t('caste.other')}</SelectItem>
+                                </SelectContent>
+                            </Select>
                         </div>
                         <div className="space-y-2">
                             <Label>{t('register.rashi')} *</Label>
@@ -390,19 +404,7 @@ const AdminUserForm: React.FC = () => {
                             <Label>{t('register.company')}</Label>
                             <Input value={formData.company} onChange={(e) => handleChange('company', e.target.value)} />
                         </div>
-                        <div className="space-y-2">
-                            <Label>{t('register.income')}</Label>
-                            <Select onValueChange={(v) => handleChange('income', v)} value={formData.income}>
-                                <SelectTrigger><SelectValue /></SelectTrigger>
-                                <SelectContent>
-                                    <SelectItem value="0-5">{t('income.0-5')}</SelectItem>
-                                    <SelectItem value="5-10">{t('income.5-10')}</SelectItem>
-                                    <SelectItem value="10-15">{t('income.10-15')}</SelectItem>
-                                    <SelectItem value="15-20">{t('income.15-20')}</SelectItem>
-                                    <SelectItem value="20+">{t('income.20+')}</SelectItem>
-                                </SelectContent>
-                            </Select>
-                        </div>
+
                     </div>
                 </div>
 

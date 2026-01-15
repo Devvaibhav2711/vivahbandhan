@@ -42,16 +42,16 @@ const EditProfile: React.FC = () => {
         lastName: '',
         dob: '',
         height: '',
-        height: '',
+
         religion: '',
         caste: '',
         rashi: '',
         birthTime: '',
+        birthPlace: '',
         educationLevel: '',
         college: '',
         profession: '',
         company: '',
-        income: '',
         country: '',
         state: '',
         city: '',
@@ -147,6 +147,7 @@ const EditProfile: React.FC = () => {
                 const ls = profile.lifestyle || '';
                 const rashiVal = ls.match(/Rashi: ([^|]*)/)?.[1]?.trim() || '';
                 const btVal = ls.match(/Birth Time: ([^|]*)/)?.[1]?.trim() || '';
+                const bpVal = ls.match(/Birth Place: ([^|]*)/)?.[1]?.trim() || '';
 
                 // Determine DOB from Age? No, we can't reverse Age to DOB. 
                 // We leave DOB blank if not stored, OR strictly we should store DOB in profiles.
@@ -167,7 +168,7 @@ const EditProfile: React.FC = () => {
                     lastName: last,
                     dob: '', // Cannot retrieve
                     height: profile.height || '',
-                    height: profile.height || '',
+
                     religion: profile.religion || '',
                     caste: profile.caste || '',
                     rashi: rashiVal,
@@ -176,7 +177,7 @@ const EditProfile: React.FC = () => {
                     college: edu.college || '',
                     profession: job.prof || '',
                     company: job.comp || '',
-                    income: profile.income || '',
+                    birthPlace: bpVal,
                     country: loc.country || '',
                     state: loc.state || '',
                     city: loc.city || '',
@@ -286,13 +287,13 @@ const EditProfile: React.FC = () => {
                 height: formData.height,
                 education: `${formData.educationLevel} - ${formData.college}`,
                 profession: `${formData.profession} at ${formData.company}`,
-                income: formData.income,
+                income: '',
                 religion: formData.religion,
                 caste: formData.caste,
                 location: `${formData.city}, ${formData.state}, ${formData.country}`,
                 family_background: `Type: ${formData.familyType}, Values: ${formData.familyValues}. Father: ${formData.fatherOccupation}, Mother: ${formData.motherOccupation}, Siblings: ${formData.siblings}`,
                 about: formData.about,
-                lifestyle: `Rashi: ${formData.rashi} | Birth Time: ${formData.birthTime}`,
+                lifestyle: `Rashi: ${formData.rashi} | Birth Time: ${formData.birthTime} | Birth Place: ${formData.birthPlace}`,
                 profile_photo: photoUrl
             };
 
@@ -421,12 +422,22 @@ const EditProfile: React.FC = () => {
                                         </div>
                                         <div className="space-y-2">
                                             <Label>{t('register.caste')}</Label>
-                                            <Input value={formData.caste} onChange={(e) => handleChange('caste', e.target.value)} />
+                                            <Select value={formData.caste} onValueChange={(v) => handleChange('caste', v)}>
+                                                <SelectTrigger><SelectValue placeholder={t('common.select') || "Select"} /></SelectTrigger>
+                                                <SelectContent>
+                                                    <SelectItem value="kumbhar">{t('caste.kumbhar')}</SelectItem>
+                                                    <SelectItem value="other">{t('caste.other')}</SelectItem>
+                                                </SelectContent>
+                                            </Select>
                                         </div>
                                         <div className="space-y-2">
                                             <div className="space-y-2">
                                                 <Label>{t('register.birthTime')}</Label>
                                                 <Input type="time" value={formData.birthTime} onChange={(e) => handleChange('birthTime', e.target.value)} />
+                                            </div>
+                                            <div className="space-y-2">
+                                                <Label>{t('profile.birthPlace')}</Label>
+                                                <Input value={formData.birthPlace} onChange={(e) => handleChange('birthPlace', e.target.value)} />
                                             </div>
                                             <div className="space-y-2">
                                                 <Label>{t('register.rashi')}</Label>
@@ -493,19 +504,7 @@ const EditProfile: React.FC = () => {
                                             <Label>{t('register.company')}</Label>
                                             <Input value={formData.company} onChange={(e) => handleChange('company', e.target.value)} />
                                         </div>
-                                        <div className="space-y-2">
-                                            <Label>{t('register.income')}</Label>
-                                            <Select value={formData.income} onValueChange={(v) => handleChange('income', v)}>
-                                                <SelectTrigger><SelectValue placeholder={t('common.select') || "Select"} /></SelectTrigger>
-                                                <SelectContent>
-                                                    <SelectItem value="0-5">{t('income.0-5')}</SelectItem>
-                                                    <SelectItem value="5-10">{t('income.5-10')}</SelectItem>
-                                                    <SelectItem value="10-15">{t('income.10-15')}</SelectItem>
-                                                    <SelectItem value="15-20">{t('income.15-20')}</SelectItem>
-                                                    <SelectItem value="20+">{t('income.20+')}</SelectItem>
-                                                </SelectContent>
-                                            </Select>
-                                        </div>
+
                                     </div>
                                 </div>
 

@@ -253,16 +253,9 @@ const ViewProfile: React.FC = () => {
                                                 return raw || '-';
                                             })()} />
 
-                                            <InfoItem label={t('profile.income')} value={(() => {
-                                                if (!profile.income) return null;
-                                                const val = profile.income.toLowerCase().trim();
-                                                if (val === 'na' || val === 'income.' || val.includes('income.')) return null;
-
-                                                const raw = profile.income.replace(/LPA/i, '').replace(/\s/g, '');
-                                                if (!raw || raw.toLowerCase() === 'income.') return null;
-
-                                                const key = `income.${raw}`;
-                                                return t(key) === key ? profile.income : t(key);
+                                            <InfoItem label={t('profile.birthPlace')} value={(() => {
+                                                const raw = profile.lifestyle ? profile.lifestyle.match(/Birth Place: ([^|]*)/)?.[1]?.trim() : '';
+                                                return raw || '-';
                                             })()} />
                                         </div>
                                     </div>

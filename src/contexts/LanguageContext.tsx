@@ -11,6 +11,29 @@ interface Translations {
 }
 
 export const translations: Translations = {
+  // Common
+  'common.loading': { en: 'Loading...', hi: 'लोड हो रहा है...', mr: 'लोड होत आहे...' },
+  'common.error': { en: 'Error', hi: 'त्रुटि', mr: 'त्रुटी' },
+  'common.success': { en: 'Success', hi: 'सफलता', mr: 'यश' },
+  'common.save': { en: 'Save', hi: 'सहेजें', mr: 'जतन करा' },
+  'common.cancel': { en: 'Cancel', hi: 'रद्द करें', mr: 'रद्द करा' },
+  'common.delete': { en: 'Delete', hi: 'हटाएं', mr: 'हटवा' },
+  'common.edit': { en: 'Edit', hi: 'संपादित करें', mr: 'संपादित करा' },
+  'common.view': { en: 'View', hi: 'देखें', mr: 'पहा' },
+  'common.back': { en: 'Back', hi: 'वापस', mr: 'मागे' },
+  'common.submit': { en: 'Submit', hi: 'जमा करें', mr: 'सादर करा' },
+  'common.select': { en: 'Select', hi: 'चुनें', mr: 'निवडा' },
+  'common.search': { en: 'Search', hi: 'खोजें', mr: 'शोधा' },
+  'common.none': { en: 'None', hi: 'कोई नहीं', mr: 'काहीही नाही' },
+  'common.all': { en: 'All', hi: 'सभी', mr: 'सर्व' },
+  'common.warning': { en: 'Warning', hi: 'चेतावनी', mr: 'चेतावणी' },
+  'common.deleted': { en: 'Deleted', hi: 'हटाया गया', mr: 'हटवले' },
+  'common.filter': { en: 'Filter', hi: 'फ़िल्टर', mr: 'फिल्टर' },
+  'common.updatePreferences': { en: 'Update Preferences', hi: 'अपडेट करें', mr: 'अपडेट करा' },
+  'common.required': { en: 'Required', hi: 'आवश्यक', mr: 'आवश्यक' },
+  'common.locationNotSpecified': { en: 'Location not specified', hi: 'स्थान निर्दिष्ट नहीं है', mr: 'स्थान नमूद केलेले नाही' },
+  'common.locationRestricted': { en: 'Location Restricted', hi: 'स्थान प्रतिबंधित', mr: 'स्थान प्रतिबंधित' },
+
   // Navigation
   'nav.home': { en: 'Home', hi: 'होम', mr: 'मुख्यपृष्ठ' },
   'nav.about': { en: 'About', hi: 'हमारे बारे में', mr: 'आमच्याबद्दल' },
@@ -219,23 +242,8 @@ export const translations: Translations = {
   'updatePassword.submitBtn': { en: 'Update Password', hi: 'पासवर्ड अपडेट करें', mr: 'पासवर्ड अपडेट करा' },
   'updatePassword.success': { en: 'Password updated successfully.', hi: 'पासवर्ड सफलतापूर्वक अपडेट किया गया।', mr: 'पासवर्ड यशस्वीरित्या अपडेट केला.' },
 
-  // Common
-  'common.loading': { en: 'Loading...', hi: 'लोड हो रहा है...', mr: 'लोड होत आहे...' },
-  'common.submit': { en: 'Submit', hi: 'जमा करें', mr: 'सबमिट करा' },
-  'common.save': { en: 'Save', hi: 'सहेजें', mr: 'जतन करा' },
-  'common.cancel': { en: 'Cancel', hi: 'रद्द करें', mr: 'रद्द करा' },
-  'common.delete': { en: 'Delete', hi: 'हटाएं', mr: 'हटवा' },
-  'common.edit': { en: 'Edit', hi: 'संपादित करें', mr: 'संपादित करा' },
-  'common.view': { en: 'View', hi: 'देखें', mr: 'पहा' },
-  'common.search': { en: 'Search', hi: 'खोजें', mr: 'शोधा' },
-  'common.filter': { en: 'Filter', hi: 'फ़िल्टर', mr: 'फिल्टर' },
-  'common.updatePreferences': { en: 'Update Preferences', hi: 'अपडेट करें', mr: 'अपडेट करा' },
-  'common.required': { en: 'Required', hi: 'आवश्यक', mr: 'आवश्यक' },
   'validation.errorTitle': { en: 'Validation Error', hi: 'सत्यापन त्रुटि', mr: 'चुकीचा नंबर' },
   'validation.phoneLength': { en: 'Phone number must be exactly 10 digits.', hi: 'फ़ोन नंबर बिल्कुल 10 अंकों का होना चाहिए।', mr: 'कृपया १० अंकी मोबाईल नंबर टाका.' },
-  'common.back': { en: 'Back', hi: 'वापस', mr: 'मागे' },
-  'common.locationNotSpecified': { en: 'Location not specified', hi: 'स्थान निर्दिष्ट नहीं है', mr: 'स्थान नमूद केलेले नाही' },
-  'common.locationRestricted': { en: 'Location Restricted', hi: 'स्थान प्रतिबंधित', mr: 'स्थान प्रतिबंधित' },
 
   // Admin
 
@@ -247,8 +255,7 @@ export const translations: Translations = {
   'admin.messages': { en: 'Messages', hi: 'संदेश', mr: 'संदेश' },
   'admin.shareProfile': { en: 'Share Profile', hi: 'प्रोफाइल साझा करें', mr: 'प्रोफाईल शेअर करा' },
   'admin.shareSuccess': { en: 'Profile Shared Successfully', hi: 'प्रोफाइल सफलतापूर्वक साझा की गई', mr: 'प्रोफाईल यशस्वीरित्या शेअर केले' },
-  'common.error': { en: 'Error', hi: 'त्रुटि', mr: 'त्रुटी' },
-  'common.warning': { en: 'Warning', hi: 'चेतावनी', mr: 'चेतावणी' },
+
   'register.photoCompressionFailed': { en: 'Could not compress image. Uploading original size.', hi: 'छवि को संपीड़ित नहीं किया जा सका। मूल आकार अपलोड किया जा रहा है।', mr: 'फोटो कॉम्प्रेस करता आला नाही. मूळ साईज अपलोड करत आहोत.' },
   'register.photoRequired': { en: 'Profile photo is required.', hi: 'प्रोफाइल फोटो आवश्यक है।', mr: 'प्रोफाइल फोटो आवश्यक आहे.' },
   'register.photoUploadFailed': { en: 'Could not upload photo, but continuing registration.', hi: 'फोटो अपलोड नहीं किया जा सका, लेकिन पंजीकरण जारी है।', mr: 'फोटो अपलोड होऊ शकला नाही, पण नोंदणी सुरू आहे.' },
@@ -406,6 +413,9 @@ export const translations: Translations = {
   'rashi.kumbh': { en: 'Kumbha (Aquarius)', hi: 'कुंभ', mr: 'कुंभ' },
   'rashi.meen': { en: 'Meena (Pisces)', hi: 'मीन', mr: 'मीन' },
 
+  'caste.kumbhar': { en: 'Kumbhar', hi: 'कुम्हार', mr: 'कुंभार' },
+  'caste.other': { en: 'Other', hi: 'अन्य', mr: 'इतर' },
+
   'edu.highschool': { en: 'High School', hi: 'हाई स्कूल', mr: '१० वी - १२ वी' },
   'edu.bachelors': { en: "Bachelor's Degree", hi: "स्नातक की डिग्री", mr: "पदवी" },
   'edu.masters': { en: "Master's Degree", hi: "मास्टर डिग्री", mr: "पदव्युत्तर" },
@@ -475,8 +485,7 @@ export const translations: Translations = {
   'contact.loginRequired': { en: 'Login Required', hi: 'लॉगिन आवश्यक', mr: 'लॉगिन आवश्यक' },
   'contact.loginMsg': { en: 'Please login to send a message.', hi: 'संदेश भेजने के लिए कृपया लॉगिन करें।', mr: 'संदेश पाठवण्यासाठी कृपया लॉगिन करा.' },
 
-  'common.success': { en: 'Success', hi: 'सफल', mr: 'यशस्वी' },
-  'common.deleted': { en: 'Deleted', hi: 'हटाया गया', mr: 'काढून टाकले' },
+
 
   'toast.successLine': { en: 'Operation successful.', hi: 'ऑपरेशन सफल रहा।', mr: 'प्रक्रिया यशस्वी झाली.' },
   'toast.errorLine': { en: 'Something went wrong.', hi: 'कुछ गलत हो गया।', mr: 'काहीतरी चूक झाली.' },
