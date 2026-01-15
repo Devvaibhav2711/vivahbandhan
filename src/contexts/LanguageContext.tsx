@@ -205,6 +205,11 @@ export const translations: Translations = {
   'forgotPassword.submitBtn': { en: 'Send Reset Link', hi: 'रीसेट लिंक भेजें', mr: 'रीसेट लिंक पाठवा' },
   'forgotPassword.backToLogin': { en: 'Back to Login', hi: 'लॉगिन पर वापस जाएं', mr: 'लॉगिन वर परत जा' },
   'forgotPassword.success': { en: 'Check your email for the reset link.', hi: 'रीसेट लिंक के लिए अपना ईमेल देखें।', mr: 'रीसेट लिंकसाठी तुमचा ईमेल तपासा.' },
+  'forgotPassword.accountNotFound': {
+    en: 'Account is not found, you have to register first.',
+    hi: 'खाता नहीं मिला, आपको पहले पंजीकरण करना होगा।',
+    mr: 'खाते सापडले नाही, तुम्हाला आधी नोंदणी करणे आवश्यक आहे.'
+  },
 
   'updatePassword.title': { en: 'Set New Password', hi: 'नया पासवर्ड सेट करें', mr: 'नवीन पासवर्ड सेट करा' },
   'updatePassword.subtitle': { en: 'Enter your new password below.', hi: 'अपना नया पासवर्ड नीचे दर्ज करें।', mr: 'तुमचा नवीन पासवर्ड खाली प्रविष्ट करा.' },
@@ -226,6 +231,9 @@ export const translations: Translations = {
   'common.required': { en: 'Required', hi: 'आवश्यक', mr: 'आवश्यक' },
   'validation.errorTitle': { en: 'Validation Error', hi: 'सत्यापन त्रुटि', mr: 'चुकीचा नंबर' },
   'validation.phoneLength': { en: 'Phone number must be exactly 10 digits.', hi: 'फ़ोन नंबर बिल्कुल 10 अंकों का होना चाहिए।', mr: 'कृपया १० अंकी मोबाईल नंबर टाका.' },
+  'common.back': { en: 'Back', hi: 'वापस', mr: 'मागे' },
+  'common.locationNotSpecified': { en: 'Location not specified', hi: 'स्थान निर्दिष्ट नहीं है', mr: 'स्थान नमूद केलेले नाही' },
+  'common.locationRestricted': { en: 'Location Restricted', hi: 'स्थान प्रतिबंधित', mr: 'स्थान प्रतिबंधित' },
 
   // Admin
 
@@ -351,6 +359,8 @@ export const translations: Translations = {
   'register.bio': { en: 'About (Bio)', hi: 'बायो', mr: 'तुमच्याबद्दल थोडक्यात सांगा' },
   'register.uploadPhoto': { en: 'Upload Photo', hi: 'फोटो अपलोड करें', mr: 'फोटो पाठवा' },
   'register.photoHint': { en: 'Max size 5MB. Formats: JPG, PNG.', hi: 'अधिकतम 5MB. प्रारूप: JPG, PNG.', mr: 'जास्तीत जास्त 5MB. स्वरूप: JPG, PNG.' },
+  'register.motherTongue': { en: 'Mother Tongue', hi: 'मातृभाषा', mr: 'मातृभाषा' },
+  'register.familyValues': { en: 'Family Values', hi: 'पारिवारिक मूल्य', mr: 'कौटुंबिक मूल्ये' },
 
   // Actions
   'register.submit': { en: 'Create Profile', hi: 'प्रोफाइल बनाएं', mr: 'आजच नाव नोंदवा' },

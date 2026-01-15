@@ -349,15 +349,15 @@ const EditProfile: React.FC = () => {
                                 {/* Account Information */}
                                 <div className="space-y-4">
                                     <h2 className="text-xl font-serif font-bold flex items-center gap-2 border-b pb-2 text-primary">
-                                        <Mail className="w-5 h-5" /> Account Information
+                                        <Mail className="w-5 h-5" /> {t('register.accountInfo')}
                                     </h2>
                                     <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                                         <div className="space-y-2">
-                                            <Label>Email</Label>
+                                            <Label>{t('register.email')}</Label>
                                             <Input value={formData.email} disabled className="bg-gray-100 cursor-not-allowed" />
                                         </div>
                                         <div className="space-y-2">
-                                            <Label>Phone</Label>
+                                            <Label>{t('register.phone')}</Label>
                                             <Input value={formData.phone} onChange={(e) => handleChange('phone', e.target.value)} />
                                         </div>
                                     </div>
@@ -366,73 +366,73 @@ const EditProfile: React.FC = () => {
                                 {/* Basic Information */}
                                 <div className="space-y-4">
                                     <h2 className="text-xl font-serif font-bold flex items-center gap-2 border-b pb-2 text-primary">
-                                        <User className="w-5 h-5" /> Basic Information
+                                        <User className="w-5 h-5" /> {t('register.basicInfo')}
                                     </h2>
                                     <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
                                         <div className="space-y-2">
-                                            <Label>Gender</Label>
+                                            <Label>{t('register.gender')}</Label>
                                             <Select value={formData.gender} onValueChange={(v) => handleChange('gender', v)}>
-                                                <SelectTrigger><SelectValue placeholder="Select" /></SelectTrigger>
+                                                <SelectTrigger><SelectValue placeholder={t('common.select') || "Select"} /></SelectTrigger>
                                                 <SelectContent>
-                                                    <SelectItem value="male">Male</SelectItem>
-                                                    <SelectItem value="female">Female</SelectItem>
+                                                    <SelectItem value="male">{t('gender.male')}</SelectItem>
+                                                    <SelectItem value="female">{t('gender.female')}</SelectItem>
                                                 </SelectContent>
                                             </Select>
                                         </div>
                                         <div className="space-y-2">
-                                            <Label>First Name</Label>
+                                            <Label>{t('register.firstName')}</Label>
                                             <Input value={formData.firstName} onChange={(e) => handleChange('firstName', e.target.value)} />
                                         </div>
                                         <div className="space-y-2">
-                                            <Label>Middle Name</Label>
+                                            <Label>{t('register.middleName')}</Label>
                                             <Input value={formData.middleName} onChange={(e) => handleChange('middleName', e.target.value)} />
                                         </div>
                                         <div className="space-y-2">
-                                            <Label>Last Name</Label>
+                                            <Label>{t('register.lastName')}</Label>
                                             <Input value={formData.lastName} onChange={(e) => handleChange('lastName', e.target.value)} />
                                         </div>
                                         <div className="space-y-2">
-                                            <Label>Date of Birth (Set to update Age)</Label>
+                                            <Label>{t('register.dob')}</Label>
                                             <Input type="date" value={formData.dob} onChange={(e) => handleChange('dob', e.target.value)} />
                                             {/* Note: DOB is not stored, so it will be empty initially */}
                                         </div>
                                         <div className="space-y-2">
-                                            <Label>Height</Label>
+                                            <Label>{t('register.height')}</Label>
                                             <Input value={formData.height} onChange={(e) => handleChange('height', e.target.value)} />
                                         </div>
                                         <div className="space-y-2">
-                                            <Label>Marital Status</Label>
+                                            <Label>{t('register.maritalStatus')}</Label>
                                             <Select value={formData.maritalStatus} onValueChange={(v) => handleChange('maritalStatus', v)}>
-                                                <SelectTrigger><SelectValue placeholder="Select" /></SelectTrigger>
+                                                <SelectTrigger><SelectValue placeholder={t('common.select') || "Select"} /></SelectTrigger>
                                                 <SelectContent>
-                                                    <SelectItem value="never">Never Married</SelectItem>
-                                                    <SelectItem value="divorced">Divorced</SelectItem>
-                                                    <SelectItem value="widowed">Widowed</SelectItem>
-                                                    <SelectItem value="awaiting">Awaiting Divorce</SelectItem>
+                                                    <SelectItem value="never">{t('marital.never')}</SelectItem>
+                                                    <SelectItem value="divorced">{t('marital.divorced')}</SelectItem>
+                                                    <SelectItem value="widowed">{t('marital.widowed')}</SelectItem>
+                                                    <SelectItem value="awaiting">{t('marital.awaiting')}</SelectItem>
                                                 </SelectContent>
                                             </Select>
                                         </div>
                                         <div className="space-y-2">
-                                            <Label>Religion</Label>
+                                            <Label>{t('register.religion')}</Label>
                                             <Select value={formData.religion} onValueChange={(v) => handleChange('religion', v)}>
-                                                <SelectTrigger><SelectValue placeholder="Select" /></SelectTrigger>
+                                                <SelectTrigger><SelectValue placeholder={t('common.select') || "Select"} /></SelectTrigger>
                                                 <SelectContent>
-                                                    <SelectItem value="hindu">Hindu</SelectItem>
-                                                    <SelectItem value="muslim">Muslim</SelectItem>
-                                                    <SelectItem value="christian">Christian</SelectItem>
-                                                    <SelectItem value="sikh">Sikh</SelectItem>
-                                                    <SelectItem value="other">Other</SelectItem>
+                                                    <SelectItem value="hindu">{t('religion.hindu')}</SelectItem>
+                                                    <SelectItem value="muslim">{t('religion.muslim')}</SelectItem>
+                                                    <SelectItem value="christian">{t('religion.christian')}</SelectItem>
+                                                    <SelectItem value="sikh">{t('religion.sikh')}</SelectItem>
+                                                    <SelectItem value="other">{t('religion.other')}</SelectItem>
                                                 </SelectContent>
                                             </Select>
                                         </div>
                                         <div className="space-y-2">
-                                            <Label>Caste</Label>
+                                            <Label>{t('register.caste')}</Label>
                                             <Input value={formData.caste} onChange={(e) => handleChange('caste', e.target.value)} />
                                         </div>
                                         <div className="space-y-2">
-                                            <Label>Mother Tongue</Label>
+                                            <Label>{t('register.motherTongue')}</Label>
                                             <Select value={formData.motherTongue} onValueChange={(v) => handleChange('motherTongue', v)}>
-                                                <SelectTrigger><SelectValue placeholder="Select language" /></SelectTrigger>
+                                                <SelectTrigger><SelectValue placeholder={t('common.select') || "Select"} /></SelectTrigger>
                                                 <SelectContent>
                                                     <SelectItem value="hindi">Hindi</SelectItem>
                                                     <SelectItem value="marathi">Marathi</SelectItem>
@@ -442,7 +442,7 @@ const EditProfile: React.FC = () => {
                                                     <SelectItem value="bengali">Bengali</SelectItem>
                                                     <SelectItem value="tamil">Tamil</SelectItem>
                                                     <SelectItem value="telugu">Telugu</SelectItem>
-                                                    <SelectItem value="other">Other</SelectItem>
+                                                    <SelectItem value="other">{t('religion.other')}</SelectItem>
                                                 </SelectContent>
                                             </Select>
                                         </div>
@@ -452,53 +452,53 @@ const EditProfile: React.FC = () => {
                                 {/* Education */}
                                 <div className="space-y-4">
                                     <h2 className="text-xl font-serif font-bold flex items-center gap-2 border-b pb-2 text-primary">
-                                        <Briefcase className="w-5 h-5" /> Education & Career
+                                        <Briefcase className="w-5 h-5" /> {t('register.eduCareer')}
                                     </h2>
                                     <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                                         <div className="space-y-2">
-                                            <Label>Education Level</Label>
+                                            <Label>{t('register.eduLevel')}</Label>
                                             <Select value={formData.educationLevel} onValueChange={(v) => handleChange('educationLevel', v)}>
-                                                <SelectTrigger><SelectValue placeholder="Select" /></SelectTrigger>
+                                                <SelectTrigger><SelectValue placeholder={t('common.select') || "Select"} /></SelectTrigger>
                                                 <SelectContent>
-                                                    <SelectItem value="highschool">High School</SelectItem>
-                                                    <SelectItem value="bachelors">Bachelor's Degree</SelectItem>
-                                                    <SelectItem value="masters">Master's Degree</SelectItem>
-                                                    <SelectItem value="doctorate">Doctorate</SelectItem>
-                                                    <SelectItem value="other">Other</SelectItem>
+                                                    <SelectItem value="highschool">{t('edu.highschool')}</SelectItem>
+                                                    <SelectItem value="bachelors">{t('edu.bachelors')}</SelectItem>
+                                                    <SelectItem value="masters">{t('edu.masters')}</SelectItem>
+                                                    <SelectItem value="doctorate">{t('edu.doctorate')}</SelectItem>
+                                                    <SelectItem value="other">{t('edu.other')}</SelectItem>
                                                 </SelectContent>
                                             </Select>
                                         </div>
                                         <div className="space-y-2">
-                                            <Label>College</Label>
+                                            <Label>{t('register.college')}</Label>
                                             <Input value={formData.college} onChange={(e) => handleChange('college', e.target.value)} />
                                         </div>
                                         <div className="space-y-2">
-                                            <Label>Profession</Label>
+                                            <Label>{t('register.profession')}</Label>
                                             <Select value={formData.profession} onValueChange={(v) => handleChange('profession', v)}>
-                                                <SelectTrigger><SelectValue placeholder="Select" /></SelectTrigger>
+                                                <SelectTrigger><SelectValue placeholder={t('common.select') || "Select"} /></SelectTrigger>
                                                 <SelectContent>
-                                                    <SelectItem value="private">Private Sector</SelectItem>
-                                                    <SelectItem value="government">Government/Public Sector</SelectItem>
-                                                    <SelectItem value="business">Business/Self Employed</SelectItem>
-                                                    <SelectItem value="defence">Defence/Civil Services</SelectItem>
-                                                    <SelectItem value="not_working">Not Working</SelectItem>
+                                                    <SelectItem value="private">{t('prof.private')}</SelectItem>
+                                                    <SelectItem value="government">{t('prof.government')}</SelectItem>
+                                                    <SelectItem value="business">{t('prof.business')}</SelectItem>
+                                                    <SelectItem value="defence">{t('prof.defence')}</SelectItem>
+                                                    <SelectItem value="not_working">{t('prof.notWorking')}</SelectItem>
                                                 </SelectContent>
                                             </Select>
                                         </div>
                                         <div className="space-y-2">
-                                            <Label>Company</Label>
+                                            <Label>{t('register.company')}</Label>
                                             <Input value={formData.company} onChange={(e) => handleChange('company', e.target.value)} />
                                         </div>
                                         <div className="space-y-2">
-                                            <Label>Income</Label>
+                                            <Label>{t('register.income')}</Label>
                                             <Select value={formData.income} onValueChange={(v) => handleChange('income', v)}>
-                                                <SelectTrigger><SelectValue placeholder="Select" /></SelectTrigger>
+                                                <SelectTrigger><SelectValue placeholder={t('common.select') || "Select"} /></SelectTrigger>
                                                 <SelectContent>
-                                                    <SelectItem value="0-5">0 - 5 LPA</SelectItem>
-                                                    <SelectItem value="5-10">5 - 10 LPA</SelectItem>
-                                                    <SelectItem value="10-15">10 - 15 LPA</SelectItem>
-                                                    <SelectItem value="15-20">15 - 20 LPA</SelectItem>
-                                                    <SelectItem value="20+">20+ LPA</SelectItem>
+                                                    <SelectItem value="0-5">{t('income.0-5')}</SelectItem>
+                                                    <SelectItem value="5-10">{t('income.5-10')}</SelectItem>
+                                                    <SelectItem value="10-15">{t('income.10-15')}</SelectItem>
+                                                    <SelectItem value="15-20">{t('income.15-20')}</SelectItem>
+                                                    <SelectItem value="20+">{t('income.20+')}</SelectItem>
                                                 </SelectContent>
                                             </Select>
                                         </div>
@@ -508,19 +508,19 @@ const EditProfile: React.FC = () => {
                                 {/* Location */}
                                 <div className="space-y-4">
                                     <h2 className="text-xl font-serif font-bold flex items-center gap-2 border-b pb-2 text-primary">
-                                        <MapPin className="w-5 h-5" /> Location
+                                        <MapPin className="w-5 h-5" /> {t('register.location')}
                                     </h2>
                                     <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
                                         <div className="space-y-2">
-                                            <Label>Country</Label>
+                                            <Label>{t('register.country')}</Label>
                                             <Input value={formData.country} onChange={(e) => handleChange('country', e.target.value)} />
                                         </div>
                                         <div className="space-y-2">
-                                            <Label>State</Label>
+                                            <Label>{t('register.state')}</Label>
                                             <Input value={formData.state} onChange={(e) => handleChange('state', e.target.value)} />
                                         </div>
                                         <div className="space-y-2">
-                                            <Label>City</Label>
+                                            <Label>{t('register.city')}</Label>
                                             <Input value={formData.city} onChange={(e) => handleChange('city', e.target.value)} />
                                         </div>
                                     </div>
@@ -529,23 +529,23 @@ const EditProfile: React.FC = () => {
                                 {/* Family Details */}
                                 <div className="space-y-4">
                                     <h2 className="text-xl font-serif font-bold flex items-center gap-2 border-b pb-2 text-primary">
-                                        <Users className="w-5 h-5" /> Family Details
+                                        <Users className="w-5 h-5" /> {t('register.familyDetails')}
                                     </h2>
                                     <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                                         <div className="space-y-2">
-                                            <Label>Family Type</Label>
+                                            <Label>{t('register.familyType')}</Label>
                                             <Select value={formData.familyType} onValueChange={(v) => handleChange('familyType', v)}>
-                                                <SelectTrigger><SelectValue placeholder="Select" /></SelectTrigger>
+                                                <SelectTrigger><SelectValue placeholder={t('common.select') || "Select"} /></SelectTrigger>
                                                 <SelectContent>
-                                                    <SelectItem value="nuclear">Nuclear</SelectItem>
-                                                    <SelectItem value="joint">Joint</SelectItem>
+                                                    <SelectItem value="nuclear">{t('family.nuclear')}</SelectItem>
+                                                    <SelectItem value="joint">{t('family.joint')}</SelectItem>
                                                 </SelectContent>
                                             </Select>
                                         </div>
                                         <div className="space-y-2">
-                                            <Label>Family Values</Label>
+                                            <Label>{t('register.familyValues')}</Label>
                                             <Select value={formData.familyValues} onValueChange={(v) => handleChange('familyValues', v)}>
-                                                <SelectTrigger><SelectValue placeholder="Select" /></SelectTrigger>
+                                                <SelectTrigger><SelectValue placeholder={t('common.select') || "Select"} /></SelectTrigger>
                                                 <SelectContent>
                                                     <SelectItem value="orthodox">Orthodox</SelectItem>
                                                     <SelectItem value="traditional">Traditional</SelectItem>
@@ -557,16 +557,16 @@ const EditProfile: React.FC = () => {
                                     </div>
                                     <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                                         <div className="space-y-2">
-                                            <Label>Father's Occupation</Label>
+                                            <Label>{t('register.fatherOcc')}</Label>
                                             <Input value={formData.fatherOccupation} onChange={(e) => handleChange('fatherOccupation', e.target.value)} />
                                         </div>
                                         <div className="space-y-2">
-                                            <Label>Mother's Occupation</Label>
+                                            <Label>{t('register.motherOcc')}</Label>
                                             <Input value={formData.motherOccupation} onChange={(e) => handleChange('motherOccupation', e.target.value)} />
                                         </div>
                                     </div>
                                     <div className="space-y-2">
-                                        <Label>Siblings</Label>
+                                        <Label>{t('register.siblings')}</Label>
                                         <Input value={formData.siblings} onChange={(e) => handleChange('siblings', e.target.value)} />
                                     </div>
                                 </div>
@@ -574,7 +574,7 @@ const EditProfile: React.FC = () => {
                                 {/* About */}
                                 <div className="space-y-4">
                                     <h2 className="text-xl font-serif font-bold flex items-center gap-2 border-b pb-2 text-primary">
-                                        <Info className="w-5 h-5" /> About
+                                        <Info className="w-5 h-5" /> {t('register.about')}
                                     </h2>
                                     <Textarea value={formData.about} onChange={(e) => handleChange('about', e.target.value)} className="min-h-[100px]" />
                                 </div>
@@ -582,7 +582,7 @@ const EditProfile: React.FC = () => {
                                 {/* Profile Photo (Bottom position as per request) */}
                                 <div className="space-y-4">
                                     <h2 className="text-xl font-serif font-bold flex items-center gap-2 border-b pb-2 text-primary">
-                                        <Upload className="w-5 h-5" /> Profile Photo
+                                        <Upload className="w-5 h-5" /> {t('profile.photo')}
                                     </h2>
                                     <div className="flex items-center gap-4">
                                         <div className="w-24 h-24 rounded-full bg-muted flex items-center justify-center overflow-hidden border-2 border-primary/20">
@@ -599,7 +599,7 @@ const EditProfile: React.FC = () => {
                                 </div>
 
                                 <Button type="submit" className="w-full btn-gold h-12 text-lg" disabled={saving}>
-                                    {saving ? 'Saving Changes...' : 'Save Changes'}
+                                    {saving ? t('common.processing') : t('common.save')}
                                 </Button>
 
                             </form>

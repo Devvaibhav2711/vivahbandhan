@@ -23,6 +23,24 @@ const ForgotPassword = () => {
         setIsLoading(true);
 
         try {
+            // 1. Check if email exists using our secure RPC function
+            const { data: emailExists, error: checkError } = await supabase
+                .rpc('check_email_exists', { email_to_check: email });
+
+            if (checkError) throw checkError;
+
+            // 2. If email does NOT exist, show specific error and stop
+            if (!emailExists) {
+                toast({
+                    title: t('common.error'),
+                    description: t('forgotPassword.accountNotFound'),
+                    variant: "destructive",
+                });
+                setIsLoading(false);
+                return;
+            }
+
+            // 3. If email exists, proceed with password reset
             const { error } = await supabase.auth.resetPasswordForEmail(email, {
                 redirectTo: `${window.location.origin}/update-password`,
             });
