@@ -33,8 +33,8 @@ const AdminUserForm: React.FC = () => {
         middleName: '',
         lastName: '',
         dob: '',
+        birthTime: '',
         height: '',
-        maritalStatus: '',
         religion: '',
         caste: '',
         rashi: '',
@@ -46,7 +46,6 @@ const AdminUserForm: React.FC = () => {
         country: '',
         state: '',
         city: '',
-        familyType: '',
         fullAddress: '',
         fatherName: '',
         fatherOccupation: '',
@@ -154,16 +153,15 @@ const AdminUserForm: React.FC = () => {
                 age: calculateAge(formData.dob).toString(),
                 gender: formData.gender,
                 height: formData.height,
-                marital_status: formData.maritalStatus,
                 education: `${formData.educationLevel} - ${formData.college}`,
                 profession: `${formData.profession} at ${formData.company}`,
                 income: formData.income,
                 religion: formData.religion,
                 caste: formData.caste,
                 location: `${formData.fullAddress} | ${formData.city}, ${formData.state}`,
-                family_background: `Type: ${formData.familyType}. Father: ${formData.fatherName} (${formData.fatherOccupation}), Father Contact: ${formData.fatherContact}, Mother: ${formData.motherName} (${formData.motherOccupation}), Brothers: ${formData.brotherName || 'None'}, Sisters: ${formData.sisterName || 'None'}, Total Siblings: ${formData.siblings}`,
+                family_background: `Father: ${formData.fatherName} (${formData.fatherOccupation}), Father Contact: ${formData.fatherContact}, Mother: ${formData.motherName} (${formData.motherOccupation}), Brothers: ${formData.brotherName || 'None'}, Sisters: ${formData.sisterName || 'None'}, Total Siblings: ${formData.siblings}`,
                 about: formData.about,
-                lifestyle: `Rashi: ${formData.rashi}`,
+                lifestyle: `Rashi: ${formData.rashi} | Birth Time: ${formData.birthTime}`,
                 status: 'pending',
                 profile_photo: photoUrl
             };
@@ -183,9 +181,9 @@ const AdminUserForm: React.FC = () => {
             // Reset form
             setFormData({
                 email: '', password: '', phone: '', gender: '', firstName: '', middleName: '', lastName: '',
-                dob: '', height: '', maritalStatus: '', religion: '', caste: '', rashi: '',
+                dob: '', birthTime: '', height: '', religion: '', caste: '', rashi: '',
                 educationLevel: '', college: '', profession: '', company: '', income: '',
-                country: '', state: '', city: '', familyType: '', fullAddress: '',
+                country: '', state: '', city: '', fullAddress: '',
                 fatherName: '', fatherOccupation: '', fatherContact: '', motherName: '', motherOccupation: '',
                 brotherName: '', sisterName: '', siblings: '', about: ''
             });
@@ -202,13 +200,13 @@ const AdminUserForm: React.FC = () => {
 
     return (
         <div className="card-elegant p-6 md:p-10 bg-white/80 backdrop-blur-sm">
-            <h2 className="text-2xl font-serif font-bold mb-6 text-primary">Add New User</h2>
+            <h2 className="text-2xl font-serif font-bold mb-6 text-primary">{t('admin.addUser')}</h2>
             <form onSubmit={handleSubmit} className="space-y-8">
 
                 {/* Account Information */}
                 <div className="space-y-4">
                     <h2 className="text-xl font-serif font-bold flex items-center gap-2 border-b pb-2 text-primary">
-                        <Mail className="w-5 h-5" /> Account Information
+                        <Mail className="w-5 h-5" /> {t('register.accountInfo')}
                     </h2>
                     <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
                         <div className="space-y-2">
@@ -268,6 +266,15 @@ const AdminUserForm: React.FC = () => {
                             <Input type="date" value={formData.dob} onChange={(e) => handleChange('dob', e.target.value)} required />
                         </div>
                         <div className="space-y-2">
+                            <Label>{t('register.birthTime')} *</Label>
+                            <Input
+                                type="time"
+                                value={formData.birthTime}
+                                onChange={(e) => handleChange('birthTime', e.target.value)}
+                                required
+                            />
+                        </div>
+                        <div className="space-y-2">
                             <Label>{t('register.height')}</Label>
                             <Select onValueChange={(v) => handleChange('height', v)} value={formData.height}>
                                 <SelectTrigger><SelectValue placeholder="Select Height" /></SelectTrigger>
@@ -312,18 +319,7 @@ const AdminUserForm: React.FC = () => {
                                 </SelectContent>
                             </Select>
                         </div>
-                        <div className="space-y-2">
-                            <Label>{t('register.maritalStatus')}</Label>
-                            <Select onValueChange={(v) => handleChange('maritalStatus', v)} value={formData.maritalStatus}>
-                                <SelectTrigger><SelectValue /></SelectTrigger>
-                                <SelectContent>
-                                    <SelectItem value="never">{t('marital.never')}</SelectItem>
-                                    <SelectItem value="divorced">{t('marital.divorced')}</SelectItem>
-                                    <SelectItem value="widowed">{t('marital.widowed')}</SelectItem>
-                                    <SelectItem value="awaiting">{t('marital.awaiting')}</SelectItem>
-                                </SelectContent>
-                            </Select>
-                        </div>
+
 
                         <div className="space-y-2">
                             <Label>{t('register.caste')}</Label>
@@ -434,16 +430,7 @@ const AdminUserForm: React.FC = () => {
                         <Users className="w-5 h-5" /> {t('register.familyDetails')}
                     </h2>
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                        <div className="space-y-2">
-                            <Label>{t('register.familyType')}</Label>
-                            <Select onValueChange={(v) => handleChange('familyType', v)} value={formData.familyType}>
-                                <SelectTrigger><SelectValue /></SelectTrigger>
-                                <SelectContent>
-                                    <SelectItem value="nuclear">{t('family.nuclear')}</SelectItem>
-                                    <SelectItem value="joint">{t('family.joint')}</SelectItem>
-                                </SelectContent>
-                            </Select>
-                        </div>
+
                         <div className="space-y-2">
                             <Label>{t('register.fullAddress')} *</Label>
                             <Textarea
@@ -529,13 +516,32 @@ const AdminUserForm: React.FC = () => {
                             )}
                         </div>
                         <div className="space-y-2">
-                            <Input type="file" ref={fileInputRef} onChange={handleFileChange} className="max-w-xs" />
+                            <input
+                                type="file"
+                                ref={fileInputRef}
+                                onChange={handleFileChange}
+                                className="hidden"
+                                accept="image/png, image/jpeg, image/jpg"
+                            />
+                            <div className="flex items-center gap-3">
+                                <Button
+                                    type="button"
+                                    variant="outline"
+                                    onClick={() => fileInputRef.current?.click()}
+                                    className="bg-secondary/10 hover:bg-secondary/20 border-primary/20"
+                                >
+                                    {t('admin.chooseFile')}
+                                </Button>
+                                <span className="text-sm text-muted-foreground">
+                                    {fileInputRef.current?.files?.[0]?.name || t('admin.noFile')}
+                                </span>
+                            </div>
                         </div>
                     </div>
                 </div>
 
                 <Button type="submit" className="w-full btn-gold h-12 text-lg" disabled={isLoading}>
-                    {isLoading ? 'Creating User...' : 'Create User & Profile'}
+                    {isLoading ? t('admin.creatingUser') : t('admin.createUser')}
                 </Button>
             </form>
         </div>

@@ -37,6 +37,8 @@ export const translations: Translations = {
   'auth.invalidCredentials': { en: 'Invalid login credentials', hi: 'अमान्य लॉगिन साख', mr: 'अवैध लॉगिन माहिती (ईमेल किंवा पासवर्ड चुकीचा आहे)' },
   'auth.errorGeneric': { en: 'An error occurred. Please try again.', hi: 'एक त्रुटि हुई। कृपया पुन: प्रयास करें।', mr: 'काहीतरी चूक झाली. कृपया पुन्हा प्रयत्न करा.' },
   'auth.loginToRequest': { en: 'Please login to request a match.', hi: 'कृपया मैच का अनुरोध करने के लिए लॉगिन करें।', mr: 'कृपया जोडीदाराची विनंती करण्यासाठी लॉगिन करा.' },
+  'auth.loginMessage1': { en: 'Register today... Your perfect partner is waiting for you', hi: 'आज ही पंजीकरण करें… आपका सही जीवनसाथी आपकी प्रतीक्षा कर रहा है', mr: 'आजच नोंदणी करा… तुमचा योग्य जोडीदार तुमची वाट पाहतोय' },
+  'auth.loginMessage2': { en: 'Login is required to view all profiles and details', hi: 'सभी प्रोफाइल और विवरण देखने के लिए लॉगिन आवश्यक है', mr: 'सर्व प्रोफाइल्स आणि माहिती पाहण्यासाठी लॉगिन आवश्यक आहे' },
 
   // Admin Dashboard
   'admin.dashboard': { en: 'Admin Dashboard', hi: 'एडमिन डैशबोर्ड', mr: 'मुख्य नियंत्रण केंद्र' },
@@ -361,11 +363,19 @@ export const translations: Translations = {
   'register.photoHint': { en: 'Max size 5MB. Formats: JPG, PNG.', hi: 'अधिकतम 5MB. प्रारूप: JPG, PNG.', mr: 'जास्तीत जास्त 5MB. स्वरूप: JPG, PNG.' },
   'register.motherTongue': { en: 'Mother Tongue', hi: 'मातृभाषा', mr: 'मातृभाषा' },
   'register.familyValues': { en: 'Family Values', hi: 'पारिवारिक मूल्य', mr: 'कौटुंबिक मूल्ये' },
+  'register.birthTime': { en: 'Time of Birth', hi: 'जन्म समय', mr: 'जन्माची वेळ' },
+  'profile.birthTime': { en: 'Time of Birth', hi: 'जन्म समय', mr: 'जन्माची वेळ' },
 
   // Actions
   'register.submit': { en: 'Create Profile', hi: 'प्रोफाइल बनाएं', mr: 'आजच नाव नोंदवा' },
   'register.haveAccount': { en: 'Already have an account?', hi: 'क्या आपके पास पहले से खाता है?', mr: 'आधीच नाव नोंदवलंय का? मग इथे या.' },
   'register.loginHere': { en: 'Login here', hi: 'यहाँ लॉगिन करें', mr: 'येथे लॉगिन करा' },
+  'admin.addUser': { en: 'Add New User', hi: 'नया उपयोगकर्ता जोड़ें', mr: 'नवीन वापरकर्ता जोडा' },
+  'admin.chooseFile': { en: 'Choose File', hi: 'फ़ाइल चुनें', mr: 'फाइल निवडा' },
+  'admin.noFile': { en: 'No file chosen', hi: 'कोई फ़ाइल नहीं चुनी गई', mr: 'कोणतीही फाइल निवडली नाही' },
+  'admin.createUser': { en: 'Create User & Profile', hi: 'उपयोगकर्ता और प्रोफाइल बनाएं', mr: 'वापरकर्ता आणि प्रोफाइल तयार करा' },
+  'admin.creatingUser': { en: 'Creating User...', hi: 'उपयोगकर्ता बना रहे हैं...', mr: 'वापरकर्ता तयार करत आहे...' },
+  'register.accountInfo': { en: 'Account Information', hi: 'खाता जानकारी', mr: 'खात्याची माहिती' },
 
   // Dropdown Options
   'gender.male': { en: 'Male', hi: 'पुरुष', mr: 'पुरुष' },
@@ -459,6 +469,30 @@ export const translations: Translations = {
     hi: 'पूर्ण प्रोफाइल देखने के लिए आपको खाता बनाना होगा या लॉगिन करना होगा।',
     mr: 'प्रोफाईल पाहण्यासाठी तुम्हाला खाते तयार करावे लागेल किंवा लॉगिन करावे लागेल.'
   },
+  'contact.loginRequired': { en: 'Login Required', hi: 'लॉगिन आवश्यक', mr: 'लॉगिन आवश्यक' },
+  'contact.loginMsg': { en: 'Please login to send a message.', hi: 'संदेश भेजने के लिए कृपया लॉगिन करें।', mr: 'संदेश पाठवण्यासाठी कृपया लॉगिन करा.' },
+
+  'common.success': { en: 'Success', hi: 'सफल', mr: 'यशस्वी' },
+  'common.error': { en: 'Error', hi: 'त्रुटी', mr: 'त्रुटी' },
+  'common.warning': { en: 'Warning', hi: 'चेतावनी', mr: 'चेतावणी' },
+  'common.deleted': { en: 'Deleted', hi: 'हटाया गया', mr: 'काढून टाकले' },
+
+  'toast.successLine': { en: 'Operation successful.', hi: 'ऑपरेशन सफल रहा।', mr: 'प्रक्रिया यशस्वी झाली.' },
+  'toast.errorLine': { en: 'Something went wrong.', hi: 'कुछ गलत हो गया।', mr: 'काहीतरी चूक झाली.' },
+  'toast.profileDeleted': { en: 'Profile deleted successfully.', hi: 'प्रोफाइल सफलतापूर्वक हटा दी गई।', mr: 'प्रोफाइल यशस्वीरित्या हटवली.' },
+  'toast.profileDeleteError': { en: 'Failed to delete profile.', hi: 'प्रोफाइल हटाने में विफल।', mr: 'प्रोफाइल हटवण्यात अपयश.' },
+  'toast.profileUpdated': { en: 'Profile updated successfully.', hi: 'प्रोफाइल सफलतापूर्वक अपडेट की गई।', mr: 'प्रोफाइल यशस्वीरित्या अपडेट केली.' },
+  'toast.profileLoadError': { en: 'Failed to load profile data.', hi: 'प्रोफाइल डेटा लोड करने में विफल।', mr: 'प्रोफाइल माहिती लोड करण्यात अपयश.' },
+
+  'toast.storyRemoved': { en: 'The story and its photo have been permanently removed.', hi: 'कहानी और उसकी तस्वीर को स्थायी रूप से हटा दिया गया है।', mr: 'गोष्ट आणि फोटो कायमचे काढून टाकले आहेत.' },
+  'toast.storyAdded': { en: 'Success story added!', hi: 'सफलता की कहानी जोड़ी गई!', mr: 'यशस्वी कहाणी जोडली!' },
+  'toast.photoUpdated': { en: 'Story photo has been updated.', hi: 'कहानी की फोटो अपडेट कर दी गई है।', mr: 'कहाणीचा फोटो अपडेट केला आहे.' },
+  'toast.demoDataLoaded': { en: 'Sample success stories have been added.', hi: 'नमूना सफलता की कहानियां जोड़ी गई हैं।', mr: 'नमुना यशस्वी कहाण्या जोडल्या आहेत.' },
+
+  'toast.msgSent': { en: 'Message Sent', hi: 'संदेश भेजा गया', mr: 'संदेश पाठवला' },
+  'toast.msgSentDesc': { en: 'We will contact you shortly.', hi: 'हम आपसे जल्द ही संपर्क करेंगे।', mr: 'आम्ही लवकरच आपल्याशी संपर्क साधू.' },
+  'toast.msgFailed': { en: 'Failed to send message.', hi: 'संदेश भेजने में विफल।', mr: 'संदेश पाठवण्यात अपयश.' },
+  'contact.loginRequiredDesc': { en: 'Please login to send a message.', hi: 'संदेश भेजने के लिए कृपया लॉगिन करें।', mr: 'संदेश पाठवण्यासाठी कृपया लॉगिन करा.' },
 
   // Contact Page
   'contact.getInTouch': { en: 'Get in Touch', hi: 'संपर्क करें', mr: 'मार्गदर्शनासाठी संपर्क' },

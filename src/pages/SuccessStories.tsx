@@ -211,7 +211,7 @@ const SuccessStories: React.FC = () => {
 
       if (error) throw error;
 
-      toast({ title: t('register.successTitle'), description: t('success.storyAdded') });
+      toast({ title: t('register.successTitle'), description: t('toast.storyAdded') });
       setIsDialogOpen(false);
       resetForm();
       fetchStories();
@@ -268,7 +268,7 @@ const SuccessStories: React.FC = () => {
       const { error } = await supabase.from('success_stories').delete().eq('id', id);
       if (error) throw error;
 
-      toast({ title: 'Story Removed', description: 'The story and its photo have been permanently removed.' });
+      toast({ title: t('common.deleted'), description: t('toast.storyRemoved') });
       fetchStories();
     } catch (error: any) {
       toast({
@@ -307,7 +307,7 @@ const SuccessStories: React.FC = () => {
 
       if (error) throw error;
 
-      toast({ title: 'Photo Updated', description: 'Story photo has been updated.' });
+      toast({ title: t('common.success'), description: t('toast.photoUpdated') });
       fetchStories();
     } catch (error: any) {
       toast({
@@ -335,7 +335,7 @@ const SuccessStories: React.FC = () => {
 
       if (error) throw error;
 
-      toast({ title: 'Demo Data Loaded', description: 'Sample success stories have been added.' });
+      toast({ title: t('common.success'), description: t('toast.demoDataLoaded') });
       fetchStories();
     } catch (error: any) {
       toast({

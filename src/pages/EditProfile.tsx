@@ -42,10 +42,11 @@ const EditProfile: React.FC = () => {
         lastName: '',
         dob: '',
         height: '',
-        maritalStatus: '',
+        height: '',
         religion: '',
         caste: '',
-        motherTongue: '',
+        rashi: '',
+        birthTime: '',
         educationLevel: '',
         college: '',
         profession: '',
@@ -141,7 +142,11 @@ const EditProfile: React.FC = () => {
                 const edu = parseEducation(profile.education || '');
                 const job = parseProfession(profile.profession || '');
                 const loc = parseLocation(profile.location || '');
-                const tongue = (profile.lifestyle || '').match(/Mother Tongue: (.*)/)?.[1] || '';
+
+                // Parse Lifestyle for Rashi and Birth Time
+                const ls = profile.lifestyle || '';
+                const rashiVal = ls.match(/Rashi: ([^|]*)/)?.[1]?.trim() || '';
+                const btVal = ls.match(/Birth Time: ([^|]*)/)?.[1]?.trim() || '';
 
                 // Determine DOB from Age? No, we can't reverse Age to DOB. 
                 // We leave DOB blank if not stored, OR strictly we should store DOB in profiles.
@@ -162,10 +167,11 @@ const EditProfile: React.FC = () => {
                     lastName: last,
                     dob: '', // Cannot retrieve
                     height: profile.height || '',
-                    maritalStatus: profile.marital_status || '',
+                    height: profile.height || '',
                     religion: profile.religion || '',
                     caste: profile.caste || '',
-                    motherTongue: tongue,
+                    rashi: rashiVal,
+                    birthTime: btVal,
                     educationLevel: edu.level || '',
                     college: edu.college || '',
                     profession: job.prof || '',
@@ -188,7 +194,7 @@ const EditProfile: React.FC = () => {
 
             } catch (error: any) {
                 console.error('Error loading profile:', error);
-                toast({ title: 'Error', description: 'Failed to load profile data', variant: 'destructive' });
+                toast({ title: t('common.error'), description: t('toast.profileLoadError'), variant: 'destructive' });
             } finally {
                 setIsLoading(false);
             }
@@ -226,8 +232,8 @@ const EditProfile: React.FC = () => {
                 } else {
                     setPhotoFile(originalFile);
                     toast({
-                        title: "Warning",
-                        description: "Could not compress image. Uploading original size.",
+                        title: t('common.warning'),
+                        description: t('register.photoCompressionFailed'),
                         variant: "destructive"
                     });
                 }
@@ -240,11 +246,11 @@ const EditProfile: React.FC = () => {
         try {
             const { error } = await supabase.from('profiles').delete().eq('id', id);
             if (error) throw error;
-            toast({ title: 'Deleted', description: 'Profile deleted successfully.' });
+            toast({ title: t('common.deleted'), description: t('toast.profileDeleted') });
             navigate('/dashboard'); // or /admin
         } catch (error: any) {
             console.error('Error deleting:', error);
-            toast({ title: 'Error', description: 'Failed to delete profile', variant: 'destructive' });
+            toast({ title: t('common.error'), description: t('toast.profileDeleteError'), variant: 'destructive' });
         }
     };
 
@@ -278,7 +284,6 @@ const EditProfile: React.FC = () => {
                 full_name: `${formData.firstName} ${formData.middleName ? formData.middleName + ' ' : ''}${formData.lastName}`.trim(),
                 gender: formData.gender,
                 height: formData.height,
-                marital_status: formData.maritalStatus,
                 education: `${formData.educationLevel} - ${formData.college}`,
                 profession: `${formData.profession} at ${formData.company}`,
                 income: formData.income,
@@ -287,7 +292,7 @@ const EditProfile: React.FC = () => {
                 location: `${formData.city}, ${formData.state}, ${formData.country}`,
                 family_background: `Type: ${formData.familyType}, Values: ${formData.familyValues}. Father: ${formData.fatherOccupation}, Mother: ${formData.motherOccupation}, Siblings: ${formData.siblings}`,
                 about: formData.about,
-                lifestyle: `Mother Tongue: ${formData.motherTongue}`,
+                lifestyle: `Rashi: ${formData.rashi} | Birth Time: ${formData.birthTime}`,
                 profile_photo: photoUrl
             };
 
@@ -312,14 +317,14 @@ const EditProfile: React.FC = () => {
                 await supabase.from('users').update({ phone: formData.phone }).eq('id', p.user_id);
             }
 
-            toast({ title: 'Success', description: 'Profile updated successfully.' });
+            toast({ title: t('common.success'), description: t('toast.profileUpdated') });
 
             if (isAdmin) {
                 setTimeout(() => navigate('/admin'), 1000);
             }
         } catch (error: any) {
             console.error('Update error:', error);
-            toast({ title: 'Error', description: error.message, variant: 'destructive' });
+            toast({ title: t('common.error'), description: error.message, variant: 'destructive' });
         } finally {
             setSaving(false);
         }
@@ -400,18 +405,7 @@ const EditProfile: React.FC = () => {
                                             <Label>{t('register.height')}</Label>
                                             <Input value={formData.height} onChange={(e) => handleChange('height', e.target.value)} />
                                         </div>
-                                        <div className="space-y-2">
-                                            <Label>{t('register.maritalStatus')}</Label>
-                                            <Select value={formData.maritalStatus} onValueChange={(v) => handleChange('maritalStatus', v)}>
-                                                <SelectTrigger><SelectValue placeholder={t('common.select') || "Select"} /></SelectTrigger>
-                                                <SelectContent>
-                                                    <SelectItem value="never">{t('marital.never')}</SelectItem>
-                                                    <SelectItem value="divorced">{t('marital.divorced')}</SelectItem>
-                                                    <SelectItem value="widowed">{t('marital.widowed')}</SelectItem>
-                                                    <SelectItem value="awaiting">{t('marital.awaiting')}</SelectItem>
-                                                </SelectContent>
-                                            </Select>
-                                        </div>
+
                                         <div className="space-y-2">
                                             <Label>{t('register.religion')}</Label>
                                             <Select value={formData.religion} onValueChange={(v) => handleChange('religion', v)}>
@@ -430,23 +424,33 @@ const EditProfile: React.FC = () => {
                                             <Input value={formData.caste} onChange={(e) => handleChange('caste', e.target.value)} />
                                         </div>
                                         <div className="space-y-2">
-                                            <Label>{t('register.motherTongue')}</Label>
-                                            <Select value={formData.motherTongue} onValueChange={(v) => handleChange('motherTongue', v)}>
-                                                <SelectTrigger><SelectValue placeholder={t('common.select') || "Select"} /></SelectTrigger>
-                                                <SelectContent>
-                                                    <SelectItem value="hindi">Hindi</SelectItem>
-                                                    <SelectItem value="marathi">Marathi</SelectItem>
-                                                    <SelectItem value="english">English</SelectItem>
-                                                    <SelectItem value="gujarati">Gujarati</SelectItem>
-                                                    <SelectItem value="punjabi">Punjabi</SelectItem>
-                                                    <SelectItem value="bengali">Bengali</SelectItem>
-                                                    <SelectItem value="tamil">Tamil</SelectItem>
-                                                    <SelectItem value="telugu">Telugu</SelectItem>
-                                                    <SelectItem value="other">{t('religion.other')}</SelectItem>
-                                                </SelectContent>
-                                            </Select>
+                                            <div className="space-y-2">
+                                                <Label>{t('register.birthTime')}</Label>
+                                                <Input type="time" value={formData.birthTime} onChange={(e) => handleChange('birthTime', e.target.value)} />
+                                            </div>
+                                            <div className="space-y-2">
+                                                <Label>{t('register.rashi')}</Label>
+                                                <Select value={formData.rashi} onValueChange={(v) => handleChange('rashi', v)}>
+                                                    <SelectTrigger><SelectValue placeholder={t('common.select') || "Select"} /></SelectTrigger>
+                                                    <SelectContent>
+                                                        <SelectItem value="mesh">{t('rashi.mesh')}</SelectItem>
+                                                        <SelectItem value="vrishabh">{t('rashi.vrishabh')}</SelectItem>
+                                                        <SelectItem value="mithun">{t('rashi.mithun')}</SelectItem>
+                                                        <SelectItem value="kark">{t('rashi.kark')}</SelectItem>
+                                                        <SelectItem value="simha">{t('rashi.simha')}</SelectItem>
+                                                        <SelectItem value="kanya">{t('rashi.kanya')}</SelectItem>
+                                                        <SelectItem value="tula">{t('rashi.tula')}</SelectItem>
+                                                        <SelectItem value="vrishchik">{t('rashi.vrishchik')}</SelectItem>
+                                                        <SelectItem value="dhanu">{t('rashi.dhanu')}</SelectItem>
+                                                        <SelectItem value="makar">{t('rashi.makar')}</SelectItem>
+                                                        <SelectItem value="kumbh">{t('rashi.kumbh')}</SelectItem>
+                                                        <SelectItem value="meen">{t('rashi.meen')}</SelectItem>
+                                                    </SelectContent>
+                                                </Select>
+                                            </div>
                                         </div>
                                     </div>
+
                                 </div>
 
                                 {/* Education */}
@@ -606,8 +610,8 @@ const EditProfile: React.FC = () => {
                         </div>
                     </div>
                 </div>
-            </section>
-        </Layout>
+            </section >
+        </Layout >
     );
 };
 

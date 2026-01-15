@@ -158,11 +158,11 @@ const Header: React.FC = () => {
               </DropdownMenu>
             ) : (
               <div className="hidden md:flex items-center gap-2">
-                <Button variant="ghost" asChild>
-                  <Link to="/login">{t('nav.login')}</Link>
-                </Button>
                 <Button asChild className="btn-gold">
                   <Link to="/register">{t('nav.register')}</Link>
+                </Button>
+                <Button variant="ghost" asChild>
+                  <Link to="/login">{t('nav.login')}</Link>
                 </Button>
               </div>
             )}
@@ -247,14 +247,14 @@ const Header: React.FC = () => {
                 </>
               ) : (
                 <div className="flex flex-col gap-2 px-4 pt-2">
-                  <Button variant="outline" asChild className="w-full">
-                    <Link to="/login" onClick={() => setIsMobileMenuOpen(false)}>
-                      {t('nav.login')}
-                    </Link>
-                  </Button>
                   <Button asChild className="w-full btn-gold">
                     <Link to="/register" onClick={() => setIsMobileMenuOpen(false)}>
                       {t('nav.register')}
+                    </Link>
+                  </Button>
+                  <Button variant="outline" asChild className="w-full">
+                    <Link to="/login" onClick={() => setIsMobileMenuOpen(false)}>
+                      {t('nav.login')}
                     </Link>
                   </Button>
                 </div>

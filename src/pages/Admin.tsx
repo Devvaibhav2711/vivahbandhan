@@ -51,6 +51,14 @@ const Admin: React.FC = () => {
   const [userFilter, setUserFilter] = useState<'all' | 'premium'>('all');
 
   const fetchRequests = async () => {
+    // Fetch users to get valid IDs for filtering
+    const { data: usersData } = await supabase
+      .from('users')
+      .select('id')
+      .neq('role', 'admin');
+
+    const validUserIds = new Set((usersData || []).map(u => u.id));
+
     const { data: requestsData, error } = await supabase
       .from('match_requests')
       .select('*');
@@ -58,7 +66,10 @@ const Admin: React.FC = () => {
     if (error) {
       console.error('Error fetching requests:', error);
     }
-    setRequests(requestsData || []);
+
+    // Filter requests by valid users
+    const filteredRequests = (requestsData || []).filter(r => validUserIds.has(r.user_id));
+    setRequests(filteredRequests);
   };
 
   useEffect(() => {
@@ -937,10 +948,11 @@ const Admin: React.FC = () => {
                     <Settings className="w-8 h-8" />
                   </div>
                   <div>
-                    <h2 className="text-2xl font-serif font-bold">System Settings</h2>
-                    <p className="text-muted-foreground">Manage global application configurations.</p>
+                    <h2 className="text-2xl font-serif font-bold">{t('admin.settings.title')}</h2>
+                    <p className="text-muted-foreground">{t('admin.settings.desc')} </p>
                   </div>
                 </div>
+
 
                 <div className="space-y-6">
                   <div className="flex items-start justify-between p-4 bg-secondary/5 rounded-lg border border-secondary/10">
@@ -959,9 +971,9 @@ const Admin: React.FC = () => {
 
                   <div className="flex items-start justify-between p-4 bg-secondary/5 rounded-lg border border-secondary/10">
                     <div className="space-y-1">
-                      <Label htmlFor="public-profiles" className="text-base font-semibold">Public "All Profiles" Tab</Label>
+                      <Label htmlFor="public-profiles" className="text-base font-semibold">{t('admin.settings.publicProfiles')}</Label>
                       <p className="text-sm text-muted-foreground max-w-md">
-                        Show a public tab listing all active profiles visible to all users.
+                        {t('admin.settings.publicProfilesDesc')}
                       </p>
                     </div>
                     <Switch

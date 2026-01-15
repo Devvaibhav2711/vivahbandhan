@@ -230,7 +230,8 @@ const ViewProfile: React.FC = () => {
                                             <InfoItem label={t('profile.age')} value={`${profile.age} ${t('common.yrs')}`} />
                                             <InfoItem label={t('profile.gender')} value={t(`gender.${profile.gender}`) || profile.gender} />
                                             <InfoItem label={t('profile.height')} value={profile.height} />
-                                            <InfoItem label={t('profile.maritalStatus')} value={t(`marital.${profile.marital_status}`) || profile.marital_status} />
+                                            <InfoItem label={t('profile.height')} value={profile.height} />
+                                            {/* Marital Status Removed */}
                                             <InfoItem label={t('profile.religion')} value={t(`religion.${profile.religion}`) || profile.religion} />
                                             <InfoItem label={t('profile.caste')} value={profile.caste} />
 
@@ -241,14 +242,18 @@ const ViewProfile: React.FC = () => {
                                                 return t(key) === key ? raw : t(key);
                                             })()} />
 
-                                            <InfoItem label={t('register.familyType')} value={t(`family.${profile.family_type}`) || profile.family_type} />
-                                            <InfoItem label={t('profile.income')} value={(() => {
-                                                if (!profile.income) return '-';
-                                                // Try to match key by removing "LPA" and spaces
-                                                // e.g., "5 - 10 LPA" -> "5-10"
-                                                const raw = profile.income.replace(/LPA/i, '').replace(/\s/g, '');
-                                                const key = `income.${raw}`;
-                                                return t(key) === key ? profile.income : t(key);
+                                            <InfoItem label={t('profile.birthTime')} value={(() => {
+                                                const raw = profile.lifestyle ? profile.lifestyle.match(/Birth Time: ([^|]*)/)?.[1]?.trim() : '';
+                                                return raw || '-';
+                                            })()} />
+
+                                            <InfoItem label={t('profile.income')} value={t(`income.${profile.income}`) || profile.income} />
+                                            if (!profile.income) return '-';
+                                            // Try to match key by removing "LPA" and spaces
+                                            // e.g., "5 - 10 LPA" -> "5-10"
+                                            const raw = profile.income.replace(/LPA/i, '').replace(/\s/g, '');
+                                            const key = `income.${raw}`;
+                                            return t(key) === key ? profile.income : t(key);
                                             })()} />
                                         </div>
                                     </div>

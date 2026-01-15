@@ -48,6 +48,10 @@ const Login: React.FC = () => {
             <div className="text-center mb-8">
               <h1 className="font-serif text-3xl md:text-4xl font-bold mb-2">{t('auth.login')}</h1>
               <div className="section-divider mb-4" />
+              <div className="space-y-2 mt-4">
+                <p className="text-lg font-medium text-primary">{t('auth.loginMessage1')}</p>
+                <p className="text-sm text-muted-foreground">{t('auth.loginMessage2')}</p>
+              </div>
             </div>
 
             <div className="card-elegant p-6 md:p-8">

@@ -21,7 +21,7 @@ const Contact: React.FC = () => {
   useEffect(() => {
     if (authLoading) return;
     if (!user) {
-      toast({ title: 'Login Required', description: 'Please login to send a message.' });
+      toast({ title: t('contact.loginRequired'), description: t('contact.loginMsg') });
       navigate('/login');
     }
   }, [user, authLoading, navigate, toast]);

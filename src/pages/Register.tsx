@@ -39,8 +39,8 @@ const Register: React.FC = () => {
     middleName: '',
     lastName: '',
     dob: '',
+    birthTime: '',
     height: '',
-    maritalStatus: '',
     religion: '',
     caste: '',
     rashi: '',
@@ -184,16 +184,15 @@ const Register: React.FC = () => {
         age: calculatedAge.toString(),
         gender: formData.gender,
         height: formData.height,
-        marital_status: formData.maritalStatus,
         education: `${formData.educationLevel} - ${formData.college}`,
         profession: `${formData.profession} at ${formData.company}`,
         income: formData.income,
         religion: formData.religion,
         caste: formData.caste,
         location: `${formData.fullAddress} | ${formData.city}, ${formData.state}`,
-        family_background: `Type: ${formData.familyType}. Father: ${formData.fatherName} (${formData.fatherOccupation}), Father Contact: ${formData.fatherContact}, Mother: ${formData.motherName} (${formData.motherOccupation}), Brothers: ${formData.brotherName || 'None'}, Sisters: ${formData.sisterName || 'None'}, Total Siblings: ${formData.siblings}`,
+        family_background: `Father: ${formData.fatherName} (${formData.fatherOccupation}), Father Contact: ${formData.fatherContact}, Mother: ${formData.motherName} (${formData.motherOccupation}), Brothers: ${formData.brotherName || 'None'}, Sisters: ${formData.sisterName || 'None'}, Total Siblings: ${formData.siblings}`,
         about: formData.about,
-        lifestyle: `Rashi: ${formData.rashi}`,
+        lifestyle: `Rashi: ${formData.rashi} | Birth Time: ${formData.birthTime}`,
         status: 'pending',
         profile_photo: photoUrl
       };
@@ -338,7 +337,7 @@ const Register: React.FC = () => {
                       <Label>{t('register.height')}</Label>
                       <Select onValueChange={(v) => handleChange('height', v)} value={formData.height}>
                         <SelectTrigger className="bg-background">
-                          <SelectValue placeholder="Select Height" />
+                          <SelectValue placeholder={t('common.select')} />
                         </SelectTrigger>
                         <SelectContent>
                           <SelectItem value="4'0&quot;">4'0"</SelectItem>
@@ -381,19 +380,15 @@ const Register: React.FC = () => {
                         </SelectContent>
                       </Select>
                     </div>
-                    <div className="space-y-2" id="field-marital-status">
-                      <Label>{t('register.maritalStatus')}</Label>
-                      <Select onValueChange={(v) => handleChange('maritalStatus', v)}>
-                        <SelectTrigger className="bg-background">
-                          <SelectValue />
-                        </SelectTrigger>
-                        <SelectContent>
-                          <SelectItem value="never">{t('marital.never')}</SelectItem>
-                          <SelectItem value="divorced">{t('marital.divorced')}</SelectItem>
-                          <SelectItem value="widowed">{t('marital.widowed')}</SelectItem>
-                          <SelectItem value="awaiting">{t('marital.awaiting')}</SelectItem>
-                        </SelectContent>
-                      </Select>
+                    <div className="space-y-2">
+                      <Label>{t('register.birthTime')} *</Label>
+                      <Input
+                        type="time"
+                        value={formData.birthTime}
+                        onChange={(e) => handleChange('birthTime', e.target.value)}
+                        required
+                        className="bg-background"
+                      />
                     </div>
 
                     <div className="space-y-2">
@@ -537,16 +532,6 @@ const Register: React.FC = () => {
                     <Users className="w-5 h-5" /> {t('register.familyDetails')}
                   </h2>
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                    <div className="space-y-2">
-                      <Label>{t('register.familyType')}</Label>
-                      <Select onValueChange={(v) => handleChange('familyType', v)}>
-                        <SelectTrigger className="bg-background"><SelectValue /></SelectTrigger>
-                        <SelectContent>
-                          <SelectItem value="nuclear">{t('family.nuclear')}</SelectItem>
-                          <SelectItem value="joint">{t('family.joint')}</SelectItem>
-                        </SelectContent>
-                      </Select>
-                    </div>
                     <div className="space-y-2">
                       <Label>{t('register.fullAddress')} *</Label>
                       <Textarea
