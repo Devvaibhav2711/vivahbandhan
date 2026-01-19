@@ -533,24 +533,84 @@ const Register: React.FC = () => {
                     <MapPin className="w-5 h-5" /> {t('register.location')}
                   </h2>
                   <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-
                     <div className="space-y-2">
                       <Label>{t('register.state')}</Label>
-                      <Input
+                      <Select
                         value={formData.state}
-                        onChange={(e) => handleChange('state', e.target.value)}
-                        required
-                        className="bg-background"
-                      />
+                        onValueChange={(v) => handleChange('state', v)}
+                      >
+                        <SelectTrigger className="bg-background">
+                          <SelectValue placeholder={t('common.select')} />
+                        </SelectTrigger>
+                        <SelectContent>
+                          <SelectItem value="mh">{t('state.mh')}</SelectItem>
+                          <SelectItem value="ka">{t('state.ka')}</SelectItem>
+                          <SelectItem value="ga">{t('state.ga')}</SelectItem>
+                          <SelectItem value="gj">{t('state.gj')}</SelectItem>
+                          <SelectItem value="mp">{t('state.mp')}</SelectItem>
+                          <SelectItem value="tg">{t('state.tg')}</SelectItem>
+                          <SelectItem value="other">{t('state.other')}</SelectItem>
+                        </SelectContent>
+                      </Select>
                     </div>
                     <div className="space-y-2">
                       <Label>{t('register.city')}</Label>
-                      <Input
-                        value={formData.city}
-                        onChange={(e) => handleChange('city', e.target.value)}
-                        required
-                        className="bg-background"
-                      />
+                      {formData.state === 'mh' ? (
+                        <Select
+                          value={formData.city}
+                          onValueChange={(v) => handleChange('city', v)}
+                        >
+                          <SelectTrigger className="bg-background">
+                            <SelectValue placeholder={t('common.select')} />
+                          </SelectTrigger>
+                          <SelectContent>
+                            <SelectItem value="ahmednagar">{t('city.ahmednagar')}</SelectItem>
+                            <SelectItem value="akola">{t('city.akola')}</SelectItem>
+                            <SelectItem value="amravati">{t('city.amravati')}</SelectItem>
+                            <SelectItem value="aurangabad">{t('city.aurangabad')}</SelectItem>
+                            <SelectItem value="beed">{t('city.beed')}</SelectItem>
+                            <SelectItem value="bhandara">{t('city.bhandara')}</SelectItem>
+                            <SelectItem value="buldhana">{t('city.buldhana')}</SelectItem>
+                            <SelectItem value="chandrapur">{t('city.chandrapur')}</SelectItem>
+                            <SelectItem value="dhule">{t('city.dhule')}</SelectItem>
+                            <SelectItem value="gadchiroli">{t('city.gadchiroli')}</SelectItem>
+                            <SelectItem value="gondia">{t('city.gondia')}</SelectItem>
+                            <SelectItem value="hingoli">{t('city.hingoli')}</SelectItem>
+                            <SelectItem value="jalgaon">{t('city.jalgaon')}</SelectItem>
+                            <SelectItem value="jalna">{t('city.jalna')}</SelectItem>
+                            <SelectItem value="kolhapur">{t('city.kolhapur')}</SelectItem>
+                            <SelectItem value="latur">{t('city.latur')}</SelectItem>
+                            <SelectItem value="mumbai">{t('city.mumbai')}</SelectItem>
+                            <SelectItem value="nagpur">{t('city.nagpur')}</SelectItem>
+                            <SelectItem value="nanded">{t('city.nanded')}</SelectItem>
+                            <SelectItem value="nandurbar">{t('city.nandurbar')}</SelectItem>
+                            <SelectItem value="nashik">{t('city.nashik')}</SelectItem>
+                            <SelectItem value="osmanabad">{t('city.osmanabad')}</SelectItem>
+                            <SelectItem value="palghar">{t('city.palghar')}</SelectItem>
+                            <SelectItem value="parbhani">{t('city.parbhani')}</SelectItem>
+                            <SelectItem value="pune">{t('city.pune')}</SelectItem>
+                            <SelectItem value="raigad">{t('city.raigad')}</SelectItem>
+                            <SelectItem value="ratnagiri">{t('city.ratnagiri')}</SelectItem>
+                            <SelectItem value="sangli">{t('city.sangli')}</SelectItem>
+                            <SelectItem value="satara">{t('city.satara')}</SelectItem>
+                            <SelectItem value="sindhudurg">{t('city.sindhudurg')}</SelectItem>
+                            <SelectItem value="solapur">{t('city.solapur')}</SelectItem>
+                            <SelectItem value="thane">{t('city.thane')}</SelectItem>
+                            <SelectItem value="wardha">{t('city.wardha')}</SelectItem>
+                            <SelectItem value="washim">{t('city.washim')}</SelectItem>
+                            <SelectItem value="yavatmal">{t('city.yavatmal')}</SelectItem>
+                            <SelectItem value="other">{t('city.other')}</SelectItem>
+                          </SelectContent>
+                        </Select>
+                      ) : (
+                        <Input
+                          value={formData.city}
+                          onChange={(e) => handleChange('city', e.target.value)}
+                          required
+                          className="bg-background"
+                          placeholder={t('register.city')}
+                        />
+                      )}
                     </div>
                   </div>
                 </div>
@@ -583,12 +643,21 @@ const Register: React.FC = () => {
                     </div>
                     <div className="space-y-2">
                       <Label>{t('register.fatherOcc')} *</Label>
-                      <Input
+                      <Select
                         value={formData.fatherOccupation}
-                        onChange={(e) => handleChange('fatherOccupation', e.target.value)}
-                        required
-                        className="bg-background"
-                      />
+                        onValueChange={(v) => handleChange('fatherOccupation', v)}
+                      >
+                        <SelectTrigger className="bg-background">
+                          <SelectValue placeholder={t('common.select')} />
+                        </SelectTrigger>
+                        <SelectContent>
+                          <SelectItem value="teacher">{t('prof.teacher')}</SelectItem>
+                          <SelectItem value="government">{t('prof.govServant')}</SelectItem>
+                          <SelectItem value="farmer">{t('prof.farmer')}</SelectItem>
+                          <SelectItem value="business">{t('prof.business')}</SelectItem>
+                          <SelectItem value="other">{t('prof.other')}</SelectItem>
+                        </SelectContent>
+                      </Select>
                     </div>
                   </div>
 
@@ -620,12 +689,21 @@ const Register: React.FC = () => {
                     </div>
                     <div className="space-y-2">
                       <Label>{t('register.motherOcc')} *</Label>
-                      <Input
+                      <Select
                         value={formData.motherOccupation}
-                        onChange={(e) => handleChange('motherOccupation', e.target.value)}
-                        required
-                        className="bg-background"
-                      />
+                        onValueChange={(v) => handleChange('motherOccupation', v)}
+                      >
+                        <SelectTrigger className="bg-background">
+                          <SelectValue placeholder={t('common.select')} />
+                        </SelectTrigger>
+                        <SelectContent>
+                          <SelectItem value="housewife">{t('prof.housewife')}</SelectItem>
+                          <SelectItem value="teacher">{t('prof.teacher')}</SelectItem>
+                          <SelectItem value="government">{t('prof.govServant')}</SelectItem>
+                          <SelectItem value="business">{t('prof.business')}</SelectItem>
+                          <SelectItem value="other">{t('prof.other')}</SelectItem>
+                        </SelectContent>
+                      </Select>
                     </div>
                   </div>
 
@@ -652,22 +730,21 @@ const Register: React.FC = () => {
                     </Select>
                   </div>
 
-                  {/* Dynamic Sibling Name Inputs */}
+                  {/* Dynamic Sibling Inputs */}
                   {parseInt(formData.siblings) > 0 && (
-                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4 animate-in fade-in slide-in-from-top-4 duration-300">
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4 animate-fade-in">
                       {Array.from({ length: parseInt(formData.siblings) }).map((_, index) => (
                         <div key={index} className="space-y-2">
-                          <Label>Sibling {index + 1} Name</Label>
+                          <Label>{t('register.siblingLabel')} {index + 1}</Label>
                           <Input
+                            placeholder={`${t('register.siblingPlaceholder')} ${index + 1}`}
                             value={formData.siblingNames?.[index] || ''}
                             onChange={(e) => {
                               const newNames = [...(formData.siblingNames || [])];
                               newNames[index] = e.target.value;
                               setFormData(prev => ({ ...prev, siblingNames: newNames }));
                             }}
-                            placeholder={`Enter sibling ${index + 1} name`}
                             className="bg-background"
-                            required
                           />
                         </div>
                       ))}

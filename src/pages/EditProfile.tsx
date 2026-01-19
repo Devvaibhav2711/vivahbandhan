@@ -57,11 +57,12 @@ const EditProfile: React.FC = () => {
         college: '',
         profession: '',
         company: '',
-
+        country: '',
         state: '',
         city: '',
-        familyType: '',
-        familyValues: '',
+        fatherName: '',
+        fatherContact: '',
+        motherName: '',
         fatherOccupation: '',
         motherOccupation: '',
 
@@ -90,13 +91,38 @@ const EditProfile: React.FC = () => {
     // Helper to parse Family Background
     const parseFamily = (str: string) => {
         if (!str) return {};
-        // Expected format NEW: "..., Siblings: Name1, Name2 (Total: 2)"
-        // OR OLD: "..., Siblings: 2" or "..., Brothers: ..., Sisters: ..., Total Siblings: ..."
 
-        const type = str.match(/Type: ([^,]*)/)?.[1]?.trim() || '';
-        const values = str.match(/Values: ([^.]*)/)?.[1]?.trim() || '';
-        const father = str.match(/Father: ([^,]*)/)?.[1]?.trim() || '';
-        const mother = str.match(/Mother: ([^,]*)/)?.[1]?.trim() || '';
+        // 1. Father (Format: "Father: Name (Occupation)" OR Old: "Father: Occupation")
+        let fatherName = '';
+        let fatherOccupation = '';
+        const fatherFullMatch = str.match(/Father: (.*?) \((.*?)\)/);
+        if (fatherFullMatch) {
+            fatherName = fatherFullMatch[1];
+            fatherOccupation = fatherFullMatch[2];
+        } else {
+            // Fallback (careful not to match "Father Contact")
+            // Regex lookahead or just assume comma separated?
+            // Old format doesn't have parens usually.
+            // "Father: Teacher, Mother: ..."
+            const oldFather = str.match(/Father: ([^,]*)/)?.[1]?.trim();
+            if (oldFather && !oldFather.includes('Contact')) {
+                fatherOccupation = oldFather;
+            }
+        }
+
+        const fatherContact = str.match(/Father Contact: ([^,]*)/)?.[1]?.trim() || '';
+
+        // 2. Mother
+        let motherName = '';
+        let motherOccupation = '';
+        const motherFullMatch = str.match(/Mother: (.*?) \((.*?)\)/);
+        if (motherFullMatch) {
+            motherName = motherFullMatch[1];
+            motherOccupation = motherFullMatch[2];
+        } else {
+            const oldMother = str.match(/Mother: ([^,]*)/)?.[1]?.trim();
+            if (oldMother) motherOccupation = oldMother;
+        }
 
         // Extract Sibling Info
         let siblingsCount = '0';
@@ -111,12 +137,11 @@ const EditProfile: React.FC = () => {
                 siblingNames = namesStr.split(',').map(s => s.trim());
             }
         } else {
-            // Fallback to simple "Siblings: 2" pattern or just generic text
+            // Fallback parsing
             const simpleMatch = str.match(/Siblings: (\d+)/);
             if (simpleMatch) {
                 siblingsCount = simpleMatch[1];
             }
-            // If old register format "Total Siblings: X"
             const oldRegisterMatch = str.match(/Total Siblings: (\d+)/);
             if (oldRegisterMatch) {
                 siblingsCount = oldRegisterMatch[1];
@@ -130,7 +155,7 @@ const EditProfile: React.FC = () => {
             siblingNames = [...siblingNames, ...Array(diff).fill('')];
         }
 
-        return { type, values, father, mother, siblings: siblingsCount, siblingNames };
+        return { fatherName, fatherOccupation, fatherContact, motherName, motherOccupation, siblings: siblingsCount, siblingNames };
     };
 
     // Helper to parse Education
@@ -218,13 +243,15 @@ const EditProfile: React.FC = () => {
                     college: edu.college || '',
                     profession: job.prof || '',
                     company: job.comp || '',
+                    country: loc.country || '',
                     birthPlace: bpVal,
                     state: loc.state || '',
                     city: loc.city || '',
-                    familyType: family.type || '',
-                    familyValues: family.values || '',
-                    fatherOccupation: family.father || '',
-                    motherOccupation: family.mother || '',
+                    fatherName: family.fatherName || '',
+                    fatherContact: family.fatherContact || '',
+                    motherName: family.motherName || '',
+                    fatherOccupation: family.fatherOccupation || '',
+                    motherOccupation: family.motherOccupation || '',
 
                     siblings: family.siblings || '0',
                     siblingNames: family.siblingNames || [],
@@ -334,8 +361,8 @@ const EditProfile: React.FC = () => {
                 income: '',
                 religion: formData.religion,
                 caste: formData.caste,
-                location: `${formData.city}, ${formData.state}`,
-                family_background: `Type: ${formData.familyType}, Values: ${formData.familyValues}. Father: ${formData.fatherOccupation}, Mother: ${formData.motherOccupation}, Siblings: ${formData.siblingNames?.filter(n => n).join(', ') || 'None'} (Total: ${formData.siblings})`,
+                location: `${formData.city}, ${formData.state}${formData.country ? ', ' + formData.country : ''}`,
+                family_background: `Father: ${formData.fatherName} (${formData.fatherOccupation}), Father Contact: ${formData.fatherContact}, Mother: ${formData.motherName} (${formData.motherOccupation}), Siblings: ${formData.siblingNames?.filter(n => n).join(', ') || 'None'} (Total: ${formData.siblings})`,
                 about: formData.about,
                 lifestyle: `Rashi: ${formData.rashi} | Birth Time: ${formData.birthTime} | Birth Place: ${formData.birthPlace}`,
                 profile_photo: photoUrl
@@ -428,6 +455,75 @@ const EditProfile: React.FC = () => {
                                                     <SelectItem value="female">{t('gender.female')}</SelectItem>
                                                 </SelectContent>
                                             </Select>
+                                        </div>
+                                        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+                                            <div className="space-y-2">
+                                                <Label>{t('register.location')}</Label>
+                                                <Input value={formData.country} onChange={(e) => handleChange('country', e.target.value)} />
+                                            </div>
+                                            <div className="space-y-2">
+                                                <Label>{t('register.state')}</Label>
+                                                <Select value={formData.state} onValueChange={(v) => handleChange('state', v)}>
+                                                    <SelectTrigger><SelectValue placeholder={t('common.select') || "Select"} /></SelectTrigger>
+                                                    <SelectContent>
+                                                        <SelectItem value="mh">{t('state.mh')}</SelectItem>
+                                                        <SelectItem value="ka">{t('state.ka')}</SelectItem>
+                                                        <SelectItem value="ga">{t('state.ga')}</SelectItem>
+                                                        <SelectItem value="gj">{t('state.gj')}</SelectItem>
+                                                        <SelectItem value="mp">{t('state.mp')}</SelectItem>
+                                                        <SelectItem value="tg">{t('state.tg')}</SelectItem>
+                                                        <SelectItem value="other">{t('state.other')}</SelectItem>
+                                                    </SelectContent>
+                                                </Select>
+                                            </div>
+                                            <div className="space-y-2">
+                                                <Label>{t('register.city')}</Label>
+                                                {formData.state === 'mh' ? (
+                                                    <Select value={formData.city} onValueChange={(v) => handleChange('city', v)}>
+                                                        <SelectTrigger><SelectValue placeholder={t('common.select') || "Select"} /></SelectTrigger>
+                                                        <SelectContent>
+                                                            <SelectItem value="ahmednagar">{t('city.ahmednagar')}</SelectItem>
+                                                            <SelectItem value="akola">{t('city.akola')}</SelectItem>
+                                                            <SelectItem value="amravati">{t('city.amravati')}</SelectItem>
+                                                            <SelectItem value="aurangabad">{t('city.aurangabad')}</SelectItem>
+                                                            <SelectItem value="beed">{t('city.beed')}</SelectItem>
+                                                            <SelectItem value="bhandara">{t('city.bhandara')}</SelectItem>
+                                                            <SelectItem value="buldhana">{t('city.buldhana')}</SelectItem>
+                                                            <SelectItem value="chandrapur">{t('city.chandrapur')}</SelectItem>
+                                                            <SelectItem value="dhule">{t('city.dhule')}</SelectItem>
+                                                            <SelectItem value="gadchiroli">{t('city.gadchiroli')}</SelectItem>
+                                                            <SelectItem value="gondia">{t('city.gondia')}</SelectItem>
+                                                            <SelectItem value="hingoli">{t('city.hingoli')}</SelectItem>
+                                                            <SelectItem value="jalgaon">{t('city.jalgaon')}</SelectItem>
+                                                            <SelectItem value="jalna">{t('city.jalna')}</SelectItem>
+                                                            <SelectItem value="kolhapur">{t('city.kolhapur')}</SelectItem>
+                                                            <SelectItem value="latur">{t('city.latur')}</SelectItem>
+                                                            <SelectItem value="mumbai">{t('city.mumbai')}</SelectItem>
+                                                            <SelectItem value="nagpur">{t('city.nagpur')}</SelectItem>
+                                                            <SelectItem value="nanded">{t('city.nanded')}</SelectItem>
+                                                            <SelectItem value="nandurbar">{t('city.nandurbar')}</SelectItem>
+                                                            <SelectItem value="nashik">{t('city.nashik')}</SelectItem>
+                                                            <SelectItem value="osmanabad">{t('city.osmanabad')}</SelectItem>
+                                                            <SelectItem value="palghar">{t('city.palghar')}</SelectItem>
+                                                            <SelectItem value="parbhani">{t('city.parbhani')}</SelectItem>
+                                                            <SelectItem value="pune">{t('city.pune')}</SelectItem>
+                                                            <SelectItem value="raigad">{t('city.raigad')}</SelectItem>
+                                                            <SelectItem value="ratnagiri">{t('city.ratnagiri')}</SelectItem>
+                                                            <SelectItem value="sangli">{t('city.sangli')}</SelectItem>
+                                                            <SelectItem value="satara">{t('city.satara')}</SelectItem>
+                                                            <SelectItem value="sindhudurg">{t('city.sindhudurg')}</SelectItem>
+                                                            <SelectItem value="solapur">{t('city.solapur')}</SelectItem>
+                                                            <SelectItem value="thane">{t('city.thane')}</SelectItem>
+                                                            <SelectItem value="wardha">{t('city.wardha')}</SelectItem>
+                                                            <SelectItem value="washim">{t('city.washim')}</SelectItem>
+                                                            <SelectItem value="yavatmal">{t('city.yavatmal')}</SelectItem>
+                                                            <SelectItem value="other">{t('city.other')}</SelectItem>
+                                                        </SelectContent>
+                                                    </Select>
+                                                ) : (
+                                                    <Input value={formData.city} onChange={(e) => handleChange('city', e.target.value)} placeholder={t('register.city')} />
+                                                )}
+                                            </div>
                                         </div>
                                         <div className="space-y-2">
                                             <Label>{t('register.firstName')}</Label>
@@ -576,36 +672,48 @@ const EditProfile: React.FC = () => {
                                     </h2>
                                     <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                                         <div className="space-y-2">
-                                            <Label>{t('register.familyType')}</Label>
-                                            <Select value={formData.familyType} onValueChange={(v) => handleChange('familyType', v)}>
-                                                <SelectTrigger><SelectValue placeholder={t('common.select') || "Select"} /></SelectTrigger>
-                                                <SelectContent>
-                                                    <SelectItem value="nuclear">{t('family.nuclear')}</SelectItem>
-                                                    <SelectItem value="joint">{t('family.joint')}</SelectItem>
-                                                </SelectContent>
-                                            </Select>
+                                            <Label>{t('register.fatherName')}</Label>
+                                            <Input value={formData.fatherName} onChange={(e) => handleChange('fatherName', e.target.value)} />
                                         </div>
                                         <div className="space-y-2">
-                                            <Label>{t('register.familyValues')}</Label>
-                                            <Select value={formData.familyValues} onValueChange={(v) => handleChange('familyValues', v)}>
+                                            <Label>{t('register.fatherOcc')}</Label>
+                                            <Select value={formData.fatherOccupation} onValueChange={(v) => handleChange('fatherOccupation', v)}>
                                                 <SelectTrigger><SelectValue placeholder={t('common.select') || "Select"} /></SelectTrigger>
                                                 <SelectContent>
-                                                    <SelectItem value="orthodox">Orthodox</SelectItem>
-                                                    <SelectItem value="traditional">Traditional</SelectItem>
-                                                    <SelectItem value="moderate">Moderate</SelectItem>
-                                                    <SelectItem value="liberal">Liberal</SelectItem>
+                                                    <SelectItem value="teacher">{t('prof.teacher')}</SelectItem>
+                                                    <SelectItem value="government">{t('prof.govServant')}</SelectItem>
+                                                    <SelectItem value="farmer">{t('prof.farmer')}</SelectItem>
+                                                    <SelectItem value="business">{t('prof.business')}</SelectItem>
+                                                    <SelectItem value="other">{t('prof.other')}</SelectItem>
                                                 </SelectContent>
                                             </Select>
                                         </div>
                                     </div>
+
                                     <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                                         <div className="space-y-2">
-                                            <Label>{t('register.fatherOcc')}</Label>
-                                            <Input value={formData.fatherOccupation} onChange={(e) => handleChange('fatherOccupation', e.target.value)} />
+                                            <Label>Father Contact</Label>
+                                            <Input value={formData.fatherContact} onChange={(e) => handleChange('fatherContact', e.target.value)} />
+                                        </div>
+                                    </div>
+
+                                    <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                                        <div className="space-y-2">
+                                            <Label>{t('register.motherName')}</Label>
+                                            <Input value={formData.motherName} onChange={(e) => handleChange('motherName', e.target.value)} />
                                         </div>
                                         <div className="space-y-2">
                                             <Label>{t('register.motherOcc')}</Label>
-                                            <Input value={formData.motherOccupation} onChange={(e) => handleChange('motherOccupation', e.target.value)} />
+                                            <Select value={formData.motherOccupation} onValueChange={(v) => handleChange('motherOccupation', v)}>
+                                                <SelectTrigger><SelectValue placeholder={t('common.select') || "Select"} /></SelectTrigger>
+                                                <SelectContent>
+                                                    <SelectItem value="housewife">{t('prof.housewife')}</SelectItem>
+                                                    <SelectItem value="teacher">{t('prof.teacher')}</SelectItem>
+                                                    <SelectItem value="government">{t('prof.govServant')}</SelectItem>
+                                                    <SelectItem value="business">{t('prof.business')}</SelectItem>
+                                                    <SelectItem value="other">{t('prof.other')}</SelectItem>
+                                                </SelectContent>
+                                            </Select>
                                         </div>
                                     </div>
                                     <div className="space-y-4">
@@ -632,7 +740,7 @@ const EditProfile: React.FC = () => {
                                             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                                                 {Array.from({ length: parseInt(formData.siblings) }).map((_, index) => (
                                                     <div key={index} className="space-y-2">
-                                                        <Label>Sibling {index + 1} Name</Label>
+                                                        <Label>{t('register.siblingLabel')} {index + 1}</Label>
                                                         <Input
                                                             value={formData.siblingNames?.[index] || ''}
                                                             onChange={(e) => {
@@ -640,7 +748,7 @@ const EditProfile: React.FC = () => {
                                                                 newNames[index] = e.target.value;
                                                                 setFormData(prev => ({ ...prev, siblingNames: newNames }));
                                                             }}
-                                                            placeholder={`Name`}
+                                                            placeholder={`${t('register.siblingPlaceholder')} ${index + 1}`}
                                                         />
                                                     </div>
                                                 ))}

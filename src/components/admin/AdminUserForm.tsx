@@ -459,11 +459,66 @@ const AdminUserForm: React.FC = () => {
 
                         <div className="space-y-2">
                             <Label>{t('register.state')}</Label>
-                            <Input value={formData.state} onChange={(e) => handleChange('state', e.target.value)} />
+                            <Select value={formData.state} onValueChange={(v) => handleChange('state', v)}>
+                                <SelectTrigger><SelectValue placeholder={t('common.select')} /></SelectTrigger>
+                                <SelectContent>
+                                    <SelectItem value="mh">{t('state.mh')}</SelectItem>
+                                    <SelectItem value="ka">{t('state.ka')}</SelectItem>
+                                    <SelectItem value="ga">{t('state.ga')}</SelectItem>
+                                    <SelectItem value="gj">{t('state.gj')}</SelectItem>
+                                    <SelectItem value="mp">{t('state.mp')}</SelectItem>
+                                    <SelectItem value="tg">{t('state.tg')}</SelectItem>
+                                    <SelectItem value="other">{t('state.other')}</SelectItem>
+                                </SelectContent>
+                            </Select>
                         </div>
                         <div className="space-y-2">
                             <Label>{t('register.city')}</Label>
-                            <Input value={formData.city} onChange={(e) => handleChange('city', e.target.value)} />
+                            {formData.state === 'mh' ? (
+                                <Select value={formData.city} onValueChange={(v) => handleChange('city', v)}>
+                                    <SelectTrigger><SelectValue placeholder={t('common.select')} /></SelectTrigger>
+                                    <SelectContent>
+                                        <SelectItem value="ahmednagar">{t('city.ahmednagar')}</SelectItem>
+                                        <SelectItem value="akola">{t('city.akola')}</SelectItem>
+                                        <SelectItem value="amravati">{t('city.amravati')}</SelectItem>
+                                        <SelectItem value="aurangabad">{t('city.aurangabad')}</SelectItem>
+                                        <SelectItem value="beed">{t('city.beed')}</SelectItem>
+                                        <SelectItem value="bhandara">{t('city.bhandara')}</SelectItem>
+                                        <SelectItem value="buldhana">{t('city.buldhana')}</SelectItem>
+                                        <SelectItem value="chandrapur">{t('city.chandrapur')}</SelectItem>
+                                        <SelectItem value="dhule">{t('city.dhule')}</SelectItem>
+                                        <SelectItem value="gadchiroli">{t('city.gadchiroli')}</SelectItem>
+                                        <SelectItem value="gondia">{t('city.gondia')}</SelectItem>
+                                        <SelectItem value="hingoli">{t('city.hingoli')}</SelectItem>
+                                        <SelectItem value="jalgaon">{t('city.jalgaon')}</SelectItem>
+                                        <SelectItem value="jalna">{t('city.jalna')}</SelectItem>
+                                        <SelectItem value="kolhapur">{t('city.kolhapur')}</SelectItem>
+                                        <SelectItem value="latur">{t('city.latur')}</SelectItem>
+                                        <SelectItem value="mumbai">{t('city.mumbai')}</SelectItem>
+                                        <SelectItem value="nagpur">{t('city.nagpur')}</SelectItem>
+                                        <SelectItem value="nanded">{t('city.nanded')}</SelectItem>
+                                        <SelectItem value="nandurbar">{t('city.nandurbar')}</SelectItem>
+                                        <SelectItem value="nashik">{t('city.nashik')}</SelectItem>
+                                        <SelectItem value="osmanabad">{t('city.osmanabad')}</SelectItem>
+                                        <SelectItem value="palghar">{t('city.palghar')}</SelectItem>
+                                        <SelectItem value="parbhani">{t('city.parbhani')}</SelectItem>
+                                        <SelectItem value="pune">{t('city.pune')}</SelectItem>
+                                        <SelectItem value="raigad">{t('city.raigad')}</SelectItem>
+                                        <SelectItem value="ratnagiri">{t('city.ratnagiri')}</SelectItem>
+                                        <SelectItem value="sangli">{t('city.sangli')}</SelectItem>
+                                        <SelectItem value="satara">{t('city.satara')}</SelectItem>
+                                        <SelectItem value="sindhudurg">{t('city.sindhudurg')}</SelectItem>
+                                        <SelectItem value="solapur">{t('city.solapur')}</SelectItem>
+                                        <SelectItem value="thane">{t('city.thane')}</SelectItem>
+                                        <SelectItem value="wardha">{t('city.wardha')}</SelectItem>
+                                        <SelectItem value="washim">{t('city.washim')}</SelectItem>
+                                        <SelectItem value="yavatmal">{t('city.yavatmal')}</SelectItem>
+                                        <SelectItem value="other">{t('city.other')}</SelectItem>
+                                    </SelectContent>
+                                </Select>
+                            ) : (
+                                <Input value={formData.city} onChange={(e) => handleChange('city', e.target.value)} />
+                            )}
                         </div>
                     </div>
                 </div>
@@ -492,7 +547,16 @@ const AdminUserForm: React.FC = () => {
                         </div>
                         <div className="space-y-2">
                             <Label>{t('register.fatherOcc')} *</Label>
-                            <Input value={formData.fatherOccupation} onChange={(e) => handleChange('fatherOccupation', e.target.value)} required />
+                            <Select value={formData.fatherOccupation} onValueChange={(v) => handleChange('fatherOccupation', v)}>
+                                <SelectTrigger><SelectValue placeholder={t('common.select')} /></SelectTrigger>
+                                <SelectContent>
+                                    <SelectItem value="teacher">{t('prof.teacher')}</SelectItem>
+                                    <SelectItem value="government">{t('prof.govServant')}</SelectItem>
+                                    <SelectItem value="farmer">{t('prof.farmer')}</SelectItem>
+                                    <SelectItem value="business">{t('prof.business')}</SelectItem>
+                                    <SelectItem value="other">{t('prof.other')}</SelectItem>
+                                </SelectContent>
+                            </Select>
                         </div>
                     </div>
                     <div className="space-y-2">
@@ -516,7 +580,16 @@ const AdminUserForm: React.FC = () => {
                         </div>
                         <div className="space-y-2">
                             <Label>{t('register.motherOcc')} *</Label>
-                            <Input value={formData.motherOccupation} onChange={(e) => handleChange('motherOccupation', e.target.value)} required />
+                            <Select value={formData.motherOccupation} onValueChange={(v) => handleChange('motherOccupation', v)}>
+                                <SelectTrigger><SelectValue placeholder={t('common.select')} /></SelectTrigger>
+                                <SelectContent>
+                                    <SelectItem value="housewife">{t('prof.housewife')}</SelectItem>
+                                    <SelectItem value="teacher">{t('prof.teacher')}</SelectItem>
+                                    <SelectItem value="government">{t('prof.govServant')}</SelectItem>
+                                    <SelectItem value="business">{t('prof.business')}</SelectItem>
+                                    <SelectItem value="other">{t('prof.other')}</SelectItem>
+                                </SelectContent>
+                            </Select>
                         </div>
                     </div>
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-6">

@@ -436,6 +436,56 @@ export const translations: Translations = {
   'prof.farming': { en: 'Farming/Agriculture', hi: 'खेती/कृषि', mr: 'शेती' },
   'prof.notWorking': { en: 'Not Working', hi: 'काम नहीं कर रहे', mr: 'काहीही करत नाही' },
   'prof.other': { en: 'Other', hi: 'अन्य', mr: 'इतर' },
+  'state.mh': { en: 'Maharashtra', hi: 'महाराष्ट्र', mr: 'महाराष्ट्र' },
+  'state.ka': { en: 'Karnataka', hi: 'कर्नाटक', mr: 'कर्नाटक' },
+  'state.ga': { en: 'Goa', hi: 'गोवा', mr: 'गोवा' },
+  'state.gj': { en: 'Gujarat', hi: 'गुजरात', mr: 'गुजरात' },
+  'state.mp': { en: 'Madhya Pradesh', hi: 'मध्य प्रदेश', mr: 'मध्य प्रदेश' },
+  'state.tg': { en: 'Telangana', hi: 'तेलंगाना', mr: 'तेलंगणा' },
+  'state.other': { en: 'Other', hi: 'अन्य', mr: 'इतर' },
+
+  'city.ahmednagar': { en: 'Ahmednagar', hi: 'अहमदनगर', mr: 'अहमदनगर' },
+  'city.akola': { en: 'Akola', hi: 'अकोला', mr: 'अकोला' },
+  'city.amravati': { en: 'Amravati', hi: 'अमरावती', mr: 'अमरावती' },
+  'city.aurangabad': { en: 'Chhatrapati Sambhajinagar', hi: 'छत्रपति संभाजीनगर', mr: 'छत्रपती संभाजीनगर' },
+  'city.beed': { en: 'Beed', hi: 'बीड', mr: 'बीड' },
+  'city.bhandara': { en: 'Bhandara', hi: 'भंडारा', mr: 'भंडारा' },
+  'city.buldhana': { en: 'Buldhana', hi: 'बुलढाणा', mr: 'बुलढाणा' },
+  'city.chandrapur': { en: 'Chandrapur', hi: 'चंद्रपुर', mr: 'चंद्रपूर' },
+  'city.dhule': { en: 'Dhule', hi: 'धुले', mr: 'धुळे' },
+  'city.gadchiroli': { en: 'Gadchiroli', hi: 'गढ़चिरौली', mr: 'गडचिरोली' },
+  'city.gondia': { en: 'Gondia', hi: 'गोंदिया', mr: 'गोंदिया' },
+  'city.hingoli': { en: 'Hingoli', hi: 'हिंगोली', mr: 'हिंगोली' },
+  'city.jalgaon': { en: 'Jalgaon', hi: 'जलगांव', mr: 'जळगाव' },
+  'city.jalna': { en: 'Jalna', hi: 'जालना', mr: 'जालना' },
+  'city.kolhapur': { en: 'Kolhapur', hi: 'कोल्हापुर', mr: 'कोल्हापूर' },
+  'city.latur': { en: 'Latur', hi: 'लातूर', mr: 'लातूर' },
+  'city.mumbai': { en: 'Mumbai', hi: 'मुंबई', mr: 'मुंबई' },
+  'city.nagpur': { en: 'Nagpur', hi: 'नागपुर', mr: 'नागपूर' },
+  'city.nanded': { en: 'Nanded', hi: 'नांदेड़', mr: 'नांदेड' },
+  'city.nandurbar': { en: 'Nandurbar', hi: 'नंदुरबार', mr: 'नंदुरबार' },
+  'city.nashik': { en: 'Nashik', hi: 'नासिक', mr: 'नाशिक' },
+  'city.osmanabad': { en: 'Dharashiv (Osmanabad)', hi: 'धाराशिव', mr: 'धाराशिव (उस्मानाबाद)' },
+  'city.palghar': { en: 'Palghar', hi: 'पालघर', mr: 'पालघर' },
+  'city.parbhani': { en: 'Parbhani', hi: 'परभणी', mr: 'परभणी' },
+  'city.pune': { en: 'Pune', hi: 'पुणे', mr: 'पुणे' },
+  'city.raigad': { en: 'Raigad', hi: 'रायगढ़', mr: 'रायगड' },
+  'city.ratnagiri': { en: 'Ratnagiri', hi: 'रत्नागिरी', mr: 'रत्नागिरी' },
+  'city.sangli': { en: 'Sangli', hi: 'सांगली', mr: 'सांगली' },
+  'city.satara': { en: 'Satara', hi: 'सतारा', mr: 'सातारा' },
+  'city.sindhudurg': { en: 'Sindhudurg', hi: ' सिंधुदुर्ग', mr: 'सिंधुदुर्ग' },
+  'city.solapur': { en: 'Solapur', hi: 'सोलापुर', mr: 'सोलापूर' },
+  'city.thane': { en: 'Thane', hi: 'ठाणे', mr: 'ठाणे' },
+  'city.wardha': { en: 'Wardha', hi: 'वर्धा', mr: 'वर्धा' },
+  'city.washim': { en: 'Washim', hi: 'वाशिम', mr: 'वाशिम' },
+  'city.yavatmal': { en: 'Yavatmal', hi: 'यवतमाल', mr: 'यवतमाळ' },
+  'city.other': { en: 'Other', hi: 'अन्य', mr: 'इतर' },
+  'prof.teacher': { en: 'Teacher', hi: 'शिक्षक', mr: 'शिक्षक' },
+  'prof.govServant': { en: 'Government Servant', hi: 'सरकारी नौकर', mr: 'सरकारी नोकरी' },
+  'prof.farmer': { en: 'Farmer', hi: 'किसान', mr: 'शेतकरी' },
+  'prof.housewife': { en: 'Housewife', hi: 'गृहिणी', mr: 'गृहिणी' },
+  'register.siblingLabel': { en: 'Sibling Name', hi: 'भाई-बहन का नाम', mr: 'भावंडाचे नाव' },
+  'register.siblingPlaceholder': { en: 'Enter sibling name', hi: 'भाई-बहन का नाम दर्ज करें', mr: 'भावंडाचे नाव लिहा' },
 
   // About Page
   'about.mission.title': { en: 'Our Mission', hi: 'हमारा मिशन', mr: 'आमचे स्वप्न' },
@@ -468,6 +518,90 @@ export const translations: Translations = {
   'family.father': { en: 'Father', hi: 'पिता', mr: 'वडील' },
   'family.mother': { en: 'Mother', hi: 'माता', mr: 'आई' },
   'family.siblings': { en: 'Siblings', hi: 'भाई-बहन', mr: 'भावंडे' },
+  'family.siblingsCount': { en: 'Number of Siblings', hi: 'भाई-बहनों की संख्या', mr: 'भावंडांची संख्या' },
+  // Terms & Conditions
+  'terms.title': { en: 'Terms and Conditions', hi: 'नियम और शर्तें', mr: 'नियम आणि अटी' },
+  'terms.serviceNature.title': { en: '1. Nature of Service', hi: '1. सेवा का स्वरूप', mr: '१. सेवेचे स्वरूप' },
+  'terms.serviceNature.desc': {
+    en: 'This platform is intended solely for connecting brides, grooms, and their families. We do not guarantee marriage or finding a partner.',
+    hi: 'यह मंच केवल वधू, वर और उनके परिवारों को जोड़ने के लिए है। हम शादी या साथी मिलने की गारंटी नहीं देते हैं।',
+    mr: 'हे प्लॅटफॉर्म फक्त उपवर-वधू आणि त्यांच्या परिवाराची गाठ घालून देण्यासाठी आहे. लग्न होईलच किंवा जोडीदार पटेलच, याची आम्ही खात्री (गॅरंटी) देत नाही.'
+  },
+  'terms.profileReg.title': { en: '2. Profile Registration', hi: '2. प्रोफाइल पंजीकरण', mr: '२. प्रोफाईल नोंदणी' },
+  'terms.profileReg.desc': {
+    en: 'Registration or profile creation is completely free. However, it is your responsibility to ensure all information provided is true and accurate.',
+    hi: 'पंजीकरण या प्रोफाइल बनाना पूरी तरह से मुफ्त है। हालांकि, यह आपकी जिम्मेदारी है कि प्रदान की गई सभी जानकारी सत्य और सटीक हो।',
+    mr: 'नांव नोंदणी किंवा प्रोफाईल देणे एकदम मोफत आहे. पण, प्रोफाईलमध्ये दिलेली सर्व माहिती खरी आणि अचूक असावी, ही तुमची जबाबदारी आहे.'
+  },
+  'terms.infoSharing.title': { en: '3. Information Sharing', hi: '3. जानकारी साझा करना', mr: '३. माहिती शेअर करणे' },
+  'terms.infoSharing.desc': {
+    en: 'We will verify your information and show it to suitable matches only with your consent.',
+    hi: 'हम आपकी जानकारी का सत्यापन करेंगे और आपकी सहमति से ही इसे उपयुक्त मैचों को दिखाएंगे।',
+    mr: 'तुमची माहिती आम्ही तपासून पाहू आणि तुमच्या संमतीनेच (परवानगीनेच) योग्य अशा स्थळांना दाखवू.'
+  },
+  'terms.adminRights.title': { en: '4. Admin Rights', hi: '4. एडमिन के अधिकार', mr: '४. ॲडमिनचे अधिकार' },
+  'terms.adminRights.desc': {
+    en: 'The Admin retains all rights regarding which profiles to keep or remove, whom to show information to, and how to operate this process.',
+    hi: 'किस प्रोफाइल को रखना या हटाना है, किसे जानकारी दिखानी है और इस प्रक्रिया को कैसे संचालित करना है, इसके सभी अधिकार एडमिन के पास सुरक्षित हैं।',
+    mr: 'कोणते प्रोफाईल ठेवायचे किंवा काढून टाकायंचे, कोणाला माहिती दाखवायची आणि ही सर्व प्रक्रिया कशी चालवायची, याचे सर्व अधिकार ॲडमिनकडे राहतील.'
+  },
+  'terms.fees.title': { en: '5. Fees (If Applicable)', hi: '5. शुल्क (यदि लागू हो)', mr: '५. पैसे किंवा फी (लागू असल्यास)' },
+  'terms.fees.desc': {
+    en: 'If any fee is applicable for a service, you will be told clearly in advance. Fees once paid for services rendered are non-refundable.',
+    hi: 'यदि किसी सेवा के लिए शुल्क लागू है, तो आपको पहले ही स्पष्ट रूप से बताया जाएगा। एक बार सेवा प्रदान करने के बाद भुगतान किया गया शुल्क वापस नहीं किया जाएगा।',
+    mr: 'जर काही कामासाठी फी लागणार असेल, तर ती तुम्हाला आधीच स्पष्टपणे सांगितली जाईल. एकदा सेवा दिल्यानंतर दिलेले पैसे परत (Refund) मिळणार नाहीत.'
+  },
+  'terms.userResp.title': { en: '6. User Responsibility', hi: '6. उपयोगकर्ता की जिम्मेदारी', mr: '६. वापरकर्त्याची जबाबदारी' },
+  'terms.userResp.desc': {
+    en: 'Treat the other person and their family with respect. Do not misuse any information or phone numbers obtained.',
+    hi: 'दूसरे व्यक्ति और उनके परिवार के साथ सम्मान से पेश आएं। प्राप्त किसी भी जानकारी या फोन नंबर का दुरुपयोग न करें।',
+    mr: 'समोरच्या व्यक्तीशी किंवा परिवाराशी आदराने वागावे. मिळालेल्या माहितीचा किंवा फोन नंबरचा कोणताही गैरवापर करू नये.'
+  },
+  'terms.accountClosure.title': { en: '7. Account Closure', hi: '7. खाता बंद करना', mr: '७. खाते बंद करणे' },
+  'terms.accountClosure.desc': {
+    en: 'If anyone violates the rules or misuses information, the Admin can close their account without prior notice.',
+    hi: 'यदि कोई नियमों का उल्लंघन करता है या जानकारी का दुरुपयोग करता है, तो एडमिन बिना किसी पूर्व सूचना के उसका खाता बंद कर सकता है।',
+    mr: 'जर कोणी नियमांचे उल्लंघन केले किंवा माहितीचा चुकीचा वापर केला, तर ॲडमिन त्याचे खाते (Account) कोणत्याही पूर्वसूचनेशिवाय बंद करू शकतात.'
+  },
+
+  // Privacy Policy
+  'privacy.title': { en: 'Privacy Policy', hi: 'गोपनीयता नीति', mr: 'गोपनीयता धोरण' },
+  'privacy.dataCollection.title': { en: '1. Data Collection', hi: '1. डेटा संग्रह', mr: '१. माहिती गोळा करणे' },
+  'privacy.dataCollection.desc': {
+    en: 'We only collect information that is necessary to find a suitable partner. We do not ask for unnecessary extra information.',
+    hi: 'हम केवल वही जानकारी एकत्र करते हैं जो उपयुक्त जीवनसाथी खोजने के लिए आवश्यक है। हम अनावश्यक अतिरिक्त जानकारी नहीं मांगते हैं।',
+    mr: 'आम्ही फक्त तेवढीच माहिती घेतो जी योग्य जोडीदार शोधण्यासाठी गरजेची आहे. उगाच अवांतर माहिती विचारली जात नाही.'
+  },
+  'privacy.dataUsage.title': { en: '2. Data Usage', hi: '2. डेटा का उपयोग', mr: '२. माहितीचा वापर' },
+  'privacy.dataUsage.desc': {
+    en: 'Your information will only be used for matrimonial purposes. It will not be published anywhere or sold to anyone.',
+    hi: 'आपकी जानकारी का उपयोग केवल वैवाहिक उद्देश्यों के लिए किया जाएगा। इसे कहीं भी प्रकाशित नहीं किया जाएगा और न ही किसी को बेचा जाएगा।',
+    mr: 'तुमची माहिती फक्त लग्नाच्या कामासाठीच वापरली जाईल. ती कुठेही जाहीर केली जाणार नाही किंवा कोणालाही विकली जाणार नाही.'
+  },
+  'privacy.visibility.title': { en: '3. Who can see what?', hi: '3. कौन क्या देख सकता है?', mr: '३. कोणाला काय दिसेल?' },
+  'privacy.visibility.desc': {
+    en: 'Your full information can only be seen by the \'Admin\'. Others will only be shown limited information as needed.',
+    hi: 'आपकी पूरी जानकारी केवल \'एडमिन\' ही देख सकता है। अन्य लोगों को केवल आवश्यकतानुसार सीमित जानकारी दिखाई जाएगी।',
+    mr: 'तुमची पूर्ण माहिती फक्त \'ॲडमिन\'लाच (Admin) पाहता येईल. इतर लोकांना फक्त कामापुरती आणि मर्यादित माहितीच दाखवली जाईल.'
+  },
+  'privacy.security.title': { en: '4. Photo and Number Security', hi: '4. फोटो और नंबर सुरक्षा', mr: '४. फोटो आणि फोन नंबरची सुरक्षा' },
+  'privacy.security.desc': {
+    en: 'Your photos and mobile numbers will be kept secure. They will not be given to anyone without your permission.',
+    hi: 'आपके फोटो और मोबाइल नंबर सुरक्षित रखे जाएंगे। आपकी अनुमति के बिना वे किसी को नहीं दिए जाएंगे।',
+    mr: 'तुमचे फोटो आणि मोबाईल नंबर सुरक्षित ठेवले जातील. तुमच्या परवानगीशिवाय ते कोणालाही दिले जाणार नाहीत.'
+  },
+  'privacy.system.title': { en: '5. Secure System', hi: '5. सुरक्षित प्रणाली', mr: '५. सुरक्षित यंत्रणा' },
+  'privacy.system.desc': {
+    en: 'We use a special security system to keep your information safe so that it is not stolen.',
+    hi: 'हम आपकी जानकारी को सुरक्षित रखने के लिए एक विशेष सुरक्षा प्रणाली का उपयोग करते हैं ताकि यह चोरी न हो।',
+    mr: 'तुमची माहिती सुरक्षित राहावी म्हणून आम्ही खास सिक्युरिटी सिस्टीम वापरतो, जेणेकरून माहितीची चोरी होणार नाही.'
+  },
+  'privacy.deletion.title': { en: '6. Profile Deletion', hi: '6. प्रोफाइल हटाना', mr: '६. प्रोफाईल काढून टाकणे' },
+  'privacy.deletion.desc': {
+    en: 'If you feel you want to remove your name, you can tell the Admin at any time to delete your information.',
+    hi: 'यदि आपको लगता है कि आप अपना नाम हटाना चाहते हैं, तो आप किसी भी समय एडमिन को अपनी जानकारी हटाने के लिए कह सकते हैं।',
+    mr: 'तुम्हाला वाटलं की आता आपलं नाव यातून काढून टाकायचं आहे, तर तुम्ही कधीही ॲडमिनला सांगून तुमची माहिती डिलीट करून घेऊ शकता.'
+  },
   'family.brother': { en: 'Brothers', hi: 'भाई', mr: 'भाऊ' },
   'family.sister': { en: 'Sisters', hi: 'बहनें', mr: 'बहिणी' },
   'family.type_label': { en: 'Family Type', hi: 'परिवार का प्रकार', mr: 'कुटुंब प्रकार' },
