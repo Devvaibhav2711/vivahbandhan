@@ -6,7 +6,7 @@ import { useLanguage } from '@/contexts/LanguageContext';
 import { supabase } from '@/lib/supabase';
 
 const BottomNav: React.FC = () => {
-    const { user } = useAuth();
+    const { user, isAdmin } = useAuth();
     const { t } = useLanguage();
     const location = useLocation();
     const [profileId, setProfileId] = useState<string | null>(null);
@@ -35,7 +35,7 @@ const BottomNav: React.FC = () => {
 
     const navLinks = [
         { path: '/', icon: Home, label: t('nav.home') },
-        { path: '/all-profiles', icon: Search, label: t('nav.allProfiles') || 'All Profiles' },
+        ...((showPublicProfiles || isAdmin) ? [{ path: '/all-profiles', icon: Search, label: t('nav.allProfiles') || 'All Profiles' }] : []),
         { path: '/my-matches', icon: Heart, label: t('nav.myMatches') },
         { path: '/request-match', icon: UserPlus, label: t('nav.requestMatch') },
         { path: profileId ? `/profile/view/${profileId}` : '/register', icon: User, label: t('nav.viewProfile') },

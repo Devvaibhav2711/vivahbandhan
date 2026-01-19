@@ -52,7 +52,7 @@ const Header: React.FC = () => {
       { path: '/my-matches', label: t('nav.myMatches') },
       { path: '/request-match', label: t('nav.requestMatch') },
     ] : []),
-    ...(showPublicProfiles ? [{ path: '/all-profiles', label: t('nav.allProfiles') || 'All Profiles' }] : []),
+    ...((showPublicProfiles || isAdmin) ? [{ path: '/all-profiles', label: t('nav.allProfiles') || 'All Profiles' }] : []),
     ...(user ? [{ path: '/success-stories', label: t('nav.successStories') }] : []),
     { path: '/about', label: t('nav.about') },
     { path: '/contact', label: t('nav.contact') },
