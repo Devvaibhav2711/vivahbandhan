@@ -14,7 +14,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from '@/components/ui/select';
-import Layout from '@/components/layout/Layout';
+// Layout removed
 import { useToast } from '@/hooks/use-toast';
 import { supabase } from '@/lib/supabase';
 import { compressImage } from '@/utils/imageCompression';
@@ -232,7 +232,7 @@ const Register: React.FC = () => {
   };
 
   return (
-    <Layout>
+    <>
       <section className="py-12 md:py-16 bg-gradient-to-b from-background to-secondary/20">
         <div className="container mx-auto px-4">
           <div className="max-w-4xl mx-auto">
@@ -717,7 +717,7 @@ const Register: React.FC = () => {
           </div>
         </div>
       </section>
-    </Layout>
+    </>
   );
 };
 

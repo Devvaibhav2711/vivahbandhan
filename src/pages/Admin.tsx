@@ -23,9 +23,10 @@ import {
   DialogTitle,
   DialogTrigger,
 } from '@/components/ui/dialog';
-import Layout from '@/components/layout/Layout';
+// Layout removed
 import { useToast } from '@/hooks/use-toast';
 import AdminUserForm from '@/components/admin/AdminUserForm';
+import { formatDateIndian } from '@/utils/dateUtils';
 
 const Admin: React.FC = () => {
   const navigate = useNavigate();
@@ -338,17 +339,17 @@ const Admin: React.FC = () => {
 
   if (!isAdmin) {
     return (
-      <Layout>
+      <>
         <div className="py-24 text-center">
           <h1 className="text-2xl font-bold text-destructive">Access Denied</h1>
           <p className="text-muted-foreground mt-2">Admin access required.</p>
         </div>
-      </Layout>
+      </>
     );
   }
 
   return (
-    <Layout>
+    <>
       <section className="py-8 md:py-12">
         <div className="container mx-auto px-4">
           <h1 className="font-serif text-3xl font-bold mb-6">{t('admin.dashboard')}</h1>
@@ -760,7 +761,7 @@ const Admin: React.FC = () => {
                           <div className="w-full grid grid-cols-2 gap-2 text-xs text-left bg-secondary/5 p-3 rounded-lg mb-4 border border-secondary/10">
                             <div className="space-y-1">
                               <p className="text-muted-foreground">{t('common.joined')}</p>
-                              <p className="font-medium text-gray-700">{new Date(u.created_at).toLocaleDateString()}</p>
+                              <p className="font-medium text-gray-700">{formatDateIndian(u.created_at)}</p>
                             </div>
                             <div className="space-y-1">
                               <p className="text-muted-foreground">{t('profile.location')}</p>
@@ -1191,7 +1192,7 @@ const Admin: React.FC = () => {
 
         </div >
       </section >
-    </Layout >
+    </>
   );
 };
 

@@ -2,19 +2,20 @@ import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useLanguage } from '@/contexts/LanguageContext';
 import { supabase } from '@/lib/supabase';
-import Layout from '@/components/layout/Layout';
+// Layout removed
 import { Users, MapPin, Briefcase, ShieldCheck, Star, Loader2 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { useOnlineStatus } from '@/hooks/useOnlineStatus';
 import { ProfileCardSkeleton } from '@/components/skeletons/ProfileCardSkeleton';
 import { useAuth } from '@/contexts/AuthContext';
 import { useInfiniteQuery } from '@tanstack/react-query';
+import { getPrivacySafeLocation } from '@/utils/locationUtils';
 
 const ITEMS_PER_PAGE = 12;
 
 const PublicProfiles: React.FC = () => {
     const { t } = useLanguage();
-    const { user, isLoading: authLoading } = useAuth();
+    const { user, isLoading: authLoading, isAdmin } = useAuth();
     const navigate = useNavigate();
     const [filterGender, setFilterGender] = useState<'all' | 'male' | 'female'>('all');
     const isOnline = useOnlineStatus();
@@ -64,6 +65,8 @@ const PublicProfiles: React.FC = () => {
         };
     };
 
+    const canView = isFeatureEnabled || isAdmin;
+
     const {
         data,
         fetchNextPage,
@@ -76,17 +79,17 @@ const PublicProfiles: React.FC = () => {
         queryFn: fetchProfiles,
         getNextPageParam: (lastPage) => lastPage.nextPage,
         initialPageParam: 0,
-        enabled: isOnline && isFeatureEnabled,
+        enabled: isOnline && canView,
         staleTime: 1000 * 60 * 5, // Cache for 5 minutes to prevent blinking on tab switch
     });
 
     // Flatten pages into a single array
     const profiles = data?.pages.flatMap(page => page.profiles) || [];
 
-    // Feature Disabled State
-    if (!isFeatureEnabled) {
+    // Feature Disabled State (Show Warning for Admin, Block for User)
+    if (!isFeatureEnabled && !isAdmin) {
         return (
-            <Layout>
+            <>
                 <div className="min-h-[60vh] flex flex-col items-center justify-center text-center p-4">
                     <h2 className="text-2xl font-bold text-muted-foreground mb-2">Feature Disabled</h2>
                     <p className="text-muted-foreground">The public profiles directory is currently turned off by the administrator.</p>
@@ -94,14 +97,14 @@ const PublicProfiles: React.FC = () => {
                         Go Home
                     </Button>
                 </div>
-            </Layout>
+            </>
         );
     }
 
     // Access Control: If no user (and auth is done loading), show Login CTA
     if (!user && !authLoading) {
         return (
-            <Layout>
+            <>
                 <section className="py-20 md:py-32 bg-secondary/10 min-h-[70vh] flex items-center justify-center">
                     <div className="container px-4 text-center">
                         <div className="max-w-md mx-auto bg-white p-8 rounded-2xl shadow-xl border border-secondary/20">
@@ -123,17 +126,25 @@ const PublicProfiles: React.FC = () => {
                         </div>
                     </div>
                 </section>
-            </Layout>
+            </>
         );
     }
 
     return (
-        <Layout>
+        <>
             <section className="py-12 md:py-20">
                 <div className="container mx-auto px-4">
                     <div className="text-center mb-6">
                         <h1 className="font-serif text-3xl md:text-4xl font-bold mb-2 text-primary">{t('nav.allProfiles') || 'All Profiles'}</h1>
                         <div className="section-divider mb-4" />
+
+                        {/* Admin Warning for Disabled State */}
+                        {!isFeatureEnabled && isAdmin && (
+                            <div className="bg-amber-100 border-l-4 border-amber-500 text-amber-700 p-4 mb-6 rounded shadow-sm flex items-center gap-3">
+                                <span className="font-bold uppercase text-xs px-2 py-0.5 bg-amber-200 rounded text-amber-800">Admin Only</span>
+                                <p className="text-sm">The Public Profiles feature is currently <strong>DISABLED</strong> for users. You can see this because you are an Admin.</p>
+                            </div>
+                        )}
 
                         {/* Gender Filter Buttons */}
                         <div className="flex flex-wrap justify-center gap-2 mb-8 animate-fade-in-up">
@@ -202,7 +213,9 @@ const PublicProfiles: React.FC = () => {
                                                     <h3 className="font-bold text-lg truncate mb-1 shadow-sm">{profile.full_name}</h3>
                                                     <div className="flex items-center text-xs text-white/90 gap-1 h-5 overflow-hidden">
                                                         <MapPin className="w-3 h-3 shrink-0" />
-                                                        <span className="truncate">{profile.location || 'Location N/A'}</span>
+                                                        <span className="truncate">
+                                                            {getPrivacySafeLocation(profile.location) || 'Location Protected'}
+                                                        </span>
                                                     </div>
                                                 </div>
                                             </div>
@@ -280,7 +293,7 @@ const PublicProfiles: React.FC = () => {
                     )}
                 </div>
             </section>
-        </Layout>
+        </>
     );
 };
 

@@ -4,7 +4,7 @@ import { Shield, Eye, UserCheck, Heart, Users, CheckCircle } from 'lucide-react'
 import { useLanguage } from '@/contexts/LanguageContext';
 import { useAuth } from '@/contexts/AuthContext';
 import { Button } from '@/components/ui/button';
-import Layout from '@/components/layout/Layout';
+// Layout removed
 import { supabase } from '@/lib/supabase';
 import SuccessStoriesCarousel from '@/components/SuccessStoriesCarousel';
 
@@ -43,7 +43,7 @@ const Index: React.FC = () => {
   ];
 
   return (
-    <Layout>
+    <>
       {/* Hero Section */}
       <section className="relative py-12 md:py-32 overflow-hidden">
         {/* Pure CSS Background - No Images */}
@@ -143,7 +143,7 @@ const Index: React.FC = () => {
           </div>
         </div>
       </section>
-    </Layout>
+    </>
   );
 };
 

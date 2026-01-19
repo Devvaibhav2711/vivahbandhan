@@ -14,7 +14,7 @@ import {
     SelectTrigger,
     SelectValue,
 } from '@/components/ui/select';
-import Layout from '@/components/layout/Layout';
+// Layout removed
 import { useToast } from '@/hooks/use-toast';
 import { supabase } from '@/lib/supabase';
 import { compressImage } from '@/utils/imageCompression';
@@ -337,10 +337,10 @@ const EditProfile: React.FC = () => {
         }
     };
 
-    if (isLoading) return <Layout><div className="flex justify-center py-20">Loading...</div></Layout>;
+    if (isLoading) return <div className="flex justify-center py-20">Loading...</div>;
 
     return (
-        <Layout>
+        <>
             <section className="py-12 md:py-16 bg-gradient-to-b from-background to-secondary/20">
                 <div className="container mx-auto px-4">
                     <div className="max-w-4xl mx-auto">
@@ -612,7 +612,7 @@ const EditProfile: React.FC = () => {
                     </div>
                 </div>
             </section >
-        </Layout >
+        </>
     );
 };
 

@@ -5,8 +5,9 @@ import { Mail, User, Briefcase, MapPin, Users, Info, ArrowLeft, Phone, Download,
 import { useLanguage } from '@/contexts/LanguageContext';
 import { useAuth } from '@/contexts/AuthContext';
 import { Button } from '@/components/ui/button';
+import { getPrivacySafeLocation } from '@/utils/locationUtils';
 import { Label } from '@/components/ui/label';
-import Layout from '@/components/layout/Layout';
+// Layout removed
 import { useToast } from '@/hooks/use-toast';
 import { useOnlineStatus } from '@/hooks/useOnlineStatus';
 import { supabase } from '@/lib/supabase';
@@ -49,12 +50,14 @@ const ViewProfile: React.FC = () => {
 
                     // ... (fetch user data logic remains same or similar)
                     // Simplified to just logic needed
-                    const { data: userData } = await supabase
-                        .from('users')
-                        .select('email, phone')
-                        .eq('id', profileData.user_id)
-                        .single();
-                    setProfileUser(userData);
+                    if (profileData.user_id) {
+                        const { data: userData } = await supabase
+                            .from('users')
+                            .select('email, phone')
+                            .eq('id', profileData.user_id)
+                            .maybeSingle(); // Use maybeSingle to avoid error if not found
+                        setProfileUser(userData);
+                    }
 
                 } else {
                     // Offline Mode
@@ -109,19 +112,43 @@ const ViewProfile: React.FC = () => {
         fetchProfile();
     }, [id, user, navigate, toast, isOnline]);
 
+    const handleDownloadImage = async () => {
+        if (!profileRef.current) return;
+
+        // Show a loading toast or partial loading state instead of full page loader to avoid flicker
+        // But for minimal changes, we can just try/catch
+        try {
+            const canvas = await html2canvas(profileRef.current, {
+                useCORS: true,
+                scale: 2,
+                logging: false,
+                backgroundColor: '#ffffff'
+            });
+            const url = canvas.toDataURL('image/png');
+            const link = document.createElement('a');
+            link.download = `VivahBandhan-Profile-${profile?.full_name || 'User'}.png`;
+            link.href = url;
+            link.click();
+            toast({ title: t('common.success'), description: "Profile downloaded successfully." });
+        } catch (error) {
+            console.error('Download error:', error);
+            toast({ title: t('common.error'), description: "Failed to download profile.", variant: "destructive" });
+        }
+    };
+
     if (loading) {
         return (
-            <Layout>
+            <>
                 <div className="min-h-[60vh] flex items-center justify-center">
                     <p className="text-muted-foreground animate-pulse">Loading profile...</p>
                 </div>
-            </Layout>
+            </>
         );
     }
     // Public access allowed. Contact info is hidden by 'canViewContact' logic.
     // if (!user) { ... } removed.
 
-    if (!profile) return <Layout><div className="text-center py-20">Profile not found</div></Layout>;
+    if (!profile) return <><div className="text-center py-20">Profile not found</div></>;
 
     const isOwner = user?.id === profile.user_id;
     const canViewContact = isAdmin || isOwner;
@@ -160,7 +187,7 @@ const ViewProfile: React.FC = () => {
     };
 
     return (
-        <Layout>
+        <>
             <style>{`
                 @media print {
                     body * { visibility: hidden; }
@@ -223,9 +250,13 @@ const ViewProfile: React.FC = () => {
                                     </h1>
                                     <p className="text-muted-foreground flex items-center justify-center md:justify-start gap-2">
                                         <MapPin className="w-4 h-4" />
-                                        {canViewContact
-                                            ? (profile.location || t('common.locationNotSpecified') || 'Location not specified')
-                                            : t('common.locationRestricted') || 'Location Restricted'}
+                                        {(() => {
+                                            if (canViewContact) {
+                                                return profile.location || t('common.locationNotSpecified') || 'Location not specified';
+                                            }
+                                            const safeLocation = getPrivacySafeLocation(profile.location);
+                                            return safeLocation || t('common.locationRestricted') || 'Location Restricted';
+                                        })()}
                                     </p>
                                 </div>
                                 <div className="flex gap-2 mb-2 md:mb-0">
@@ -418,7 +449,7 @@ const ViewProfile: React.FC = () => {
                     </div>
                 </div>
             </section>
-        </Layout>
+        </>
     );
 };
 

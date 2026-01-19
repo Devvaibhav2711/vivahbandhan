@@ -266,6 +266,11 @@ export const translations: Translations = {
   'error.profileNotFound': { en: 'Profile not found', hi: 'प्रोफाइल नहीं मिला', mr: 'प्रोफाइल सापडले नाही' },
 
   'admin.selectUser': { en: 'Select User to Share With', hi: 'साझा करने के लिए उपयोगकर्ता चुनें', mr: 'शेअर करण्यासाठी वापरकर्ता निवडा' },
+  'admin.storyHint': {
+    en: 'Admin Only: Add or remove stories. Images change automatically every 2 seconds.',
+    hi: 'केवल एडमिन: कहानियां जोड़ें या हटाएं। छवियां हर 2 सेकंड में स्वचालित रूप से बदलती हैं।',
+    mr: 'फक्त ॲडमिनसाठी: यशोगाथा जोडा किंवा काढून टाका. फोटो आपोआप दर २ सेकंदांनी बदलतील.'
+  },
 
 
 

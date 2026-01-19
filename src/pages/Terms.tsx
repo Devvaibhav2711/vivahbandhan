@@ -1,9 +1,9 @@
 import React from 'react';
-import Layout from '@/components/layout/Layout';
+// Layout removed
 
 const Terms: React.FC = () => {
   return (
-    <Layout>
+    <>
       <section className="py-16 md:py-24">
         <div className="container mx-auto px-4">
           <div className="max-w-3xl mx-auto">
@@ -49,7 +49,7 @@ const Terms: React.FC = () => {
           </div>
         </div>
       </section>
-    </Layout>
+    </>
   );
 };
 

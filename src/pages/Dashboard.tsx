@@ -4,7 +4,7 @@ import { FileText, Heart, Users } from 'lucide-react';
 import { useLanguage } from '@/contexts/LanguageContext';
 import { useAuth } from '@/contexts/AuthContext';
 import { Button } from '@/components/ui/button';
-import Layout from '@/components/layout/Layout';
+// Layout removed
 import { supabase } from '@/lib/supabase';
 import { useOnlineStatus } from '@/hooks/useOnlineStatus';
 
@@ -74,7 +74,7 @@ const Dashboard: React.FC = () => {
   }, [user]);
 
   return (
-    <Layout>
+    <>
       <section className="py-16 md:py-24">
         <div className="container mx-auto px-4">
           <div className="max-w-4xl mx-auto">
@@ -170,7 +170,7 @@ const Dashboard: React.FC = () => {
           </div>
         </div>
       </section>
-    </Layout >
+    </>
   );
 };
 

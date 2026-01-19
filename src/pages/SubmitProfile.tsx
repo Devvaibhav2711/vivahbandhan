@@ -15,7 +15,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from '@/components/ui/select';
-import Layout from '@/components/layout/Layout';
+// Layout removed
 import { useToast } from '@/hooks/use-toast';
 import { supabase } from '@/lib/supabase';
 import { compressImage } from '@/utils/imageCompression';
@@ -151,7 +151,7 @@ const SubmitProfile: React.FC = () => {
   };
 
   return (
-    <Layout>
+    <>
       <section className="py-16 md:py-24">
         <div className="container mx-auto px-4">
           <div className="max-w-2xl mx-auto">
@@ -297,7 +297,7 @@ const SubmitProfile: React.FC = () => {
           </div>
         </div>
       </section>
-    </Layout>
+    </>
   );
 };
 

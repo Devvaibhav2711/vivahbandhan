@@ -6,7 +6,7 @@ import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Textarea } from '@/components/ui/textarea';
-import Layout from '@/components/layout/Layout';
+// Layout removed
 import { useToast } from '@/hooks/use-toast';
 import { supabase } from '@/lib/supabase';
 
@@ -185,18 +185,18 @@ const RequestMatch: React.FC = () => {
 
   if (isLoadingData || authLoading) {
     return (
-      <Layout>
+      <>
         <div className="flex h-[60vh] items-center justify-center">
           <p className="text-muted-foreground animate-pulse">Loading status...</p>
         </div>
-      </Layout>
+      </>
     );
   }
 
   // View: Matches Found
   if (hasMatches) {
     return (
-      <Layout>
+      <>
         <section className="py-20 md:py-32">
           <div className="container mx-auto px-4 text-center max-w-2xl">
             <div className="card-elegant p-10">
@@ -210,14 +210,14 @@ const RequestMatch: React.FC = () => {
             </div>
           </div>
         </section>
-      </Layout>
+      </>
     );
   }
 
   // View: Request Pending
   if (hasPendingRequest) {
     return (
-      <Layout>
+      <>
         <section className="py-20 md:py-32">
           <div className="container mx-auto px-4 text-center max-w-2xl">
             <div className="card-elegant p-10 bg-secondary/10">
@@ -256,12 +256,12 @@ const RequestMatch: React.FC = () => {
             </div>
           </div>
         </section>
-      </Layout>
+      </>
     );
   }
 
   return (
-    <Layout>
+    <>
       <section className="py-16 md:py-24">
         <div className="container mx-auto px-4">
           <div className="max-w-2xl mx-auto">
@@ -316,7 +316,7 @@ const RequestMatch: React.FC = () => {
           </div>
         </div>
       </section>
-    </Layout>
+    </>
   );
 };
 

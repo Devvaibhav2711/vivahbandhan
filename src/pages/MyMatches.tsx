@@ -3,7 +3,7 @@ import { Link, useNavigate } from 'react-router-dom';
 import { createClient } from '@supabase/supabase-js';
 import { useAuth } from '@/contexts/AuthContext';
 import { useLanguage } from '@/contexts/LanguageContext';
-import Layout from '@/components/layout/Layout';
+// Layout removed
 import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
 import { Heart, Search, UserCheck, ArrowRight, Clock, Users } from 'lucide-react';
@@ -11,6 +11,7 @@ import { supabase } from '@/lib/supabase';
 import { useOnlineStatus } from '@/hooks/useOnlineStatus';
 import RetryError from '@/components/RetryError';
 import { ProfileCardSkeleton } from '@/components/skeletons/ProfileCardSkeleton';
+import { getPrivacySafeLocation } from '@/utils/locationUtils';
 
 const MyMatches: React.FC = () => {
     const { user, isLoading: authLoading } = useAuth();
@@ -80,18 +81,18 @@ const MyMatches: React.FC = () => {
 
     if (!isOnline) {
         return (
-            <Layout>
+            <>
                 <div className="min-h-[60vh] flex flex-col items-center justify-center text-center p-4">
                     <p className="text-xl font-semibold mb-2">You are currently offline</p>
                     <p className="text-muted-foreground">Please connect to the internet to view your matches.</p>
                 </div>
-            </Layout>
+            </>
         );
     }
 
     if (loading || authLoading) {
         return (
-            <Layout>
+            <>
                 <section className="py-12 md:py-20 bg-gradient-to-b from-secondary/10 to-background min-h-[80vh]">
                     <div className="container mx-auto px-4">
                         <div className="max-w-4xl mx-auto">
@@ -113,12 +114,13 @@ const MyMatches: React.FC = () => {
                         </div>
                     </div>
                 </section>
-            </Layout>
+            </>
         );
     }
 
     return (
-        <Layout>
+
+        <>
             <section className="py-12 md:py-20 bg-gradient-to-b from-secondary/10 to-background min-h-[80vh]">
                 <div className="container mx-auto px-4">
                     <div className="max-w-4xl mx-auto">
@@ -131,8 +133,8 @@ const MyMatches: React.FC = () => {
                             </p>
                         </div>
 
-                        {/* CASE 1: No Request Sent */}
-                        {!hasRequest && (
+                        {/* CASE 1: No Request Sent AND No Matches Shared */}
+                        {!hasRequest && matches.length === 0 && (
                             <Card className="border-dashed border-2 p-8 text-center bg-white/50 backdrop-blur">
                                 <CardContent className="flex flex-col items-center pt-6">
                                     <div className="w-16 h-16 rounded-full bg-primary/10 flex items-center justify-center mb-4">
@@ -172,8 +174,8 @@ const MyMatches: React.FC = () => {
                             </Card>
                         )}
 
-                        {/* CASE 3: Matches Found */}
-                        {hasRequest && matches.length > 0 && (
+                        {/* CASE 3: Matches Found (Show if matches exist, regardless of request status) */}
+                        {matches.length > 0 && (
                             <div className="space-y-6">
                                 <div className="flex items-center justify-between">
                                     <p className="text-lg font-medium">{matches.length} {t('common.profilesForYou')}</p>
@@ -200,24 +202,27 @@ const MyMatches: React.FC = () => {
                                                     </div>
 
                                                     <h3 className="font-serif font-bold text-lg mb-1">{profile.full_name || t('common.nameHidden')}</h3>
-                                                    <p className="text-xs text-muted-foreground mb-4">
+                                                    <p className="text-xs text-muted-foreground mb-4 truncate px-2">
                                                         {[
                                                             `${profile.age} ${t('common.yrs')}`,
                                                             profile.religion,
-                                                            profile.location && profile.location !== 'NA' ? profile.location : null
+                                                            (() => {
+                                                                const safeLoc = getPrivacySafeLocation(profile.location);
+                                                                return safeLoc;
+                                                            })()
                                                         ].filter(Boolean).join(' • ')}
                                                     </p>
 
                                                     <div className="w-full grid grid-cols-2 gap-2 text-xs text-left bg-secondary/5 p-3 rounded-lg mb-4">
                                                         <div>
                                                             <span className="text-muted-foreground">{t('profile.education')}:</span>
-                                                            <div className="font-medium truncate">
+                                                            <div className="font-medium truncate capitalize">
                                                                 {profile.education ? profile.education.replace(/\s*-\s*NA\s*$/, '').replace(/\s*-\s*$/, '') : '-'}
                                                             </div>
                                                         </div>
                                                         <div>
                                                             <span className="text-muted-foreground">{t('profile.profession')}:</span>
-                                                            <div className="font-medium truncate">
+                                                            <div className="font-medium truncate capitalize">
                                                                 {profile.profession ? (() => {
                                                                     const parts = profile.profession.split(' at ');
                                                                     const job = parts[0];
@@ -247,7 +252,7 @@ const MyMatches: React.FC = () => {
                     </div>
                 </div>
             </section>
-        </Layout>
+        </>
     );
 };
 

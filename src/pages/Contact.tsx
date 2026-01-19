@@ -7,7 +7,7 @@ import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Textarea } from '@/components/ui/textarea';
-import Layout from '@/components/layout/Layout';
+// Layout removed
 import { useToast } from '@/hooks/use-toast';
 import { supabase } from '@/lib/supabase';
 
@@ -65,7 +65,7 @@ const Contact: React.FC = () => {
   };
 
   return (
-    <Layout>
+    <>
       <section className="py-16 md:py-24">
         <div className="container mx-auto px-4">
           <div className="max-w-3xl mx-auto text-center mb-12">
@@ -141,7 +141,7 @@ const Contact: React.FC = () => {
           </div>
         </div>
       </section>
-    </Layout>
+    </>
   );
 };
 

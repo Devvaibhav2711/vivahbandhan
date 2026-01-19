@@ -3,11 +3,12 @@ import { Toaster } from "@/components/ui/toaster";
 import { Toaster as Sonner } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
+import { BrowserRouter, Routes, Route, Navigate, Outlet } from "react-router-dom";
 import { LanguageProvider } from "@/contexts/LanguageContext";
 import { AuthProvider } from "@/contexts/AuthContext";
 import ScrollToTop from "@/components/ScrollToTop";
 import { OfflineBanner } from "@/components/OfflineBanner";
+import Layout from "@/components/layout/Layout";
 
 // Eager Load Main Pages for Performance
 import Index from "./pages/Index";
@@ -61,25 +62,27 @@ const App = () => {
               <ScrollToTop />
               <Suspense fallback={<PageLoader />}>
                 <Routes>
-                  <Route path="/" element={<Index />} />
-                  <Route path="/about" element={<About />} />
-                  <Route path="/login" element={<Login />} />
-                  <Route path="/register" element={<Register />} />
-                  <Route path="/forgot-password" element={<ForgotPassword />} />
-                  <Route path="/update-password" element={<UpdatePassword />} />
-                  <Route path="/payment-info" element={<PaymentInfo />} />
-                  <Route path="/my-matches" element={<MyMatches />} />
-                  <Route path="/request-match" element={<RequestMatch />} />
-                  <Route path="/all-profiles" element={<PublicProfiles />} />
-                  <Route path="/success-stories" element={<SuccessStories />} />
-                  <Route path="/contact" element={<Contact />} />
-                  <Route path="/terms" element={<Terms />} />
-                  <Route path="/privacy" element={<Privacy />} />
-                  <Route path="/dashboard" element={<Navigate to="/my-matches" replace />} />
-                  <Route path="/admin" element={<Admin />} />
-                  <Route path="/profile/edit/:id" element={<EditProfile />} />
-                  <Route path="/profile/view/:id" element={<ViewProfile />} />
-                  <Route path="*" element={<NotFound />} />
+                  <Route element={<Layout><Suspense fallback={<PageLoader />}><div className="flex-1 w-full"><Outlet /></div></Suspense></Layout>}>
+                    <Route path="/" element={<Index />} />
+                    <Route path="/about" element={<About />} />
+                    <Route path="/login" element={<Login />} />
+                    <Route path="/register" element={<Register />} />
+                    <Route path="/forgot-password" element={<ForgotPassword />} />
+                    <Route path="/update-password" element={<UpdatePassword />} />
+                    <Route path="/payment-info" element={<PaymentInfo />} />
+                    <Route path="/my-matches" element={<MyMatches />} />
+                    <Route path="/request-match" element={<RequestMatch />} />
+                    <Route path="/all-profiles" element={<PublicProfiles />} />
+                    <Route path="/success-stories" element={<SuccessStories />} />
+                    <Route path="/contact" element={<Contact />} />
+                    <Route path="/terms" element={<Terms />} />
+                    <Route path="/privacy" element={<Privacy />} />
+                    <Route path="/dashboard" element={<Navigate to="/my-matches" replace />} />
+                    <Route path="/admin" element={<Admin />} />
+                    <Route path="/profile/edit/:id" element={<EditProfile />} />
+                    <Route path="/profile/view/:id" element={<ViewProfile />} />
+                    <Route path="*" element={<NotFound />} />
+                  </Route>
                 </Routes>
               </Suspense>
             </BrowserRouter>

@@ -1,13 +1,13 @@
 import React from 'react';
 import { Heart, Users, Shield, Award } from 'lucide-react';
 import { useLanguage } from '@/contexts/LanguageContext';
-import Layout from '@/components/layout/Layout';
+// Layout removed
 
 const About: React.FC = () => {
   const { t } = useLanguage();
 
   return (
-    <Layout>
+    <>
       <section className="py-16 md:py-24">
         <div className="container mx-auto px-4">
           <div className="max-w-3xl mx-auto text-center mb-12">
@@ -74,7 +74,7 @@ const About: React.FC = () => {
           </div>
         </div>
       </section>
-    </Layout>
+    </>
   );
 };
 

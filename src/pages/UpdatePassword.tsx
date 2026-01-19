@@ -3,7 +3,7 @@ import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { supabase } from "@/lib/supabase";
 import { useLanguage } from "@/contexts/LanguageContext";
-import Layout from "@/components/layout/Layout";
+// Layout removed
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -82,7 +82,7 @@ const UpdatePassword = () => {
     };
 
     return (
-        <Layout>
+        <>
             <div className="min-h-[80vh] flex items-center justify-center py-12 px-4 sm:px-6 lg:px-8 bg-gradient-to-br from-orange-50 to-white">
                 <div className="max-w-md w-full space-y-8 animate-fade-in relative z-10">
                     <div className="absolute inset-0 bg-white/40 backdrop-blur-xl rounded-3xl -z-10 shadow-2xl border border-white/50" />
@@ -132,7 +132,7 @@ const UpdatePassword = () => {
                     </form>
                 </div>
             </div>
-        </Layout>
+        </>
     );
 };
 

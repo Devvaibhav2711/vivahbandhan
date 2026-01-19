@@ -3,7 +3,7 @@ import { Heart, Calendar, Plus, Trash2, Camera, Loader2, ImagePlus } from 'lucid
 import { Link } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
 import { useLanguage } from '@/contexts/LanguageContext';
-import Layout from '@/components/layout/Layout';
+// Layout removed
 import { useAuth } from '@/contexts/AuthContext';
 import { compressImage } from '@/utils/imageCompression';
 import { supabase } from '@/lib/supabase';
@@ -365,16 +365,14 @@ const SuccessStories: React.FC = () => {
 
   if (isLoading) {
     return (
-      <Layout>
-        <div className="flex justify-center items-center min-h-[60vh]">
-          <Loader2 className="h-8 w-8 animate-spin text-primary" />
-        </div>
-      </Layout>
+      <div className="flex justify-center items-center min-h-[60vh]">
+        <Loader2 className="h-8 w-8 animate-spin text-primary" />
+      </div>
     );
   }
 
   return (
-    <Layout>
+    <>
       <section className="py-16 md:py-24">
         <div className="container mx-auto px-4">
           <div className="max-w-3xl mx-auto text-center mb-12">
@@ -445,7 +443,7 @@ const SuccessStories: React.FC = () => {
                 </Dialog>
 
                 <p className="text-sm text-muted-foreground mt-2">
-                  (Admin Only: Add or remove stories. Images change automatically every 2 seconds.)
+                  ({t('admin.storyHint')})
                 </p>
               </div>
             )}
@@ -583,7 +581,7 @@ const SuccessStories: React.FC = () => {
           </div>
         </div>
       </section>
-    </Layout>
+    </>
   );
 };
 

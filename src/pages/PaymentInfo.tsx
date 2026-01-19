@@ -1,4 +1,4 @@
-import Layout from "@/components/layout/Layout";
+// Layout removed
 import { Button } from "@/components/ui/button";
 import { Phone, CheckCircle, Shield } from "lucide-react";
 import { useNavigate } from "react-router-dom";
@@ -9,7 +9,7 @@ const PaymentInfo = () => {
     const { t } = useLanguage();
 
     return (
-        <Layout>
+        <>
             <div className="container mx-auto px-4 py-16 flex flex-col items-center justify-center min-h-[60vh] text-center">
 
                 <div className="w-20 h-20 bg-amber-100 rounded-full flex items-center justify-center mb-6 animate-pulse">
@@ -76,7 +76,7 @@ const PaymentInfo = () => {
                 </div>
 
             </div>
-        </Layout>
+        </>
     );
 };
 
