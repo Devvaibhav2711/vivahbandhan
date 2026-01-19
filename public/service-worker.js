@@ -54,31 +54,74 @@ self.addEventListener('fetch', (event) => {
   // Define strategy based on request destination
   if (event.request.mode === 'navigate') {
     // Navigation (HTML pages): Network First, fall back to Cache, then Offline Page
+    // Navigation (HTML pages): Stale-While-Revalidate
+    // Return cached shell immediately, then update cache from network
     event.respondWith(
-      fetch(event.request)
-        .then((response) => {
+      caches.match(OFFLINE_URL).then((cachedResponse) => {
+        const networkFetch = fetch(event.request)
+          .then((response) => {
             // Check if we received a valid response
             if (!response || response.status !== 200 || response.type !== 'basic') {
                 return response;
             }
-            // Clone the response to store in cache
+            // Clone and cache updated version
             const responseToCache = response.clone();
             caches.open(CACHE_NAME).then((cache) => {
                 cache.put(event.request, responseToCache);
             });
             return response;
-        })
-        .catch(() => {
-          // Network failed, try cache
-          return caches.match(event.request).then((cachedResponse) => {
-            if (cachedResponse) {
-              return cachedResponse;
-            }
-            // If not in cache and it's a navigation request, show offline page
-            if (event.request.mode === 'navigate') {
-              return caches.match(OFFLINE_URL);
-            }
+          })
+          .catch(() => {
+             // Network failed, just return what we have (or offline page if nothing)
+             // We already returned cache below if available? 
+             // Actually SWR pattern usually returns cache immediately.
           });
+
+        //Ideally we match event.request (the URL), falling back to OFFLINE_URL (the App Shell)
+        // Since this is an SPA, all navigation usually serves index.html (or offline.html in our offline logic)
+        // Let's try to match the exact request first, then /index.html, then network.
+        
+        return caches.match(event.request).then((specificCache) => {
+             if (specificCache) return specificCache;
+             
+             // If specific URL not cached (rare for navigation in SPA, usually we serve index.html),
+             // We serve /index.html (App Shell) which should be in cache from install.
+             return caches.match('/index.html').then((shellCache) => {
+                 return shellCache || networkFetch; // Return shell or wait for network
+             });
+        });
+      })
+    );
+    
+    // simplified SWR for Navigation to ensure "Instant" feel:
+    // 1. Try Cache (specific URL or Shell) -> Return IMMEDIATELY
+    // 2. Fetch Network -> Update Cache
+    event.respondWith(
+        caches.match(event.request).then((cachedResponse) => {
+            // Create a promise for the network request to update cache
+            const fetchPromise = fetch(event.request).then((networkResponse) => {
+                if (networkResponse && networkResponse.status === 200 && networkResponse.type === 'basic') {
+                    const clone = networkResponse.clone();
+                    caches.open(CACHE_NAME).then((cache) => cache.put(event.request, clone));
+                }
+                return networkResponse;
+            }).catch(() => {
+                 // Network failed
+            });
+
+            // If we have a cached response, return it immediately!
+            if (cachedResponse) {
+                return cachedResponse; 
+            }
+            
+            // If not cached specifically, try the App Shell (/index.html)
+            return caches.match('/index.html').then((shellResponse) => {
+                if (shellResponse) {
+                     return shellResponse;
+                }
+                // If no shell (first load?), wait for network
+                return fetchPromise;
+            });
         })
     );
   } else {

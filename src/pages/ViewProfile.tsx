@@ -1,7 +1,7 @@
 import React, { useEffect, useState, useRef } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import html2canvas from 'html2canvas';
-import { Mail, User, Briefcase, MapPin, Users, Info, ArrowLeft, Phone, Download } from 'lucide-react';
+import { Mail, User, Briefcase, MapPin, Users, Info, ArrowLeft, Phone, Download, ShieldCheck, Star } from 'lucide-react';
 import { useLanguage } from '@/contexts/LanguageContext';
 import { useAuth } from '@/contexts/AuthContext';
 import { Button } from '@/components/ui/button';
@@ -9,11 +9,20 @@ import { Label } from '@/components/ui/label';
 import Layout from '@/components/layout/Layout';
 import { useToast } from '@/hooks/use-toast';
 import { useOnlineStatus } from '@/hooks/useOnlineStatus';
+import { supabase } from '@/lib/supabase';
 
 const ViewProfile: React.FC = () => {
-    // ... params
+    const { id } = useParams();
+    const navigate = useNavigate();
+    const { toast } = useToast();
+    const { t } = useLanguage();
+    const { user, isAdmin } = useAuth();
+    const [profile, setProfile] = useState<any>(null);
+    const [profileUser, setProfileUser] = useState<any>(null);
+    const [loading, setLoading] = useState(true);
+    const profileRef = useRef<HTMLDivElement>(null);
+
     const isOnline = useOnlineStatus();
-    // ... refs
 
     useEffect(() => {
         const fetchProfile = async () => {
@@ -196,7 +205,22 @@ const ViewProfile: React.FC = () => {
                                     )}
                                 </div>
                                 <div className="flex-1 space-y-2 pt-2 md:pt-0 text-center md:text-left">
-                                    <h1 className="text-3xl font-serif font-bold text-gray-900">{profile.full_name}</h1>
+                                    <h1 className="text-3xl font-serif font-bold text-gray-900 flex flex-col md:flex-row items-center gap-2">
+                                        {profile.full_name}
+                                        <div className="flex gap-2 text-base md:text-sm">
+                                            {profile.status === 'verified' && (
+                                                <span className="bg-blue-100 text-blue-700 px-2 py-0.5 rounded-full flex items-center gap-1 border border-blue-200 shadow-sm">
+                                                    <ShieldCheck className="w-3 h-3" /> <span className="text-[10px] font-bold uppercase">Verified</span>
+                                                </span>
+                                            )}
+                                            {/* Dummy check for premium */}
+                                            {profile.is_premium && (
+                                                <span className="bg-amber-100 text-amber-700 px-2 py-0.5 rounded-full flex items-center gap-1 border border-amber-200 shadow-sm">
+                                                    <Star className="w-3 h-3" /> <span className="text-[10px] font-bold uppercase">Premium</span>
+                                                </span>
+                                            )}
+                                        </div>
+                                    </h1>
                                     <p className="text-muted-foreground flex items-center justify-center md:justify-start gap-2">
                                         <MapPin className="w-4 h-4" />
                                         {canViewContact

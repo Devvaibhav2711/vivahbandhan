@@ -6,6 +6,7 @@ import { useAuth } from '@/contexts/AuthContext';
 import { Button } from '@/components/ui/button';
 import Layout from '@/components/layout/Layout';
 import { supabase } from '@/lib/supabase';
+import { useOnlineStatus } from '@/hooks/useOnlineStatus';
 
 const Dashboard: React.FC = () => {
   const { t } = useLanguage();
@@ -14,10 +15,21 @@ const Dashboard: React.FC = () => {
   const [myProfiles, setMyProfiles] = useState<any[]>([]);
   const [sharedProfiles, setSharedProfiles] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
+  const isOnline = useOnlineStatus(); // Need to import this
 
   useEffect(() => {
     const fetchData = async () => {
       if (!user) return;
+
+      // Offline Handling
+      if (!isOnline) {
+        const cachedProfiles = localStorage.getItem('myProfiles');
+        if (cachedProfiles) {
+          setMyProfiles(JSON.parse(cachedProfiles));
+        }
+        setLoading(false);
+        return;
+      }
 
       try {
         // Fetch my profiles
@@ -27,7 +39,11 @@ const Dashboard: React.FC = () => {
           .eq('user_id', user.id);
 
         if (profilesError) console.error('Error fetching profiles:', profilesError);
-        else setMyProfiles(profiles || []);
+        else {
+          setMyProfiles(profiles || []);
+          // Cache my profiles
+          localStorage.setItem('myProfiles', JSON.stringify(profiles || []));
+        }
 
         // Fetch shared profiles (matches)
         // We join matches with profiles to get profile details

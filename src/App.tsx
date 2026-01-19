@@ -1,4 +1,4 @@
-import { Suspense, lazy } from "react";
+import { Suspense, lazy, useEffect } from "react";
 import { Toaster } from "@/components/ui/toaster";
 import { Toaster as Sonner } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
@@ -43,44 +43,52 @@ const PageLoader = () => (
   </div>
 );
 
-const App = () => (
-  <QueryClientProvider client={queryClient}>
-    <LanguageProvider>
-      <AuthProvider>
-        <TooltipProvider>
-          <Toaster />
-          <Sonner />
-          <BrowserRouter>
-            <OfflineBanner />
-            <ScrollToTop />
-            <Suspense fallback={<PageLoader />}>
-              <Routes>
-                <Route path="/" element={<Index />} />
-                <Route path="/about" element={<About />} />
-                <Route path="/login" element={<Login />} />
-                <Route path="/register" element={<Register />} />
-                <Route path="/forgot-password" element={<ForgotPassword />} />
-                <Route path="/update-password" element={<UpdatePassword />} />
-                <Route path="/payment-info" element={<PaymentInfo />} />
-                <Route path="/my-matches" element={<MyMatches />} />
-                <Route path="/request-match" element={<RequestMatch />} />
-                <Route path="/all-profiles" element={<PublicProfiles />} />
-                <Route path="/success-stories" element={<SuccessStories />} />
-                <Route path="/contact" element={<Contact />} />
-                <Route path="/terms" element={<Terms />} />
-                <Route path="/privacy" element={<Privacy />} />
-                <Route path="/dashboard" element={<Navigate to="/my-matches" replace />} />
-                <Route path="/admin" element={<Admin />} />
-                <Route path="/profile/edit/:id" element={<EditProfile />} />
-                <Route path="/profile/view/:id" element={<ViewProfile />} />
-                <Route path="*" element={<NotFound />} />
-              </Routes>
-            </Suspense>
-          </BrowserRouter>
-        </TooltipProvider>
-      </AuthProvider>
-    </LanguageProvider>
-  </QueryClientProvider>
-);
+const App = () => {
+  // Prefetch routes on load
+  useEffect(() => {
+    import("@/utils/prefetchRoutes").then(({ default: prefetch }) => prefetch());
+  }, []);
+
+  return (
+    <QueryClientProvider client={queryClient}>
+      <LanguageProvider>
+        <AuthProvider>
+          <TooltipProvider>
+            <Toaster />
+            <Sonner />
+            <BrowserRouter>
+              <OfflineBanner />
+              <ScrollToTop />
+              <Suspense fallback={<PageLoader />}>
+                <Routes>
+                  <Route path="/" element={<Index />} />
+                  <Route path="/about" element={<About />} />
+                  <Route path="/login" element={<Login />} />
+                  <Route path="/register" element={<Register />} />
+                  <Route path="/forgot-password" element={<ForgotPassword />} />
+                  <Route path="/update-password" element={<UpdatePassword />} />
+                  <Route path="/payment-info" element={<PaymentInfo />} />
+                  <Route path="/my-matches" element={<MyMatches />} />
+                  <Route path="/request-match" element={<RequestMatch />} />
+                  <Route path="/all-profiles" element={<PublicProfiles />} />
+                  <Route path="/success-stories" element={<SuccessStories />} />
+                  <Route path="/contact" element={<Contact />} />
+                  <Route path="/terms" element={<Terms />} />
+                  <Route path="/privacy" element={<Privacy />} />
+                  <Route path="/dashboard" element={<Navigate to="/my-matches" replace />} />
+                  <Route path="/admin" element={<Admin />} />
+                  <Route path="/profile/edit/:id" element={<EditProfile />} />
+                  <Route path="/profile/view/:id" element={<ViewProfile />} />
+                  <Route path="*" element={<NotFound />} />
+                </Routes>
+              </Suspense>
+            </BrowserRouter>
+          </TooltipProvider>
+        </AuthProvider>
+      </LanguageProvider>
+    </QueryClientProvider>
+  );
+
+};
 
 export default App;

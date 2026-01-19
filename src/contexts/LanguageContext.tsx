@@ -39,7 +39,7 @@ export const translations: Translations = {
   'nav.about': { en: 'About', hi: 'हमारे बारे में', mr: 'आमच्याबद्दल' },
   'nav.submitProfile': { en: 'Submit Profile', hi: 'प्रोफाइल जमा करें', mr: 'प्रोफाइल सबमिट करा' },
   'nav.myMatches': { en: 'My Matches', hi: 'मेरे मैच', mr: 'मनासारखी स्थळं' },
-  'nav.requestMatch': { en: 'Request Match', hi: 'मैच अनुरोध', mr: 'योग्य सोयरिक निवडा' },
+  'nav.requestMatch': { en: 'Request Match', hi: 'मैच अनुरोध', mr: 'जीवनसाथी' },
   'nav.successStories': { en: 'Success Stories', hi: 'सफलता की कहानियां', mr: 'यशोगाथा' },
   'nav.contact': { en: 'Contact', hi: 'संपर्क', mr: 'संपर्क' },
   'nav.admin': { en: 'Admin', hi: 'एडमिन', mr: 'अॅडमिन' },
@@ -116,7 +116,7 @@ export const translations: Translations = {
   },
   'hero.submitProfile': { en: 'Submit Profile Free', hi: 'मुफ्त प्रोफाइल जमा करें', mr: 'मोफत नाव नोंदणी करा' },
   'hero.myProfile': { en: 'My Profile', hi: 'मेरी प्रोफाइल', mr: 'माझे प्रोफाइल' },
-  'hero.requestMatch': { en: 'Request a Match', hi: 'मैच अनुरोध करें', mr: 'योग्य सोयरिक निवडा' },
+  'hero.requestMatch': { en: 'Request a Match', hi: 'मैच अनुरोध करें', mr: 'जीवनसाथी' },
 
   // Why Choose Us
   'why.title': { en: 'Why Choose Us', hi: 'हमें क्यों चुनें', mr: 'हे कसं चालतं?' },

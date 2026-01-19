@@ -9,6 +9,8 @@ import { Card, CardContent } from '@/components/ui/card';
 import { Heart, Search, UserCheck, ArrowRight, Clock, Users } from 'lucide-react';
 import { supabase } from '@/lib/supabase';
 import { useOnlineStatus } from '@/hooks/useOnlineStatus';
+import RetryError from '@/components/RetryError';
+import { ProfileCardSkeleton } from '@/components/skeletons/ProfileCardSkeleton';
 
 const MyMatches: React.FC = () => {
     const { user, isLoading: authLoading } = useAuth();
@@ -90,9 +92,27 @@ const MyMatches: React.FC = () => {
     if (loading || authLoading) {
         return (
             <Layout>
-                <div className="min-h-[60vh] flex items-center justify-center">
-                    <p className="text-muted-foreground animate-pulse">Loading your matches...</p>
-                </div>
+                <section className="py-12 md:py-20 bg-gradient-to-b from-secondary/10 to-background min-h-[80vh]">
+                    <div className="container mx-auto px-4">
+                        <div className="max-w-4xl mx-auto">
+                            <div className="text-center mb-10">
+                                <h1 className="font-serif text-3xl md:text-4xl font-bold text-primary mb-3">
+                                    {t('nav.myMatches')}
+                                </h1>
+                                <p className="text-muted-foreground whitespace-pre-line">
+                                    {t('myMatches.subtitle')}
+                                </p>
+                            </div>
+                            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                                {[1, 2, 3, 4].map((i) => (
+                                    <div key={i} className="h-full">
+                                        <ProfileCardSkeleton />
+                                    </div>
+                                ))}
+                            </div>
+                        </div>
+                    </div>
+                </section>
             </Layout>
         );
     }
