@@ -18,12 +18,14 @@ import Layout from '@/components/layout/Layout';
 import { useToast } from '@/hooks/use-toast';
 import { supabase } from '@/lib/supabase';
 import { compressImage } from '@/utils/imageCompression';
+import { useOnlineStatus } from '@/hooks/useOnlineStatus';
 
 const Register: React.FC = () => {
   const { t } = useLanguage();
   const { register, user } = useAuth();
   const navigate = useNavigate();
   const { toast } = useToast();
+  const isOnline = useOnlineStatus();
 
   const [isLoading, setIsLoading] = useState(false);
   const fileInputRef = useRef<HTMLInputElement>(null);
@@ -94,6 +96,11 @@ const Register: React.FC = () => {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+
+    if (!isOnline) {
+      toast({ title: "Offline", description: "Internet required for registration.", variant: "destructive" });
+      return;
+    }
 
     // Account validations only if NO user logged in
     if (!user) {
@@ -691,8 +698,8 @@ const Register: React.FC = () => {
                   </div>
                 </div>
 
-                <Button type="submit" className="w-full btn-gold h-12 text-lg" disabled={isLoading}>
-                  {isLoading ? t('common.loading') : t('register.submit')}
+                <Button type="submit" className="w-full btn-gold h-12 text-lg" disabled={isLoading || !isOnline}>
+                  {isLoading ? t('common.loading') : (isOnline ? t('register.submit') : "Offline")}
                 </Button>
 
                 {!user && (

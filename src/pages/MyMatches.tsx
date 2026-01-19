@@ -8,6 +8,7 @@ import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
 import { Heart, Search, UserCheck, ArrowRight, Clock, Users } from 'lucide-react';
 import { supabase } from '@/lib/supabase';
+import { useOnlineStatus } from '@/hooks/useOnlineStatus';
 
 const MyMatches: React.FC = () => {
     const { user, isLoading: authLoading } = useAuth();
@@ -17,11 +18,17 @@ const MyMatches: React.FC = () => {
     const [loading, setLoading] = useState(true);
     const [hasRequest, setHasRequest] = useState(false);
     const [matches, setMatches] = useState<any[]>([]);
+    const isOnline = useOnlineStatus();
 
     useEffect(() => {
         if (authLoading) return;
         if (!user) {
             navigate('/login');
+            return;
+        }
+
+        if (!isOnline) {
+            setLoading(false);
             return;
         }
 
@@ -67,7 +74,18 @@ const MyMatches: React.FC = () => {
         };
 
         fetchData();
-    }, [user, authLoading, navigate]);
+    }, [user, authLoading, navigate, isOnline]);
+
+    if (!isOnline) {
+        return (
+            <Layout>
+                <div className="min-h-[60vh] flex flex-col items-center justify-center text-center p-4">
+                    <p className="text-xl font-semibold mb-2">You are currently offline</p>
+                    <p className="text-muted-foreground">Please connect to the internet to view your matches.</p>
+                </div>
+            </Layout>
+        );
+    }
 
     if (loading || authLoading) {
         return (

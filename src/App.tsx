@@ -7,6 +7,7 @@ import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 import { LanguageProvider } from "@/contexts/LanguageContext";
 import { AuthProvider } from "@/contexts/AuthContext";
 import ScrollToTop from "@/components/ScrollToTop";
+import { OfflineBanner } from "@/components/OfflineBanner";
 
 // Eager Load Main Pages for Performance
 import Index from "./pages/Index";
@@ -50,6 +51,7 @@ const App = () => (
           <Toaster />
           <Sonner />
           <BrowserRouter>
+            <OfflineBanner />
             <ScrollToTop />
             <Suspense fallback={<PageLoader />}>
               <Routes>

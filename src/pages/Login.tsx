@@ -8,12 +8,14 @@ import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import Layout from '@/components/layout/Layout';
 import { useToast } from '@/hooks/use-toast';
+import { useOnlineStatus } from '@/hooks/useOnlineStatus';
 
 const Login: React.FC = () => {
   const { t } = useLanguage();
   const { login } = useAuth();
   const navigate = useNavigate();
   const { toast } = useToast();
+  const isOnline = useOnlineStatus();
 
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
@@ -22,6 +24,11 @@ const Login: React.FC = () => {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    if (!isOnline) {
+      toast({ title: "Offline", description: "Internet required for secure login.", variant: "destructive" });
+      return;
+    }
+
     setIsLoading(true);
 
     const result = await login(email, password);
@@ -104,8 +111,8 @@ const Login: React.FC = () => {
                   </Link>
                 </div>
 
-                <Button type="submit" className="w-full btn-gold" disabled={isLoading}>
-                  {isLoading ? t('common.loading') : t('auth.login')}
+                <Button type="submit" className="w-full btn-gold" disabled={isLoading || !isOnline}>
+                  {isLoading ? t('common.loading') : (isOnline ? t('auth.login') : "Offline")}
                 </Button>
               </form>
 

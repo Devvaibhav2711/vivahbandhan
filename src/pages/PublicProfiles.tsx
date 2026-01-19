@@ -3,8 +3,9 @@ import { useNavigate } from 'react-router-dom';
 import { useLanguage } from '@/contexts/LanguageContext';
 import { supabase } from '@/lib/supabase';
 import Layout from '@/components/layout/Layout';
-import { Users, MapPin, Briefcase } from 'lucide-react';
+import { Users, MapPin, Briefcase, WifiOff } from 'lucide-react';
 import { Button } from '@/components/ui/button';
+import { useOnlineStatus } from '@/hooks/useOnlineStatus';
 
 import { useAuth } from '@/contexts/AuthContext'; // Import useAuth
 
@@ -17,9 +18,15 @@ const PublicProfiles: React.FC = () => {
     const [userGender, setUserGender] = useState<string | null>(null);
     const [isFeatureEnabled, setIsFeatureEnabled] = useState(true); // Default true while loading to prevent flicker, checked below
     const [filterGender, setFilterGender] = useState<'all' | 'male' | 'female'>('all');
+    const isOnline = useOnlineStatus();
 
     useEffect(() => {
         const checkFeatureAndFetch = async () => {
+            if (!isOnline) {
+                setLoading(false);
+                return;
+            }
+
             try {
                 // 1. Check Feature Flag
                 const { data: setting } = await supabase
@@ -70,7 +77,19 @@ const PublicProfiles: React.FC = () => {
         };
 
         checkFeatureAndFetch();
-    }, [user]);
+    }, [user, isOnline]);
+
+    if (!isOnline) {
+        return (
+            <Layout>
+                <div className="min-h-[60vh] flex flex-col items-center justify-center text-center p-4">
+                    <WifiOff className="w-12 h-12 text-muted-foreground mb-4" />
+                    <h2 className="text-xl font-bold mb-2">You are currently offline</h2>
+                    <p className="text-muted-foreground">Please connect to the internet to view public profiles.</p>
+                </div>
+            </Layout>
+        );
+    }
 
     if (loading) {
         return (
