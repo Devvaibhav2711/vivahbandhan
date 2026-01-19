@@ -162,7 +162,7 @@ export const translations: Translations = {
   'footer.terms': { en: 'Terms & Conditions', hi: 'नियम और शर्तें', mr: 'नियम आणि अटी' },
   'footer.privacyPolicy': { en: 'Privacy Policy', hi: 'गोपनीयता नीति', mr: 'गोपनीयता धोरण' },
   'footer.rights': { en: 'All rights reserved.', hi: 'सर्वाधिकार सुरक्षित।', mr: 'सर्व हक्क राखीव.' },
-  'footer.copyright': { en: 'VivahBandhan. All rights reserved.', hi: 'विवाहबंधन. सर्वाधिकार सुरक्षित।', mr: 'विवाहबंधन. हक्काची सोयरिक, हक्काचा विश्वास.' },
+  'footer.copyright': { en: 'ShubhVivahBandhan. All rights reserved.', hi: 'शुभविवाहबंधन. सर्वाधिकार सुरक्षित।', mr: 'शुभविवाहबंधन. हक्काची सोयरिक, हक्काचा विश्वास.' },
 
   // Profile Form
   'profile.personalDetails': { en: 'Personal Details', hi: 'व्यक्तिगत विवरण', mr: 'वैयक्तिक तपशील' },
@@ -286,14 +286,14 @@ export const translations: Translations = {
   'dashboard.clickEdit': { en: 'Click to Edit', hi: 'संपादित करने के लिए क्लिक करें', mr: 'संपादित करण्यासाठी क्लिक करा' },
 
   // Profile View
-  'profile.premiumService': { en: 'Premium Matchmaking Service', hi: 'प्रीमियम मैचमेकिंग सेवा', mr: 'प्रीमियम विवाहांबंधन सेवा' },
+  'profile.premiumService': { en: 'Premium Matchmaking Service', hi: 'प्रीमियम मैचमेकिंग सेवा', mr: 'प्रीमियम शुभविवाहबंधन सेवा' },
 
   // Matches & Requests
   'nav.viewProfile': { en: 'View Profile', hi: 'प्रोफाइल देखें', mr: 'प्रोफाइल पहा' },
   'nav.editProfile': { en: 'Edit Profile', hi: 'प्रोफाइल संपादित करें', mr: 'प्रोफाइल संपादित करा' },
 
   'match.status.submitted.title': { en: 'Request Submitted', hi: 'अनुरोध जमा किया गया', mr: 'विनंती सबमिट केली' },
-  'match.status.submitted.desc': { en: 'You have submitted a request. The VivahBandhan team will review your profile and send you matches shortly.', hi: 'आपने एक अनुरोध जमा किया है। हमारी टीम आपकी समीक्षा करेगी और जल्द ही मैच भेजेगी।', mr: 'तुम्ही विनंती सबमिट केली आहे. आमची टीम तुमच्या प्रोफाइलचे पुनरावलोकन करेल आणि तुम्हाला लवकरच जोड्या पाठवेल.' },
+  'match.status.submitted.desc': { en: 'You have submitted a request. The ShubhVivahBandhan team will review your profile and send you matches shortly.', hi: 'आपने एक अनुरोध जमा किया है। हमारी टीम आपकी समीक्षा करेगी और जल्द ही मैच भेजेगी।', mr: 'तुम्ही विनंती सबमिट केली आहे. आमची टीम तुमच्या प्रोफाइलचे पुनरावलोकन करेल आणि तुम्हाला लवकरच जोड्या पाठवेल.' },
   'match.success.title': { en: 'Request Sent Successfully', hi: 'अनुरोध सफलतापूर्वक भेजा गया', mr: 'विनंती यशस्वीरित्या पाठवली' },
   'match.success.desc': { en: 'We have received your partner preferences.', hi: 'हमें आपकी प्राथमिकताएं प्राप्त हुई हैं।', mr: 'आम्हाला तुमची जोडीदाराबद्दलची पसंती मिळाली आहे.' },
   'match.status.found.title': { en: 'Matches Found!', hi: 'मैच मिले!', mr: 'जोड्या सापडल्या!' },
@@ -490,15 +490,15 @@ export const translations: Translations = {
   // About Page
   'about.mission.title': { en: 'Our Mission', hi: 'हमारा मिशन', mr: 'आमचे स्वप्न' },
   'about.mission.desc': {
-    en: 'VivahBandhan brings the trust and personal touch of traditional matchmaking into the digital age. We believe that marriage is a sacred bond, and finding the right partner should be a private, respectful, and dignified process.',
-    hi: 'विवाह बंधन पारंपरिक मैचमेकिंग के विश्वास और व्यक्तिगत स्पर्श को डिजिटल युग में लाता है। हमारा मानना है कि विवाह एक पवित्र बंधन है, और सही जीवनसाथी ढूंढना एक निजी, सम्मानजनक और गरिमापूर्ण प्रक्रिया होनी चाहिए।',
-    mr: 'पारंपारिक सोयरिकीचा विश्वास आणि घरच्या माणसांसारखं लक्ष... हेच आमचं \'विवाह बंधन\' आहे. लग्नासारखं पवित्र बंधन जोडताना तुमची प्रायव्हसी आणि तुमचा सन्मान राखणं, ही आमची पहिली जबाबदारी आहे. तुमच्या आयुष्याचा सोबती शोधताना तुम्हाला हक्काच्या माणसाची सोबत मिळावी, हेच आमचं ध्येय!'
+    en: 'ShubhVivahBandhan brings the trust and personal touch of traditional matchmaking into the digital age. We believe that marriage is a sacred bond, and finding the right partner should be a private, respectful, and dignified process.',
+    hi: 'शुभविवाहबंधन पारंपरिक मैचमेकिंग के विश्वास और व्यक्तिगत स्पर्श को डिजिटल युग में लाता है। हमारा मानना है कि विवाह एक पवित्र बंधन है, और सही जीवनसाथी ढूंढना एक निजी, सम्मानजनक और गरिमापूर्ण प्रक्रिया होनी चाहिए।',
+    mr: 'पारंपारिक सोयरिकीचा विश्वास आणि घरच्या माणसांसारखं लक्ष... हेच आमचं \'शुभविवाहबंधन\' आहे. लग्नासारखं पवित्र बंधन जोडताना तुमची प्रायव्हसी आणि तुमचा सन्मान राखणं, ही आमची पहिली जबाबदारी आहे. तुमच्या आयुष्याचा सोबती शोधताना तुम्हाला हक्काच्या माणसाची सोबत मिळावी, हेच आमचं ध्येय!'
   },
   'about.privacy.title': { en: 'Privacy First', hi: 'गोपनीयता पहले', mr: 'तुमची गुप्तता, आमची जबाबदारी' },
   'about.privacy.desc': {
-    en: 'Unlike typical matrimonial websites where anyone can browse profiles, VivahBandhan operates on a privacy-first model. Your profile is never publicly visible. Only our trusted matchmaker reviews profiles and shares them personally with suitable matches.',
-    hi: 'विवाह वेबसाइटों के विपरीत जहां कोई भी प्रोफाइल ब्राउज़ कर सकता है, विवाह बंधन गोपनीयता-प्रथम मॉडल पर काम करता है। आपकी प्रोफाइल कभी भी सार्वजनिक रूप से दिखाई नहीं देती है। केवल हमारा विश्वसनीय मैचमेकर प्रोफाइल की समीक्षा करता है और उन्हें उपयुक्त मैचों के साथ व्यक्तिगत रूप से साझा करता है।',
-    mr: 'इतर वेबसाईटसारखं तुमची माहिती इथे उघड्यावर कोणालाही दिसणार नाही. \'विवाह बंधन\'मध्ये आम्ही तुमच्या खाजगीपणाला देवासारखं जपतो. तुमचं प्रोफाईल कधीही सार्वजनिक केलं जात नाही. फक्त आमचे विश्वासू प्रतिनिधीच तुमची माहिती पाहू शकतात आणि ती केवळ योग्य कुटुंबांपर्यंतच वैयक्तिकरित्या पोहोचवली जाते.'
+    en: 'Unlike typical matrimonial websites where anyone can browse profiles, ShubhVivahBandhan operates on a privacy-first model. Your profile is never publicly visible. Only our trusted matchmaker reviews profiles and shares them personally with suitable matches.',
+    hi: 'विवाह वेबसाइटों के विपरीत जहां कोई भी प्रोफाइल ब्राउज़ कर सकता है, शुभविवाहबंधन गोपनीयता-प्रथम मॉडल पर काम करता है। आपकी प्रोफाइल कभी भी सार्वजनिक रूप से दिखाई नहीं देती है। केवल हमारा विश्वसनीय मैचमेकर प्रोफाइल की समीक्षा करता है और उन्हें उपयुक्त मैचों के साथ व्यक्तिगत रूप से साझा करता है।',
+    mr: 'इतर वेबसाईटसारखं तुमची माहिती इथे उघड्यावर कोणालाही दिसणार नाही. \'शुभविवाहबंधन\'मध्ये आम्ही तुमच्या खाजगीपणाला देवासारखं जपतो. तुमचं प्रोफाईल कधीही सार्वजनिक केलं जात नाही. फक्त आमचे विश्वासू प्रतिनिधीच तुमची माहिती पाहू शकतात आणि ती केवळ योग्य कुटुंबांपर्यंतच वैयक्तिकरित्या पोहोचवली जाते.'
   },
   'about.community.title': { en: 'Community Driven', hi: 'समुदाय संचालित', mr: 'समाज सेवा' },
   'about.community.desc': {
@@ -609,7 +609,7 @@ export const translations: Translations = {
   'profile.contactAdmin': {
     en: 'To view contact details, please contact Admin: Vaibhav Nimbalkar 8010246840',
     hi: 'संपर्क विवरण देखने के लिए, कृपया एडमिन से संपर्क करें: वैभव निंबालकर 8010246840',
-    mr: "जास्त माहिती हवी असल्यास 'विवाहबंधन' टीमला कॉन्टॅक्ट करा. तुमच्या मनातल्या सगळ्या प्रश्नांची उत्तरं तुम्हाला मिळतील. (वैभव निंबाळकर: 8010246840)"
+    mr: "जास्त माहिती हवी असल्यास 'शुभविवाहबंधन' टीमला कॉन्टॅक्ट करा. तुमच्या मनातल्या सगळ्या प्रश्नांची उत्तरं तुम्हाला मिळतील. (वैभव निंबाळकर: 8010246840)"
   },
   'public.loginRequired': { en: 'Login Required', hi: 'लॉगिन आवश्यक', mr: 'लॉगिन करणे आवश्यक आहे' },
   'public.loginRequiredDesc': {
@@ -664,9 +664,9 @@ export const translations: Translations = {
 
   // Success Stories
 
-  'success.story1': { en: 'We were matched by VivahBandhan and knew from the first meeting that we were meant for each other. Thank you for bringing us together!', hi: 'हमारा मिलन विवाह बंधन द्वारा कराया गया था और पहली मुलाकात से ही हम जानते थे कि हम एक-दूसरे के लिए बने हैं। हमें साथ लाने के लिए धन्यवाद!', mr: 'आजच्या धावपळीच्या जगात योग्य माणसं भेटणं कठीण झालंय. पण तुमची पद्धत इतकी वैयक्तिक आणि छान आहे की, आम्हाला अजिबात दडपण आलं नाही. अगदी सहजपणे आमचं बोलणं झालं, भेटी झाल्या आणि आज आम्ही एक झालो आहोत. \'विवाह बंधन\'ची साथ हीच आमची ताकद ठरली!' },
-  'success.story2': { en: 'The personalized approach made all the difference. Our families connected instantly, and we are now happily married.', hi: 'व्यक्तिगत दृष्टिकोण ने सारा अंतर पैदा किया। हमारे परिवार तुरंत जुड़ गए, और अब हम खुशी से विवाहित हैं।', mr: 'केवळ दोन व्यक्तींची नाही, तर आमच्या दोन कुटुंबांची मनं जुळली, आणि हे फक्त \'विवाह बंधन\'च्या वैयक्तिक लक्षामुळेच शक्य झालं. आज आम्ही एका सुखी संसाराची सुरुवात केली आहे आणि खूप आनंदी आहोत!' },
-  'success.story3': { en: 'Privacy was our biggest concern, and VivahBandhan handled everything with utmost care. Forever grateful!', hi: 'गोपनीयता हमारी सबसे बड़ी चिंता थी, और विवाह बंधन ने सब कुछ अत्यधिक देखभाल के साथ संभाला। हमेशा आभारी रहेंगे!', mr: 'लग्नाच्या बाबतीत माहितीची गुप्तता पाळणं ही आमची पहिली अट होती. \'विवाह बंधन\'ने आमचा हा विश्वास सार्थ ठरवला आणि सर्व काही खूप काळजीपूर्वक सांभाळलं. योग्य सोबती मिळवून दिल्याबद्दल आम्ही तुमचे कायम ऋणी राहू!' },
+  'success.story1': { en: 'We were matched by ShubhVivahBandhan and knew from the first meeting that we were meant for each other. Thank you for bringing us together!', hi: 'हमारा मिलन शुभविवाहबंधन द्वारा कराया गया था और पहली मुलाकात से ही हम जानते थे कि हम एक-दूसरे के लिए बने हैं। हमें साथ लाने के लिए धन्यवाद!', mr: 'आजच्या धावपळीच्या जगात योग्य माणसं भेटणं कठीण झालंय. पण तुमची पद्धत इतकी वैयक्तिक आणि छान आहे की, आम्हाला अजिबात दडपण आलं नाही. अगदी सहजपणे आमचं बोलणं झालं, भेटी झाल्या आणि आज आम्ही एक झालो आहोत. \'शुभविवाहबंधन\'ची साथ हीच आमची ताकद ठरली!' },
+  'success.story2': { en: 'The personalized approach made all the difference. Our families connected instantly, and we are now happily married.', hi: 'व्यक्तिगत दृष्टिकोण ने सारा अंतर पैदा किया। हमारे परिवार तुरंत जुड़ गए, और अब हम खुशी से विवाहित हैं।', mr: 'केवळ दोन व्यक्तींची नाही, तर आमच्या दोन कुटुंबांची मनं जुळली, आणि हे फक्त \'शुभविवाहबंधन\'च्या वैयक्तिक लक्षामुळेच शक्य झालं. आज आम्ही एका सुखी संसाराची सुरुवात केली आहे आणि खूप आनंदी आहोत!' },
+  'success.story3': { en: 'Privacy was our biggest concern, and ShubhVivahBandhan handled everything with utmost care. Forever grateful!', hi: 'गोपनीयता हमारी सबसे बड़ी चिंता थी, और शुभविवाहबंधन ने सब कुछ अत्यधिक देखभाल के साथ संभाला। हमेशा आभारी रहेंगे!', mr: 'लग्नाच्या बाबतीत माहितीची गुप्तता पाळणं ही आमची पहिली अट होती. \'शुभविवाहबंधन\'ने आमचा हा विश्वास सार्थ ठरवला आणि सर्व काही खूप काळजीपूर्वक सांभाळलं. योग्य सोबती मिळवून दिल्याबद्दल आम्ही तुमचे कायम ऋणी राहू!' },
   'success.cta.text': { en: 'Your story could be next!', hi: 'आपकी कहानी अगली हो सकती है!', mr: 'तुमची सुखी संसाराची गोष्ट उद्या इथे असू शकते!' },
   'success.cta.button': { en: 'Register Profile Today', hi: 'आज ही प्रोफाइल रजिस्टर करें', mr: 'आजच आपलं स्थळ नोंदवा' },
   'success.form.title': { en: 'Add Success Story', hi: 'सफलता की कहानी जोड़ें', mr: 'यशोगाथा जोडा' },

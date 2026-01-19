@@ -68,12 +68,12 @@ const Header: React.FC = () => {
           <div className="flex items-center gap-2">
             <Link to="/" className="flex items-center justify-center">
               <div className="w-10 h-10 rounded-full gold-gradient flex items-center justify-center shadow-sm">
-                <span className="font-serif text-xl font-bold text-primary">व</span>
+                <span className="font-serif text-xl font-bold text-primary">शु</span>
               </div>
             </Link>
             <Link to="/">
               <span className="font-serif text-lg md:text-2xl font-bold text-primary hover:text-primary/90 transition-colors">
-                VivahBandhan
+                ShubhVivahBandhan
               </span>
             </Link>
           </div>

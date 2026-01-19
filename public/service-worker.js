@@ -1,4 +1,4 @@
-const CACHE_NAME = 'vivahbandhan-v1';
+const CACHE_NAME = 'shubhvivahbandhan-v1';
 const STATIC_ASSETS = [
   '/',
   '/index.html',

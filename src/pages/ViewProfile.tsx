@@ -126,7 +126,7 @@ const ViewProfile: React.FC = () => {
             });
             const url = canvas.toDataURL('image/png');
             const link = document.createElement('a');
-            link.download = `VivahBandhan-Profile-${profile?.full_name || 'User'}.png`;
+            link.download = `ShubhVivahBandhan-Profile-${profile?.full_name || 'User'}.png`;
             link.href = url;
             link.click();
             toast({ title: t('common.success'), description: "Profile downloaded successfully." });
@@ -213,10 +213,10 @@ const ViewProfile: React.FC = () => {
                         {/* Header Cover with Logo & Slogan */}
                         <div className="h-40 bg-gradient-to-r from-primary/10 via-white/50 to-primary/5 flex flex-col items-center justify-center text-center print-header border-b">
                             <h2 className="text-3xl font-serif font-bold text-primary tracking-wide">
-                                <span className="text-4xl text-[#D4AF37]">V</span>ivah<span className="text-[#D4AF37]">B</span>andhan
+                                <span className="text-4xl text-[#D4AF37]">S</span>hubh<span className="text-[#D4AF37]">V</span>ivah<span className="text-[#D4AF37]">B</span>andhan
                             </h2>
                             <p className="text-lg font-medium text-primary/80 mt-2 font-serif italic">
-                                "विवाह बंधन - जिथे नाती जुळतात विश्वासाने"
+                                "शुभविवाहबंधन - जिथे नाती जुळतात विश्वासाने"
                             </p>
                             <p className="text-xs text-muted-foreground mt-1 tracking-widest uppercase">{t('profile.premiumService')}</p>
                         </div>

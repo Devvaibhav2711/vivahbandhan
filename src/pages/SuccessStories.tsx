@@ -51,7 +51,7 @@ const demoStories = [
   {
     names: 'Aditya & Kavya',
     year: '2022',
-    story: 'Found my soulmate on VivahBandhan. The verification process gave us so much confidence.',
+    story: 'Found my soulmate on ShubhVivahBandhan. The verification process gave us so much confidence.',
     image: 'https://images.unsplash.com/photo-1621621667797-e06afc217fb0?w=400&h=300&fit=crop',
   },
   {
