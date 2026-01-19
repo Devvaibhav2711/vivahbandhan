@@ -18,6 +18,7 @@ import {
 import { useToast } from '@/hooks/use-toast';
 import { supabase } from '@/lib/supabase';
 import { compressImage } from '@/utils/imageCompression';
+import ImageCropper from '@/components/ImageCropper';
 
 const EditProfile: React.FC = () => {
     const { id } = useParams<{ id: string }>();
@@ -31,6 +32,10 @@ const EditProfile: React.FC = () => {
     const fileInputRef = useRef<HTMLInputElement>(null);
     const [photoFile, setPhotoFile] = useState<File | null>(null);
     const [photoPreview, setPhotoPreview] = useState<string | null>(null);
+
+    // Cropper State
+    const [showCropper, setShowCropper] = useState(false);
+    const [cropperImgSrc, setCropperImgSrc] = useState<string | null>(null);
 
     // Full form data state (Initial state matched AdminUserForm for consistency)
     const [formData, setFormData] = useState({
@@ -59,7 +64,9 @@ const EditProfile: React.FC = () => {
         familyValues: '',
         fatherOccupation: '',
         motherOccupation: '',
-        siblings: '',
+
+        siblings: '0',
+        siblingNames: [] as string[],
         about: ''
     });
 
@@ -83,13 +90,47 @@ const EditProfile: React.FC = () => {
     // Helper to parse Family Background
     const parseFamily = (str: string) => {
         if (!str) return {};
-        // Expected format: "Type: Nuclear, Values: Orthodox. Father: Farmer, Mother: Housewife, Siblings: 1"
+        // Expected format NEW: "..., Siblings: Name1, Name2 (Total: 2)"
+        // OR OLD: "..., Siblings: 2" or "..., Brothers: ..., Sisters: ..., Total Siblings: ..."
+
         const type = str.match(/Type: ([^,]*)/)?.[1]?.trim() || '';
         const values = str.match(/Values: ([^.]*)/)?.[1]?.trim() || '';
         const father = str.match(/Father: ([^,]*)/)?.[1]?.trim() || '';
         const mother = str.match(/Mother: ([^,]*)/)?.[1]?.trim() || '';
-        const siblings = str.match(/Siblings: (.*)/)?.[1]?.trim() || '';
-        return { type, values, father, mother, siblings };
+
+        // Extract Sibling Info
+        let siblingsCount = '0';
+        let siblingNames: string[] = [];
+
+        // Check for new format "Siblings: A, B (Total: 2)"
+        const newFormatMatch = str.match(/Siblings: (.*?) \(Total: (\d+)\)/);
+        if (newFormatMatch) {
+            siblingsCount = newFormatMatch[2];
+            const namesStr = newFormatMatch[1];
+            if (namesStr && namesStr !== 'None') {
+                siblingNames = namesStr.split(',').map(s => s.trim());
+            }
+        } else {
+            // Fallback to simple "Siblings: 2" pattern or just generic text
+            const simpleMatch = str.match(/Siblings: (\d+)/);
+            if (simpleMatch) {
+                siblingsCount = simpleMatch[1];
+            }
+            // If old register format "Total Siblings: X"
+            const oldRegisterMatch = str.match(/Total Siblings: (\d+)/);
+            if (oldRegisterMatch) {
+                siblingsCount = oldRegisterMatch[1];
+            }
+        }
+
+        // Ensure array size matches count
+        const countInt = parseInt(siblingsCount) || 0;
+        if (siblingNames.length < countInt) {
+            const diff = countInt - siblingNames.length;
+            siblingNames = [...siblingNames, ...Array(diff).fill('')];
+        }
+
+        return { type, values, father, mother, siblings: siblingsCount, siblingNames };
     };
 
     // Helper to parse Education
@@ -184,7 +225,9 @@ const EditProfile: React.FC = () => {
                     familyValues: family.values || '',
                     fatherOccupation: family.father || '',
                     motherOccupation: family.mother || '',
-                    siblings: family.siblings || '',
+
+                    siblings: family.siblings || '0',
+                    siblingNames: family.siblingNames || [],
                     about: profile.about || ''
                 });
 
@@ -210,34 +253,29 @@ const EditProfile: React.FC = () => {
 
     const handleFileChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
         if (e.target.files && e.target.files[0]) {
-            const originalFile = e.target.files[0];
-            try {
-                // Preview original immediately
-                setPhotoPreview(URL.createObjectURL(originalFile));
+            const file = e.target.files[0];
+            const reader = new FileReader();
+            reader.addEventListener('load', () => {
+                setCropperImgSrc(reader.result as string);
+                setShowCropper(true);
+            });
+            reader.readAsDataURL(file);
+            e.target.value = '';
+        }
+    };
 
-                // Compress
-                // Uses default 0.8 quality and 800px width with smart iterative reduction
-                const compressedFile = await compressImage(originalFile);
-                setPhotoFile(compressedFile);
-            } catch (error: any) {
-                console.error("Compression failed", error);
+    const handleCropComplete = async (croppedBlob: Blob) => {
+        try {
+            setShowCropper(false);
+            const croppedFile = new File([croppedBlob], "profile_photo.jpg", { type: "image/jpeg" });
+            setPhotoPreview(URL.createObjectURL(croppedBlob));
 
-                if (error.message && error.message.includes('File size exceeds')) {
-                    setPhotoFile(null);
-                    toast({
-                        title: "Error",
-                        description: error.message,
-                        variant: "destructive"
-                    });
-                } else {
-                    setPhotoFile(originalFile);
-                    toast({
-                        title: t('common.warning'),
-                        description: t('register.photoCompressionFailed'),
-                        variant: "destructive"
-                    });
-                }
-            }
+            // Compress
+            const compressedFile = await compressImage(croppedFile);
+            setPhotoFile(compressedFile);
+        } catch (error: any) {
+            console.error("Processing failed", error);
+            toast({ title: t('common.error'), description: "Failed to process image", variant: "destructive" });
         }
     };
 
@@ -297,7 +335,7 @@ const EditProfile: React.FC = () => {
                 religion: formData.religion,
                 caste: formData.caste,
                 location: `${formData.city}, ${formData.state}`,
-                family_background: `Type: ${formData.familyType}, Values: ${formData.familyValues}. Father: ${formData.fatherOccupation}, Mother: ${formData.motherOccupation}, Siblings: ${formData.siblings}`,
+                family_background: `Type: ${formData.familyType}, Values: ${formData.familyValues}. Father: ${formData.fatherOccupation}, Mother: ${formData.motherOccupation}, Siblings: ${formData.siblingNames?.filter(n => n).join(', ') || 'None'} (Total: ${formData.siblings})`,
                 about: formData.about,
                 lifestyle: `Rashi: ${formData.rashi} | Birth Time: ${formData.birthTime} | Birth Place: ${formData.birthPlace}`,
                 profile_photo: photoUrl
@@ -570,9 +608,44 @@ const EditProfile: React.FC = () => {
                                             <Input value={formData.motherOccupation} onChange={(e) => handleChange('motherOccupation', e.target.value)} />
                                         </div>
                                     </div>
-                                    <div className="space-y-2">
+                                    <div className="space-y-4">
                                         <Label>{t('register.siblings')}</Label>
-                                        <Input value={formData.siblings} onChange={(e) => handleChange('siblings', e.target.value)} />
+                                        <Select
+                                            value={formData.siblings}
+                                            onValueChange={(v) => {
+                                                const count = parseInt(v);
+                                                const currentNames = formData.siblingNames || [];
+                                                const newNames = Array(count).fill('').map((_, i) => currentNames[i] || '');
+                                                setFormData(prev => ({ ...prev, siblings: v, siblingNames: newNames }));
+                                            }}
+                                        >
+                                            <SelectTrigger><SelectValue placeholder={t('common.select') || "Select"} /></SelectTrigger>
+                                            <SelectContent>
+                                                {[0, 1, 2, 3, 4, 5].map(num => (
+                                                    <SelectItem key={num} value={num.toString()}>{num}</SelectItem>
+                                                ))}
+                                            </SelectContent>
+                                        </Select>
+
+                                        {/* Dynamic Inputs */}
+                                        {parseInt(formData.siblings) > 0 && (
+                                            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                                                {Array.from({ length: parseInt(formData.siblings) }).map((_, index) => (
+                                                    <div key={index} className="space-y-2">
+                                                        <Label>Sibling {index + 1} Name</Label>
+                                                        <Input
+                                                            value={formData.siblingNames?.[index] || ''}
+                                                            onChange={(e) => {
+                                                                const newNames = [...(formData.siblingNames || [])];
+                                                                newNames[index] = e.target.value;
+                                                                setFormData(prev => ({ ...prev, siblingNames: newNames }));
+                                                            }}
+                                                            placeholder={`Name`}
+                                                        />
+                                                    </div>
+                                                ))}
+                                            </div>
+                                        )}
                                     </div>
                                 </div>
 
@@ -612,6 +685,16 @@ const EditProfile: React.FC = () => {
                     </div>
                 </div>
             </section >
+
+            {/* Image Cropper Modal */}
+            {cropperImgSrc && (
+                <ImageCropper
+                    open={showCropper}
+                    imageSrc={cropperImgSrc}
+                    onClose={() => setShowCropper(false)}
+                    onCropComplete={handleCropComplete}
+                />
+            )}
         </>
     );
 };

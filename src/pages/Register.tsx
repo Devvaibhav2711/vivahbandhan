@@ -19,6 +19,7 @@ import { useToast } from '@/hooks/use-toast';
 import { supabase } from '@/lib/supabase';
 import { compressImage } from '@/utils/imageCompression';
 import { useOnlineStatus } from '@/hooks/useOnlineStatus';
+import ImageCropper from '@/components/ImageCropper';
 
 const Register: React.FC = () => {
   const { t } = useLanguage();
@@ -31,6 +32,10 @@ const Register: React.FC = () => {
   const fileInputRef = useRef<HTMLInputElement>(null);
   const [photoFile, setPhotoFile] = useState<File | null>(null);
   const [photoPreview, setPhotoPreview] = useState<string | null>(null);
+
+  // Cropper State
+  const [showCropper, setShowCropper] = useState(false);
+  const [cropperImgSrc, setCropperImgSrc] = useState<string | null>(null);
 
   const [formData, setFormData] = useState({
     email: '',
@@ -61,9 +66,10 @@ const Register: React.FC = () => {
     fatherContact: '',
     motherName: '',
     motherOccupation: '',
-    brotherName: '',
-    sisterName: '',
-    siblings: '',
+    // brotherName: '', // Legacy
+    // sisterName: '', // Legacy
+    siblings: '0',
+    siblingNames: [] as string[],
     about: ''
   });
 
@@ -73,24 +79,30 @@ const Register: React.FC = () => {
 
   const handleFileChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
     if (e.target.files && e.target.files[0]) {
-      const originalFile = e.target.files[0];
+      const file = e.target.files[0];
+      const reader = new FileReader();
+      reader.addEventListener('load', () => {
+        setCropperImgSrc(reader.result as string);
+        setShowCropper(true);
+      });
+      reader.readAsDataURL(file);
+      // Constructively clear input so same file selection triggers change again if needed
+      e.target.value = '';
+    }
+  };
 
-      try {
-        setPhotoPreview(URL.createObjectURL(originalFile));
-        const compressedFile = await compressImage(originalFile);
-        setPhotoFile(compressedFile);
-      } catch (error: any) {
-        console.error("Compression failed", error);
-        if (error.message && error.message.includes('File size exceeds')) {
-          setPhotoFile(null);
-          setPhotoPreview(null);
-          toast({ title: t('common.error'), description: error.message, variant: "destructive" });
-          e.target.value = '';
-        } else {
-          setPhotoFile(originalFile);
-          toast({ title: t('common.warning'), description: t('register.photoCompressionFailed'), variant: "destructive" });
-        }
-      }
+  const handleCropComplete = async (croppedBlob: Blob) => {
+    try {
+      setShowCropper(false);
+      const croppedFile = new File([croppedBlob], "profile_photo.jpg", { type: "image/jpeg" });
+      setPhotoPreview(URL.createObjectURL(croppedBlob));
+
+      // Compress the cropped image before setting
+      const compressedFile = await compressImage(croppedFile);
+      setPhotoFile(compressedFile);
+    } catch (error: any) {
+      console.error("Processing failed", error);
+      toast({ title: t('common.error'), description: "Failed to process image", variant: "destructive" });
     }
   };
 
@@ -207,7 +219,7 @@ const Register: React.FC = () => {
         religion: formData.religion,
         caste: formData.caste,
         location: `${formData.fullAddress} | ${formData.city}, ${formData.state}`,
-        family_background: `Father: ${formData.fatherName} (${formData.fatherOccupation}), Father Contact: ${formData.fatherContact}, Mother: ${formData.motherName} (${formData.motherOccupation}), Brothers: ${formData.brotherName || 'None'}, Sisters: ${formData.sisterName || 'None'}, Total Siblings: ${formData.siblings}`,
+        family_background: `Father: ${formData.fatherName} (${formData.fatherOccupation}), Father Contact: ${formData.fatherContact}, Mother: ${formData.motherName} (${formData.motherOccupation}), Siblings: ${formData.siblingNames?.filter(n => n).join(', ') || 'None'} (Total: ${formData.siblings})`,
         about: formData.about,
         lifestyle: `Rashi: ${formData.rashi} | Birth Time: ${formData.birthTime} | Birth Place: ${formData.birthPlace}`,
         status: 'pending',
@@ -617,34 +629,50 @@ const Register: React.FC = () => {
                     </div>
                   </div>
 
-                  <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                    <div className="space-y-2">
-                      <Label>{t('register.brotherName')}</Label>
-                      <Input
-                        value={formData.brotherName}
-                        onChange={(e) => handleChange('brotherName', e.target.value)}
-                        className="bg-background"
-                      />
-                    </div>
-                    <div className="space-y-2">
-                      <Label>{t('register.sisterName')}</Label>
-                      <Input
-                        value={formData.sisterName}
-                        onChange={(e) => handleChange('sisterName', e.target.value)}
-                        className="bg-background"
-                      />
-                    </div>
+                  <div className="space-y-4">
+                    <Label>{t('register.siblings')} *</Label>
+                    <Select
+                      value={formData.siblings}
+                      onValueChange={(v) => {
+                        // Resize siblingNames array when count changes
+                        const count = parseInt(v);
+                        const currentNames = formData.siblingNames || [];
+                        const newNames = Array(count).fill('').map((_, i) => currentNames[i] || '');
+                        setFormData(prev => ({ ...prev, siblings: v, siblingNames: newNames }));
+                      }}
+                    >
+                      <SelectTrigger className="bg-background">
+                        <SelectValue placeholder={t('common.select')} />
+                      </SelectTrigger>
+                      <SelectContent>
+                        {[0, 1, 2, 3, 4, 5].map(num => (
+                          <SelectItem key={num} value={num.toString()}>{num}</SelectItem>
+                        ))}
+                      </SelectContent>
+                    </Select>
                   </div>
 
-                  <div className="space-y-2">
-                    <Label>{t('register.siblings')} *</Label>
-                    <Input
-                      value={formData.siblings}
-                      onChange={(e) => handleChange('siblings', e.target.value)}
-                      required
-                      className="bg-background"
-                    />
-                  </div>
+                  {/* Dynamic Sibling Name Inputs */}
+                  {parseInt(formData.siblings) > 0 && (
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4 animate-in fade-in slide-in-from-top-4 duration-300">
+                      {Array.from({ length: parseInt(formData.siblings) }).map((_, index) => (
+                        <div key={index} className="space-y-2">
+                          <Label>Sibling {index + 1} Name</Label>
+                          <Input
+                            value={formData.siblingNames?.[index] || ''}
+                            onChange={(e) => {
+                              const newNames = [...(formData.siblingNames || [])];
+                              newNames[index] = e.target.value;
+                              setFormData(prev => ({ ...prev, siblingNames: newNames }));
+                            }}
+                            placeholder={`Enter sibling ${index + 1} name`}
+                            className="bg-background"
+                            required
+                          />
+                        </div>
+                      ))}
+                    </div>
+                  )}
                 </div>
 
                 {/* About */}
@@ -717,6 +745,16 @@ const Register: React.FC = () => {
           </div>
         </div>
       </section>
+
+      {/* Image Cropper Modal */}
+      {cropperImgSrc && (
+        <ImageCropper
+          open={showCropper}
+          imageSrc={cropperImgSrc}
+          onClose={() => setShowCropper(false)}
+          onCropComplete={handleCropComplete}
+        />
+      )}
     </>
   );
 };

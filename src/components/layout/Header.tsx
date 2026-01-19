@@ -66,19 +66,11 @@ const Header: React.FC = () => {
         <div className="flex items-center justify-between h-16 md:h-20">
           {/* Logo */}
           <div className="flex items-center gap-2">
-            {user && profilePhoto ? (
-              <Link to={`/profile/view/${profileId}`} className="block">
-                <div className="w-10 h-10 rounded-full border-2 border-primary/20 overflow-hidden shadow-sm">
-                  <img src={profilePhoto} alt="Profile" className="w-full h-full object-cover" />
-                </div>
-              </Link>
-            ) : (
-              <Link to="/" className="flex items-center justify-center">
-                <div className="w-10 h-10 rounded-full gold-gradient flex items-center justify-center shadow-sm">
-                  <span className="font-serif text-xl font-bold text-primary">व</span>
-                </div>
-              </Link>
-            )}
+            <Link to="/" className="flex items-center justify-center">
+              <div className="w-10 h-10 rounded-full gold-gradient flex items-center justify-center shadow-sm">
+                <span className="font-serif text-xl font-bold text-primary">व</span>
+              </div>
+            </Link>
             <Link to="/">
               <span className="font-serif text-lg md:text-2xl font-bold text-primary hover:text-primary/90 transition-colors">
                 VivahBandhan

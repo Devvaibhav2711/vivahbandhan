@@ -14,6 +14,8 @@ import {
 import { useToast } from '@/hooks/use-toast';
 import { createClient } from '@supabase/supabase-js';
 import { useLanguage } from '@/contexts/LanguageContext';
+import ImageCropper from '@/components/ImageCropper';
+import { compressImage } from '@/utils/imageCompression';
 
 const AdminUserForm: React.FC = () => {
     const { toast } = useToast();
@@ -22,6 +24,10 @@ const AdminUserForm: React.FC = () => {
     const fileInputRef = useRef<HTMLInputElement>(null);
     const [photoFile, setPhotoFile] = useState<File | null>(null);
     const [photoPreview, setPhotoPreview] = useState<string | null>(null);
+
+    // Image Cropper State
+    const [showCropper, setShowCropper] = useState(false);
+    const [cropperImgSrc, setCropperImgSrc] = useState<string | null>(null);
 
     // Full state matching Register.tsx
     const [formData, setFormData] = useState({
@@ -63,10 +69,39 @@ const AdminUserForm: React.FC = () => {
     };
 
     const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-        if (e.target.files && e.target.files[0]) {
+        if (e.target.files && e.target.files.length > 0) {
             const file = e.target.files[0];
-            setPhotoFile(file);
-            setPhotoPreview(URL.createObjectURL(file));
+            const reader = new FileReader();
+            reader.addEventListener('load', () => {
+                setCropperImgSrc(reader.result?.toString() || '');
+                setShowCropper(true);
+            });
+            reader.readAsDataURL(file);
+            // Clear input so same file selection triggers change again if needed
+            e.target.value = '';
+        }
+    };
+
+    const handleCropComplete = async (croppedBlob: Blob) => {
+        try {
+            // Convert Blob to File
+            const croppedFile = new File([croppedBlob], "profile_photo.jpg", { type: "image/jpeg" });
+
+            // Create preview
+            const previewUrl = URL.createObjectURL(croppedFile);
+            setPhotoPreview(previewUrl);
+
+            // Compress before setting as final file
+            const compressed = await compressImage(croppedFile);
+            setPhotoFile(compressed);
+            setShowCropper(false);
+        } catch (error) {
+            console.error("Error processing cropped image:", error);
+            toast({
+                title: "Error",
+                description: "Failed to process image.",
+                variant: 'destructive'
+            });
         }
     };
 
@@ -553,6 +588,16 @@ const AdminUserForm: React.FC = () => {
                     {isLoading ? t('admin.creatingUser') : t('admin.createUser')}
                 </Button>
             </form>
+
+            {/* Image Cropper Modal */}
+            {cropperImgSrc && (
+                <ImageCropper
+                    open={showCropper}
+                    imageSrc={cropperImgSrc}
+                    onClose={() => setShowCropper(false)}
+                    onCropComplete={handleCropComplete}
+                />
+            )}
         </div>
     );
 };
