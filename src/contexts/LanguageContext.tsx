@@ -24,7 +24,7 @@ export const translations: Translations = {
   'common.submit': { en: 'Submit', hi: 'जमा करें', mr: 'सादर करा' },
   'common.select': { en: 'Select', hi: 'चुनें', mr: 'निवडा' },
   'common.search': { en: 'Search', hi: 'खोजें', mr: 'शोधा' },
-  'common.none': { en: 'None', hi: 'कोई नहीं', mr: 'काहीही नाही' },
+  'common.none': { en: 'None', hi: 'कोई नहीं', mr: 'नाही' },
   'common.all': { en: 'All', hi: 'सभी', mr: 'सर्व' },
   'common.warning': { en: 'Warning', hi: 'चेतावनी', mr: 'चेतावणी' },
   'common.deleted': { en: 'Deleted', hi: 'हटाया गया', mr: 'हटवले' },
@@ -135,7 +135,7 @@ export const translations: Translations = {
   'how.step5': { en: 'Families connect with confidence', hi: 'परिवार आत्मविश्वास से जुड़ते हैं', mr: 'खात्रीने पाऊल उचला आणि दोन कुटुंबं एकत्र आणा' },
 
   // Privacy Promise
-  'privacy.title': { en: 'Privacy Promise', hi: 'गोपनीयता का वादा', mr: 'गुप्ततेची खात्री' },
+  'privacyPromise.title': { en: 'Privacy Promise', hi: 'गोपनीयता का वादा', mr: 'गुप्ततेची खात्री' },
   'privacy.description': {
     en: 'Your personal details are never displayed publicly. Only the matchmaker can access full data.',
     hi: 'आपका व्यक्तिगत विवरण कभी सार्वजनिक रूप से प्रदर्शित नहीं होता। केवल विवाह सहायक पूर्ण डेटा एक्सेस कर सकता है।',

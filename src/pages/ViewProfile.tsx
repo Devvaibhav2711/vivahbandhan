@@ -384,11 +384,13 @@ const ViewProfile: React.FC = () => {
                                                     // Helper to check for "None", "NA", "0"
                                                     const isInvalid = (val: string) => !val || val.toLowerCase() === 'none' || val.toLowerCase() === 'na' || val === '0';
 
-                                                    // Handle Type
+                                                    // Handle Type - HIDE
                                                     if (cleanPart.toLowerCase().startsWith('type:')) {
-                                                        const typeVal = cleanPart.split(':')[1]?.trim();
-                                                        if (isInvalid(typeVal)) return null;
-                                                        return <p key={i} className="text-gray-700"><span className="font-semibold">{t('family.type_label')}:</span> {t(`family.${typeVal.toLowerCase()}`) || typeVal}</p>;
+                                                        return null;
+                                                    }
+                                                    // Handle Values - HIDE
+                                                    if (cleanPart.toLowerCase().startsWith('values:')) {
+                                                        return null;
                                                     }
                                                     // Handle Father
                                                     if (cleanPart.toLowerCase().startsWith('father:')) {
@@ -420,8 +422,14 @@ const ViewProfile: React.FC = () => {
                                                     }
                                                     // Handle Siblings (Count)
                                                     if (cleanPart.toLowerCase().startsWith('siblings:') || cleanPart.toLowerCase().includes('total siblings')) {
-                                                        const val = cleanPart.split(':')[1]?.trim();
-                                                        if (!val || val.toLowerCase() === 'none' || val.toLowerCase() === 'na') return null;
+                                                        let val = cleanPart.split(':')[1]?.trim();
+                                                        if (!val) return null;
+
+                                                        // Check for "None" in value and replace with localized "None" (Nahi)
+                                                        if (val.toLowerCase().includes('none') || val.toLowerCase().includes('0 (total') || val === '0') {
+                                                            return <p key={i} className="text-gray-700"><span className="font-semibold">{t('family.siblings')}:</span> {t('common.none')}</p>;
+                                                        }
+
                                                         return <p key={i} className="text-gray-700"><span className="font-semibold">{t('family.siblings')}:</span> {val}</p>;
                                                     }
 

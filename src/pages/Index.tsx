@@ -138,7 +138,7 @@ const Index: React.FC = () => {
         <div className="container mx-auto px-4">
           <div className="max-w-2xl mx-auto text-center card-elegant p-8 md:p-12">
             <Shield className="w-16 h-16 mx-auto mb-6 text-accent" />
-            <h2 className="font-serif text-3xl md:text-4xl font-bold mb-4">{t('privacy.title')}</h2>
+            <h2 className="font-serif text-3xl md:text-4xl font-bold mb-4">{t('privacyPromise.title')}</h2>
             <p className="text-lg text-muted-foreground">{t('privacy.description')}</p>
           </div>
         </div>
