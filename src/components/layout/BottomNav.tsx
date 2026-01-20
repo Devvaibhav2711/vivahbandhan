@@ -23,11 +23,36 @@ const BottomNav: React.FC = () => {
         };
         fetchProfile();
 
+        // Listen for profile creation/deletion in real-time
+        const channel = supabase
+            .channel(`nav-profile-updates-${user.id}`)
+            .on(
+                'postgres_changes',
+                {
+                    event: '*',
+                    schema: 'public',
+                    table: 'profiles',
+                    filter: `user_id=eq.${user.id}`,
+                },
+                (payload) => {
+                    if (payload.eventType === 'INSERT') {
+                        setProfileId(payload.new.id);
+                    } else if (payload.eventType === 'DELETE') {
+                        setProfileId(null);
+                    }
+                }
+            )
+            .subscribe();
+
         const checkPublicSetting = async () => {
             const { data } = await supabase.from('app_settings').select('value').eq('key', 'enable_public_profiles').maybeSingle();
             setShowPublicProfiles(data?.value === 'true');
         };
         checkPublicSetting();
+
+        return () => {
+            supabase.removeChannel(channel);
+        };
     }, [user]);
 
     // Only show if user is logged in
