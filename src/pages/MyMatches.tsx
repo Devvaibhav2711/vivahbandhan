@@ -207,8 +207,8 @@ const MyMatches: React.FC = () => {
                                                             `${profile.age} ${t('common.yrs')}`,
                                                             profile.religion,
                                                             (() => {
-                                                                const safeLoc = getPrivacySafeLocation(profile.location);
-                                                                return safeLoc;
+                                                                // Strict Privacy
+                                                                return t('common.locationProtected');
                                                             })()
                                                         ].filter(Boolean).join(' • ')}
                                                     </p>

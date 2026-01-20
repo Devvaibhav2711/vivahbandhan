@@ -255,8 +255,8 @@ const ViewProfile: React.FC = () => {
                                             if (canViewContact) {
                                                 return profile.location || t('common.locationNotSpecified') || 'Location not specified';
                                             }
-                                            const safeLocation = getPrivacySafeLocation(profile.location);
-                                            return safeLocation || t('common.locationRestricted') || 'Location Restricted';
+                                            // Strict Privacy: Always hide location for non-admins
+                                            return t('common.locationProtected');
                                         })()}
                                     </p>
                                 </div>

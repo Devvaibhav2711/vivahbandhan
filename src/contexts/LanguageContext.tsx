@@ -33,6 +33,7 @@ export const translations: Translations = {
   'common.required': { en: 'Required', hi: 'आवश्यक', mr: 'आवश्यक' },
   'common.locationNotSpecified': { en: 'Location not specified', hi: 'स्थान निर्दिष्ट नहीं है', mr: 'स्थान नमूद केलेले नाही' },
   'common.locationRestricted': { en: 'Location Restricted', hi: 'स्थान प्रतिबंधित', mr: 'स्थान प्रतिबंधित' },
+  'common.locationProtected': { en: 'Location Protected', hi: 'स्थान सुरक्षित', mr: 'ठिकाण गोपनीय' },
 
   // Navigation
   'nav.home': { en: 'Home', hi: 'होम', mr: 'मुख्यपृष्ठ' },

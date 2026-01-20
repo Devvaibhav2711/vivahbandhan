@@ -214,19 +214,7 @@ const PublicProfiles: React.FC = () => {
                                                     <div className="flex items-center text-xs text-white/90 gap-1 h-5 overflow-hidden">
                                                         <MapPin className="w-3 h-3 shrink-0" />
                                                         <span className="truncate">
-                                                            {(() => {
-                                                                const locRaw = profile.location || '';
-                                                                if (locRaw.includes('|')) {
-                                                                    // Format: "Full Address | City, State" - we just want City, State here
-                                                                    const parts = locRaw.split('|')[1].trim().split(',').map((s: string) => s.trim());
-                                                                    const cityKey = `city.${parts[0]}`;
-                                                                    const stateKey = `state.${parts[1]}`;
-                                                                    const city = t(cityKey) === cityKey ? parts[0] : t(cityKey);
-                                                                    const state = t(stateKey) === stateKey ? parts[1] : t(stateKey);
-                                                                    return `${city}, ${state}`;
-                                                                }
-                                                                return getPrivacySafeLocation(profile.location) || 'Location Protected';
-                                                            })()}
+                                                            {t('common.locationProtected')}
                                                         </span>
                                                     </div>
                                                 </div>
@@ -309,7 +297,7 @@ const PublicProfiles: React.FC = () => {
                                         {/* Hover Action */}
                                         <div className="p-3 pt-0">
                                             <Button className="w-full btn-gold text-xs h-8">
-                                                View Profile
+                                                {t('nav.viewProfile')}
                                             </Button>
                                         </div>
                                     </div>
