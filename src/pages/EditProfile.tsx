@@ -570,9 +570,6 @@ const EditProfile: React.FC = () => {
                                                 </SelectContent>
                                             </Select>
                                         </div>
-                                        {/* Added Religion here to fit grid if needed, or remove if unused in Register view (Register stores it but UI might not show it prominently if hardcoded?) 
-                                            Register DOES show Religion before Caste. I will add it back.
-                                        */}
                                         <div className="space-y-2">
                                             <Label>{t('register.religion')}</Label>
                                             <Select value={formData.religion} onValueChange={(v) => handleChange('religion', v)}>
@@ -721,6 +718,12 @@ const EditProfile: React.FC = () => {
                                     </div>
                                     <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                                         <div className="space-y-2">
+                                            <Label>{t('register.fullAddress')}</Label>
+                                            <Textarea value={formData.fullAddress} onChange={(e) => handleChange('fullAddress', e.target.value)} className="min-h-[80px]" />
+                                        </div>
+                                    </div>
+                                    <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                                        <div className="space-y-2">
                                             <Label>{t('register.fatherName')}</Label>
                                             <Input value={formData.fatherName} onChange={(e) => handleChange('fatherName', e.target.value)} />
                                         </div>
@@ -739,11 +742,9 @@ const EditProfile: React.FC = () => {
                                         </div>
                                     </div>
 
-                                    <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                                        <div className="space-y-2">
-                                            <Label>{t('register.fatherContact')}</Label>
-                                            <Input value={formData.fatherContact} onChange={(e) => handleChange('fatherContact', e.target.value)} />
-                                        </div>
+                                    <div className="space-y-2">
+                                        <Label>{t('register.fatherContact')}</Label>
+                                        <Input value={formData.fatherContact} onChange={(e) => handleChange('fatherContact', e.target.value)} />
                                     </div>
 
                                     <div className="grid grid-cols-1 md:grid-cols-2 gap-6">

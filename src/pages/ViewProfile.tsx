@@ -11,12 +11,13 @@ import { Label } from '@/components/ui/label';
 import { useToast } from '@/hooks/use-toast';
 import { useOnlineStatus } from '@/hooks/useOnlineStatus';
 import { supabase } from '@/lib/supabase';
+import { smartTranslate, translateOccupationInString } from '@/utils/translationUtils';
 
 const ViewProfile: React.FC = () => {
     const { id } = useParams();
     const navigate = useNavigate();
     const { toast } = useToast();
-    const { t } = useLanguage();
+    const { t, language } = useLanguage();
     const { user, isAdmin } = useAuth();
     const [profile, setProfile] = useState<any>(null);
     const [profileUser, setProfileUser] = useState<any>(null);
@@ -321,7 +322,9 @@ const ViewProfile: React.FC = () => {
                                                             const city = t(cityKey) === cityKey ? cityCode : t(cityKey);
                                                             const state = t(stateKey) === stateKey ? stateCode : t(stateKey);
 
-                                                            return <>{addr}<br /><span className="text-muted-foreground text-xs">{city}, {state}</span></>;
+                                                            const translatedAddr = smartTranslate(addr, language);
+
+                                                            return <>{translatedAddr}<br /><span className="text-muted-foreground text-xs">{city}, {state}</span></>;
                                                         }
                                                         return raw || '-';
                                                     })()} />
@@ -412,7 +415,8 @@ const ViewProfile: React.FC = () => {
                                                     if (cleanPart.toLowerCase().startsWith('father:')) {
                                                         const val = cleanPart.split(':')[1]?.trim();
                                                         if (isInvalid(val)) return null;
-                                                        return <p key={i} className="text-gray-700"><span className="font-semibold">{t('family.father')}:</span> {t(`prof.${val}`) === `prof.${val}` ? val : t(`prof.${val}`)}</p>;
+                                                        const translatedVal = translateOccupationInString(val, language, t);
+                                                        return <p key={i} className="text-gray-700"><span className="font-semibold">{t('family.father')}:</span> {translatedVal}</p>;
                                                     }
                                                     // Handle Father Contact (HIDE HERE)
                                                     if (cleanPart.toLowerCase().startsWith('father contact:')) {
@@ -422,19 +426,23 @@ const ViewProfile: React.FC = () => {
                                                     if (cleanPart.toLowerCase().startsWith('mother:')) {
                                                         const val = cleanPart.split(':')[1]?.trim();
                                                         if (isInvalid(val)) return null;
-                                                        return <p key={i} className="text-gray-700"><span className="font-semibold">{t('family.mother')}:</span> {t(`prof.${val}`) === `prof.${val}` ? val : t(`prof.${val}`)}</p>;
+                                                        const translatedVal = translateOccupationInString(val, language, t);
+                                                        return <p key={i} className="text-gray-700"><span className="font-semibold">{t('family.mother')}:</span> {translatedVal}</p>;
                                                     }
                                                     // Handle Brother Name
                                                     if (cleanPart.toLowerCase().startsWith('brothers:')) {
                                                         const val = cleanPart.split(':')[1]?.trim();
                                                         if (isInvalid(val)) return null;
-                                                        return <p key={i} className="text-gray-700"><span className="font-semibold">{t('family.brother')}:</span> {val}</p>;
+                                                        // For names, we don't translate, but maybe check for "None"
+                                                        const displayVal = val.toLowerCase() === 'none' ? t('common.none') : val;
+                                                        return <p key={i} className="text-gray-700"><span className="font-semibold">{t('family.brother')}:</span> {displayVal}</p>;
                                                     }
                                                     // Handle Sister Name
                                                     if (cleanPart.toLowerCase().startsWith('sisters:')) {
                                                         const val = cleanPart.split(':')[1]?.trim();
                                                         if (isInvalid(val)) return null;
-                                                        return <p key={i} className="text-gray-700"><span className="font-semibold">{t('family.sister')}:</span> {val}</p>;
+                                                        const displayVal = val.toLowerCase() === 'none' ? t('common.none') : val;
+                                                        return <p key={i} className="text-gray-700"><span className="font-semibold">{t('family.sister')}:</span> {displayVal}</p>;
                                                     }
                                                     // Handle Siblings (Count)
                                                     if (cleanPart.toLowerCase().startsWith('siblings:') || cleanPart.toLowerCase().includes('total siblings')) {

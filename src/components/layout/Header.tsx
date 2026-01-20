@@ -102,7 +102,7 @@ const Header: React.FC = () => {
               <DropdownMenu>
                 <DropdownMenuTrigger asChild>
                   <Button variant="outline" className="hidden md:flex items-center gap-2 pl-2">
-                    {profilePhoto ? (
+                    {profilePhoto && !isAdmin ? (
                       <img src={profilePhoto} alt="User" className="w-6 h-6 rounded-full object-cover border border-border" />
                     ) : (
                       <User className="w-4 h-4" />
