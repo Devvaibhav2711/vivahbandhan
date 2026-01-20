@@ -570,19 +570,7 @@ const EditProfile: React.FC = () => {
                                                 </SelectContent>
                                             </Select>
                                         </div>
-                                        <div className="space-y-2">
-                                            <Label>{t('register.religion')}</Label>
-                                            <Select value={formData.religion} onValueChange={(v) => handleChange('religion', v)}>
-                                                <SelectTrigger><SelectValue placeholder={t('common.select') || "Select"} /></SelectTrigger>
-                                                <SelectContent>
-                                                    <SelectItem value="hindu">{t('religion.hindu')}</SelectItem>
-                                                    <SelectItem value="muslim">{t('religion.muslim')}</SelectItem>
-                                                    <SelectItem value="christian">{t('religion.christian')}</SelectItem>
-                                                    <SelectItem value="sikh">{t('religion.sikh')}</SelectItem>
-                                                    <SelectItem value="other">{t('religion.other')}</SelectItem>
-                                                </SelectContent>
-                                            </Select>
-                                        </div>
+
                                     </div>
                                 </div>
 
@@ -710,12 +698,6 @@ const EditProfile: React.FC = () => {
                                     <h2 className="text-xl font-serif font-bold flex items-center gap-2 border-b pb-2 text-primary">
                                         <Users className="w-5 h-5" /> {t('register.familyDetails')}
                                     </h2>
-                                    <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                                        <div className="space-y-2">
-                                            <Label>{t('register.fullAddress')}</Label>
-                                            <Textarea value={formData.fullAddress} onChange={(e) => handleChange('fullAddress', e.target.value)} className="min-h-[80px]" />
-                                        </div>
-                                    </div>
                                     <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                                         <div className="space-y-2">
                                             <Label>{t('register.fullAddress')}</Label>

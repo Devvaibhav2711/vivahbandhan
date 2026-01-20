@@ -450,12 +450,18 @@ const ViewProfile: React.FC = () => {
                                                         if (!val) return null;
 
                                                         // Check for "None" in value and replace with localized "None" (Nahi)
-                                                        if (val.toLowerCase().includes('none') || val.toLowerCase().includes('0 (total') || val === '0') {
+                                                        if (val.toLowerCase().includes('none') || val === '0') {
                                                             return <p key={i} className="text-gray-700"><span className="font-semibold">{t('family.siblings')}:</span> {t('common.none')}</p>;
                                                         }
 
-                                                        // Remove (Total: X) if present to clean up display
-                                                        const cleanVal = val.replace(/\s*\(Total:\s*\d+\)/i, '').trim();
+                                                        // Remove (Total...) patterns aggressively
+                                                        // Matches: (Total: 2), (Total 2), Total 2, etc.
+                                                        const cleanVal = val.replace(/\s*\(?Total.*?\)?/gi, '').trim();
+
+                                                        // If removing "Total" reduced it to empty or just a number, handle gracefully? 
+                                                        // Actually user just wants to remove the word "Total". 
+                                                        // If it leaves just a name "Ram Shinde", that's good.
+
                                                         return <p key={i} className="text-gray-700"><span className="font-semibold">{t('family.siblings')}:</span> {cleanVal}</p>;
                                                     }
 

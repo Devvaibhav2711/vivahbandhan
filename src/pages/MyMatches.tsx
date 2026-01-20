@@ -12,16 +12,19 @@ import { useOnlineStatus } from '@/hooks/useOnlineStatus';
 import RetryError from '@/components/RetryError';
 import { ProfileCardSkeleton } from '@/components/skeletons/ProfileCardSkeleton';
 import { getPrivacySafeLocation } from '@/utils/locationUtils';
+import { smartTranslate } from '@/utils/translationUtils';
 
 const MyMatches: React.FC = () => {
     const { user, isLoading: authLoading } = useAuth();
-    const { t } = useLanguage();
+    const { t, language } = useLanguage();
     const navigate = useNavigate();
 
     const [loading, setLoading] = useState(true);
     const [hasRequest, setHasRequest] = useState(false);
     const [matches, setMatches] = useState<any[]>([]);
     const isOnline = useOnlineStatus();
+    // ... (lines 26-215 kept implicitly via context matching, skipping to modified render block)
+
 
     useEffect(() => {
         if (authLoading) return;
@@ -217,25 +220,36 @@ const MyMatches: React.FC = () => {
                                                         <div>
                                                             <span className="text-muted-foreground">{t('profile.education')}:</span>
                                                             <div className="font-medium truncate capitalize">
-                                                                {profile.education ? profile.education.replace(/\s*-\s*NA\s*$/, '').replace(/\s*-\s*$/, '') : '-'}
+                                                                {profile.education ? smartTranslate(profile.education.replace(/\s*-\s*NA\s*$/, '').replace(/\s*-\s*$/, ''), language) : '-'}
                                                             </div>
                                                         </div>
-                                                        <div>
-                                                            <span className="text-muted-foreground">{t('profile.profession')}:</span>
-                                                            <div className="font-medium truncate capitalize">
-                                                                {profile.profession ? (() => {
-                                                                    const parts = profile.profession.split(' at ');
-                                                                    const job = parts[0];
-                                                                    const company = parts[1];
-                                                                    const displayJob = t(`prof.${job}`) === `prof.${job}` ? job : t(`prof.${job}`);
+                                                        {(() => {
+                                                            const rawProfession = profile.profession;
+                                                            if (!rawProfession || rawProfession === '-' || rawProfession === 'NA') return null;
 
-                                                                    if (company && company !== 'NA') {
-                                                                        return `${displayJob} ${t('common.at')} ${company}`;
-                                                                    }
-                                                                    return displayJob.replace(/\s+at\s+(NA|N\/A|null|undefined)\s*$/i, '').replace(' at ', '');
-                                                                })() : '-'}
-                                                            </div>
-                                                        </div>
+                                                            const parts = rawProfession.split(' at ');
+                                                            const job = parts[0];
+                                                            const company = parts[1];
+                                                            const displayJob = t(`prof.${job}`) === `prof.${job}` ? smartTranslate(job, language) : t(`prof.${job}`);
+
+                                                            let finalProfession = '';
+                                                            if (company && company !== 'NA') {
+                                                                finalProfession = `${displayJob} ${t('common.at')} ${company}`;
+                                                            } else {
+                                                                finalProfession = displayJob.replace(/\s+at\s+(NA|N\/A|null|undefined)\s*$/i, '').replace(' at ', '');
+                                                            }
+
+                                                            if (!finalProfession || finalProfession === '-') return null;
+
+                                                            return (
+                                                                <div>
+                                                                    <span className="text-muted-foreground">{t('profile.profession')}:</span>
+                                                                    <div className="font-medium truncate capitalize">
+                                                                        {finalProfession}
+                                                                    </div>
+                                                                </div>
+                                                            );
+                                                        })()}
                                                     </div>
 
                                                     <Button className="w-full mt-auto btn-gold">

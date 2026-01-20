@@ -345,7 +345,7 @@ export const translations: Translations = {
   'register.eduCareer': { en: 'Education & Career', hi: 'शिक्षा और करियर', mr: 'शिक्षण' },
   'register.location': { en: 'Location', hi: 'स्थान', mr: 'राहण्याचे ठिकाण' },
   'register.familyDetails': { en: 'Family Details', hi: 'पारिवारिक विवरण', mr: 'घरच्यांची माहिती' },
-  'register.about': { en: 'About', hi: 'परिचय', mr: 'तुमच्याबद्दल थोडे काही' },
+  'register.about': { en: 'About', hi: 'परिचय', mr: 'माझ्याबद्दल थोडे काही' },
   'register.photo': { en: 'Profile Photo', hi: 'प्रोफाइल फोटो', mr: 'फोटो आणि नोंदणी' },
 
   // Fields

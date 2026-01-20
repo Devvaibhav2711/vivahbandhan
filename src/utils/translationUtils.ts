@@ -36,6 +36,12 @@ const commonTermMap: Record<string, { en: string; hi: string; mr: string }> = {
     'engineer': { en: 'Engineer', hi: 'इंजीनियर', mr: 'अभियंता' },
     'doctor': { en: 'Doctor', hi: 'डॉक्टर', mr: 'डॉक्टर' },
     'advocate': { en: 'Advocate', hi: 'वकील', mr: 'वकील' },
+    'highschool': { en: 'High School', hi: 'हाई स्कूल', mr: 'हायस्कूल' },
+    'bachelors': { en: 'Bachelors', hi: 'स्नातक', mr: 'पदवीधर' },
+    'masters': { en: 'Masters', hi: 'मास्टर्स', mr: 'पदव्युत्तर' },
+    'doctorate': { en: 'Doctorate', hi: 'डॉक्टरेट', mr: 'पीएच.डी.' },
+    'graduate': { en: 'Graduate', hi: 'स्नातक', mr: 'पदवीधर' },
+    'postgraduate': { en: 'Post Graduate', hi: 'स्नातकोत्तर', mr: 'पदव्युत्तर' },
     'none': { en: 'None', hi: 'कोई नहीं', mr: 'नाही' },
     'na': { en: 'N/A', hi: 'लागू नहीं', mr: 'लागू नाही' },
 };

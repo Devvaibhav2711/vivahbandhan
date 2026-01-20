@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link, useNavigate, useSearchParams } from 'react-router-dom';
 import { Users, Heart, MessageSquare, FileText, Send, Eye, Trash2, Settings } from 'lucide-react';
 import { supabase } from '@/lib/supabase';
 import { useLanguage } from '@/contexts/LanguageContext';
@@ -30,6 +30,7 @@ import { formatDateIndian } from '@/utils/dateUtils';
 
 const Admin: React.FC = () => {
   const navigate = useNavigate();
+  const [searchParams, setSearchParams] = useSearchParams();
   const { t } = useLanguage();
   const { isAdmin } = useAuth();
   const { toast } = useToast();
@@ -39,7 +40,27 @@ const Admin: React.FC = () => {
   const [users, setUsers] = useState<any[]>([]);
   const [messages, setMessages] = useState<any[]>([]);
   const [sharedMatches, setSharedMatches] = useState<any[]>([]);
-  const [activeTab, setActiveTab] = useState('profiles');
+
+  // Derived State from URL
+  const activeTab = searchParams.get('tab') || 'profiles';
+  const userFilter = (searchParams.get('filter') as 'all' | 'premium') || 'all';
+
+  const setActiveTab = (tab: string) => {
+    setSearchParams(prev => {
+      prev.set('tab', tab);
+      // Reset filter when switching to users tab or others?
+      // Keeping existing behavior: logic inside click handlers
+      return prev;
+    });
+  };
+
+  const setUserFilter = (filter: 'all' | 'premium') => {
+    setSearchParams(prev => {
+      prev.set('filter', filter);
+      return prev;
+    });
+  };
+
   const [selectedProfile, setSelectedProfile] = useState<any>(null);
   const [shareUserIds, setShareUserIds] = useState<string[]>([]);
   const [requestToShare, setRequestToShare] = useState<any>(null); // Request being responded to
@@ -49,7 +70,6 @@ const Admin: React.FC = () => {
   const [selectedProfileShares, setSelectedProfileShares] = useState<any[]>([]); // Track existing shares for selected profile
   const [isPaymentWallEnabled, setIsPaymentWallEnabled] = useState(false);
   const [isPublicProfilesEnabled, setIsPublicProfilesEnabled] = useState(false);
-  const [userFilter, setUserFilter] = useState<'all' | 'premium'>('all');
 
   const fetchRequests = async () => {
     // Fetch users to get valid IDs for filtering
@@ -358,7 +378,7 @@ const Admin: React.FC = () => {
           <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-8">
             <div
               className={`card-elegant p-4 text-center cursor-pointer transition-all hover:scale-105 ${activeTab === 'users' && userFilter === 'premium' ? 'ring-2 ring-primary bg-primary/5' : ''}`}
-              onClick={() => { setActiveTab('users'); setUserFilter('premium'); }}
+              onClick={() => setSearchParams({ tab: 'users', filter: 'premium' })}
             >
               <Users className="w-8 h-8 mx-auto mb-2 text-amber-600" />
               <p className="text-2xl font-bold text-amber-700">{profiles.filter(p => p.subscription_type === 'premium').length}</p>
@@ -376,7 +396,7 @@ const Admin: React.FC = () => {
 
             <div
               className={`card-elegant p-4 text-center cursor-pointer transition-all hover:scale-105 ${activeTab === 'users' && userFilter === 'all' ? 'ring-2 ring-primary bg-primary/5' : ''}`}
-              onClick={() => { setActiveTab('users'); setUserFilter('all'); }}
+              onClick={() => setSearchParams({ tab: 'users', filter: 'all' })}
             >
               <Users className="w-8 h-8 mx-auto mb-2 text-primary" />
               <p className="text-2xl font-bold">{users.length}</p>
@@ -409,8 +429,11 @@ const Admin: React.FC = () => {
                 variant={activeTab === tab.id ? 'default' : 'ghost'}
                 size="sm"
                 onClick={() => {
-                  setActiveTab(tab.id);
-                  if (tab.id === 'users') setUserFilter('all'); // Reset filter when clicking tab
+                  if (tab.id === 'users') {
+                    setSearchParams({ tab: 'users', filter: 'all' });
+                  } else {
+                    setActiveTab(tab.id);
+                  }
                 }}
                 className="capitalize"
               >
