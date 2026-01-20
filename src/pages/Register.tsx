@@ -137,8 +137,8 @@ const Register: React.FC = () => {
 
     if (formData.fatherContact.length !== 10) {
       toast({
-        title: "Invalid Father's Contact",
-        description: "Father's contact number must be exactly 10 digits.",
+        title: t('validation.errorTitle'),
+        description: t('validation.phoneLength'),
         variant: "destructive",
       });
       return;

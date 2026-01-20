@@ -38,6 +38,7 @@ export const translations: Translations = {
   'nav.home': { en: 'Home', hi: 'होम', mr: 'मुख्यपृष्ठ' },
   'nav.about': { en: 'About', hi: 'हमारे बारे में', mr: 'आमच्याबद्दल' },
   'nav.submitProfile': { en: 'Submit Profile', hi: 'प्रोफाइल जमा करें', mr: 'प्रोफाइल सबमिट करा' },
+  'nav.completeProfile': { en: 'Complete Profile', hi: 'प्रोफाइल पूरी करें', mr: 'प्रोफाइल पूर्ण करा' },
   'nav.myMatches': { en: 'My Matches', hi: 'मेरे मैच', mr: 'मनासारखी स्थळं' },
   'nav.requestMatch': { en: 'Request Match', hi: 'मैच अनुरोध', mr: 'जीवनसाथी' },
   'nav.successStories': { en: 'Success Stories', hi: 'सफलता की कहानियां', mr: 'यशोगाथा' },
@@ -248,7 +249,7 @@ export const translations: Translations = {
   'updatePassword.submitBtn': { en: 'Update Password', hi: 'पासवर्ड अपडेट करें', mr: 'पासवर्ड अपडेट करा' },
   'updatePassword.success': { en: 'Password updated successfully.', hi: 'पासवर्ड सफलतापूर्वक अपडेट किया गया।', mr: 'पासवर्ड यशस्वीरित्या अपडेट केला.' },
 
-  'validation.errorTitle': { en: 'Validation Error', hi: 'सत्यापन त्रुटि', mr: 'चुकीचा नंबर' },
+  'validation.errorTitle': { en: 'Validation Error', hi: 'सत्यापन त्रुटि', mr: 'त्रुटी' },
   'validation.phoneLength': { en: 'Phone number must be exactly 10 digits.', hi: 'फ़ोन नंबर बिल्कुल 10 अंकों का होना चाहिए।', mr: 'कृपया १० अंकी मोबाईल नंबर टाका.' },
 
   // Admin
@@ -644,6 +645,50 @@ export const translations: Translations = {
   'toast.msgSentDesc': { en: 'We will contact you shortly.', hi: 'हम आपसे जल्द ही संपर्क करेंगे।', mr: 'आम्ही लवकरच आपल्याशी संपर्क साधू.' },
   'toast.msgFailed': { en: 'Failed to send message.', hi: 'संदेश भेजने में विफल।', mr: 'संदेश पाठवण्यात अपयश.' },
   'contact.loginRequiredDesc': { en: 'Please login to send a message.', hi: 'संदेश भेजने के लिए कृपया लॉगिन करें।', mr: 'संदेश पाठवण्यासाठी कृपया लॉगिन करा.' },
+
+  // Categorical Data Translations
+  'profile.groom': { en: 'GROOM', hi: 'वर', mr: 'वर' },
+  'profile.bride': { en: 'BRIDE', hi: 'वधू', mr: 'वधू' },
+  // profile.male/female and gender.male/female removed (duplicates)
+
+  // Religion
+  'religion.Hindu': { en: 'Hindu', hi: 'हिन्दू', mr: 'हिंदू' },
+  'religion.Muslim': { en: 'Muslim', hi: 'मुस्लिम', mr: 'मुस्लिम' },
+  'religion.Christian': { en: 'Christian', hi: 'ईसाई', mr: 'ख्रिश्चन' },
+  'religion.Sikh': { en: 'Sikh', hi: 'सिख', mr: 'शीख' },
+  'religion.Jain': { en: 'Jain', hi: 'जैन', mr: 'जैन' },
+  'religion.Buddhist': { en: 'Buddhist', hi: 'बौद्ध', mr: 'बौद्ध' },
+
+  // Marital Status
+  'marital.never_married': { en: 'Never Married', hi: 'कभी शादी नहीं हुई', mr: 'अविवाहित' },
+  'marital.awaiting_divorce': { en: 'Awaiting Divorce', hi: 'तलाक की प्रतीक्षा', mr: 'घटस्फोटाच्या प्रतीक्षेत' },
+  // divorced/widowed exist elsewhere
+
+  // Education
+  'edu.High School': { en: 'High School', hi: 'हाई स्कूल', mr: 'हायस्कूल' },
+  'edu.Bachelors': { en: 'Bachelors', hi: 'स्नातक', mr: 'पदवीधर' },
+  'edu.Masters': { en: 'Masters', hi: 'स्नातकोत्तर', mr: 'मास्टर डिग्री' },
+  'edu.Doctorate': { en: 'Doctorate', hi: 'डॉक्टरेट', mr: 'डॉक्टरेट' },
+  'edu.Diploma': { en: 'Diploma', hi: 'डिप्लोमा', mr: 'डिप्लोमा' },
+
+  // Common Castes (Examples - can be expanded)
+  'caste.maratha': { en: 'Maratha', hi: 'मराठा', mr: 'मराठा' },
+  'caste.brahmin': { en: 'Brahmin', hi: 'ब्राह्मण', mr: 'ब्राम्हण' },
+  'caste.mali': { en: 'Mali', hi: 'माली', mr: 'माळी' },
+  'caste.dhangar': { en: 'Dhangar', hi: 'धनगर', mr: 'धनगर' },
+  'caste.chambhar': { en: 'Chambhar', hi: 'चर्मकार', mr: 'चांभार' },
+  'caste.mahar': { en: 'Mahar', hi: 'महार', mr: 'महार' },
+  'caste.kunbi': { en: 'Kunbi', hi: 'कुनबी', mr: 'कुणबी' },
+  'caste.lingayat': { en: 'Lingayat', hi: 'लिंगायत', mr: 'लिंगायत' },
+  'caste.open': { en: 'Open', hi: 'खुला', mr: 'खुला' },
+  'caste.obc': { en: 'OBC', hi: 'ओबीसी', mr: 'ओबीसी' },
+  'caste.sc': { en: 'SC', hi: 'एससी', mr: 'एससी' },
+  'caste.st': { en: 'ST', hi: 'एसटी', mr: 'एसटी' },
+  'caste.nt': { en: 'NT', hi: 'एनटी', mr: 'एनटी' },
+  'caste.vjnt': { en: 'VJNT', hi: 'वीजेएनटी', mr: 'व्हीजेएनटी' },
+  'caste.sbc': { en: 'SBC', hi: 'एसबीसी', mr: 'एसबीसी' },
+
+  // caste.other exists elsewhere
 
   // Contact Page
   'contact.getInTouch': { en: 'Get in Touch', hi: 'संपर्क करें', mr: 'मार्गदर्शनासाठी संपर्क' },

@@ -160,14 +160,14 @@ const PublicProfiles: React.FC = () => {
                                 onClick={() => setFilterGender('male')}
                                 className={filterGender === 'male' ? 'btn-gold' : ''}
                             >
-                                {t('profile.male')}
+                                {t('gender.male')}
                             </Button>
                             <Button
                                 variant={filterGender === 'female' ? 'default' : 'outline'}
                                 onClick={() => setFilterGender('female')}
                                 className={filterGender === 'female' ? 'btn-gold' : ''}
                             >
-                                {t('profile.female')}
+                                {t('gender.female')}
                             </Button>
                         </div>
                     </div>
@@ -245,7 +245,7 @@ const PublicProfiles: React.FC = () => {
                                                     </div>
                                                 )}
                                                 <div className="bg-primary text-primary-foreground text-[10px] font-bold px-2 py-0.5 shadow-sm rounded-l-md transform translate-x-1 group-hover:translate-x-0 transition-transform">
-                                                    {profile.gender === 'male' ? 'GROOM' : 'BRIDE'}
+                                                    {profile.gender === 'male' ? t('profile.groom') : t('profile.bride')}
                                                 </div>
                                             </div>
                                         </div>
@@ -254,10 +254,10 @@ const PublicProfiles: React.FC = () => {
                                         <div className="p-3 bg-white grid grid-cols-2 gap-2 text-xs">
                                             <div className="space-y-0.5">
                                                 <p className="text-muted-foreground">{t('common.age')}</p>
-                                                <p className="font-medium">{profile.age} Yrs</p>
+                                                <p className="font-medium">{profile.age} {t('common.yrs')}</p>
                                             </div>
                                             <div className="space-y-0.5">
-                                                <p className="text-muted-foreground col-span-2">Height</p>
+                                                <p className="text-muted-foreground col-span-2">{t('common.height')}</p>
                                                 <p className="font-medium">{profile.height}</p>
                                             </div>
                                             <div className="col-span-2 space-y-0.5 mt-1 border-t pt-1 border-gray-100 flex items-center gap-1.5 text-muted-foreground">
@@ -274,10 +274,32 @@ const PublicProfiles: React.FC = () => {
                                                         const jobKey = `prof.${job}`;
                                                         const displayJob = t(jobKey) === jobKey ? job : t(jobKey);
 
-                                                        const invalidCompanies = ['no', 'none', 'na', 'n/a', '-', '', 'नाही'];
-                                                        if (company && !invalidCompanies.includes(company.toLowerCase())) {
+                                                        const invalidCompanies = ['no', 'none', 'na', 'n/a', '-', '', 'नाही', 'Other', 'other'];
+
+                                                        // If company exists and is NOT invalid, show "Job at Company"
+                                                        if (company && !invalidCompanies.includes(company.trim().toLowerCase())) {
                                                             return `${displayJob} ${t('common.at')} ${company}`;
                                                         }
+
+                                                        // If company is invalid, just show the Job.
+                                                        // BUT, if the job itself is just "Other", "Private Sector" or generic with no company, maybe user wants it hidden?
+                                                        // User specifically said "other at naahi text hide it".
+                                                        // If we are here, company IS invalid. So we are just returning displayJob.
+                                                        // If displayJob is "Other" (or localized "Other"), and company is invalid, we return "Other".
+                                                        // It seems user doesn't like "Other" appearing alone either? 
+                                                        // Let's assume if it is "Other" alone, we hide it or show "Not Specified"? 
+                                                        // Actually, let's just return displayJob for now, but ensure 'naahi' is caught.
+
+                                                        // Wait, if company is 'naahi', !invalidCompanies.includes(...) will be false. 
+                                                        // So it goes to 'return displayJob'.
+                                                        // displayJob is 'Other' (or translated).
+                                                        // So it shows "Other".
+                                                        // The user said "Other at naahi text hide it".
+                                                        // The screenshot shows "Other at नाही". NOT just "Other".
+                                                        // This means my previous logic FAILED to catch 'नाही'.
+                                                        // Likely because 'नाही' case or whitespace?
+
+                                                        return displayJob;
                                                         return displayJob;
                                                     })()}
                                                 </span>

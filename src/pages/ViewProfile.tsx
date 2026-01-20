@@ -303,8 +303,8 @@ const ViewProfile: React.FC = () => {
                                         <div className="grid grid-cols-1 gap-4 p-4 bg-secondary/5 rounded-lg border">
                                             {canViewContact ? (
                                                 <>
-                                                    <InfoItem icon={Mail} label="Email" value={profileUser?.email} />
-                                                    <InfoItem icon={Phone} label="Phone" value={profileUser?.phone} />
+                                                    <InfoItem icon={Mail} label={t('register.email')} value={profileUser?.email} />
+                                                    <InfoItem icon={Phone} label={t('register.phone')} value={profileUser?.phone} />
                                                     <InfoItem icon={Phone} label={t('register.fatherContact')} value={(() => {
                                                         const fcPart = profile.family_background?.split(',').find((p: string) => p.trim().toLowerCase().startsWith('father contact:'));
                                                         return fcPart ? fcPart.split(':')[1].trim() : '-';

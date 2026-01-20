@@ -122,7 +122,8 @@ const Header: React.FC = () => {
                       <DropdownMenuSeparator />
                     </>
                   )}
-                  {profileId && (
+
+                  {profileId ? (
                     <>
                       <DropdownMenuItem asChild>
                         <Link to={`/profile/view/${profileId}`} className="w-full cursor-pointer">
@@ -135,6 +136,12 @@ const Header: React.FC = () => {
                         </Link>
                       </DropdownMenuItem>
                     </>
+                  ) : (
+                    <DropdownMenuItem asChild>
+                      <Link to="/register" className="w-full cursor-pointer">
+                        {t('nav.completeProfile') || 'Complete Profile'}
+                      </Link>
+                    </DropdownMenuItem>
                   )}
                   <DropdownMenuItem asChild>
                     <Link to="/my-matches" className="w-full cursor-pointer">
@@ -207,7 +214,8 @@ const Header: React.FC = () => {
                       {t('admin.dashboard')}
                     </Link>
                   )}
-                  {profileId && (
+
+                  {profileId ? (
                     <>
                       <Link
                         to={`/profile/view/${profileId}`}
@@ -224,6 +232,14 @@ const Header: React.FC = () => {
                         {t('nav.editProfile')}
                       </Link>
                     </>
+                  ) : (
+                    <Link
+                      to="/register"
+                      onClick={() => setIsMobileMenuOpen(false)}
+                      className="px-4 py-3 rounded-lg text-sm font-medium hover:bg-muted"
+                    >
+                      {t('nav.completeProfile') || 'Complete Profile'}
+                    </Link>
                   )}
                   <button
                     onClick={() => {
