@@ -309,7 +309,22 @@ const ViewProfile: React.FC = () => {
                                                         const fcPart = profile.family_background?.split(',').find((p: string) => p.trim().toLowerCase().startsWith('father contact:'));
                                                         return fcPart ? fcPart.split(':')[1].trim() : '-';
                                                     })()} />
-                                                    <InfoItem icon={MapPin} label={t('register.fullAddress')} value={profile.full_address} />
+                                                    <InfoItem icon={MapPin} label={t('register.fullAddress')} value={(() => {
+                                                        const raw = profile.full_address || profile.location || '';
+                                                        if (raw.includes('|')) {
+                                                            const [addr, loc] = raw.split('|').map((s: string) => s.trim());
+                                                            const [cityCode, stateCode] = loc.split(',').map((s: string) => s.trim());
+
+                                                            // Translate Codes
+                                                            const cityKey = `city.${cityCode}`;
+                                                            const stateKey = `state.${stateCode}`;
+                                                            const city = t(cityKey) === cityKey ? cityCode : t(cityKey);
+                                                            const state = t(stateKey) === stateKey ? stateCode : t(stateKey);
+
+                                                            return <>{addr}<br /><span className="text-muted-foreground text-xs">{city}, {state}</span></>;
+                                                        }
+                                                        return raw || '-';
+                                                    })()} />
                                                 </>
                                             ) : (
                                                 <div className="bg-amber-50 border border-amber-200 p-4 rounded-lg text-amber-800 text-sm flex flex-col items-center text-center gap-2">
@@ -362,7 +377,8 @@ const ViewProfile: React.FC = () => {
                                                     const jobKey = `prof.${job}`;
                                                     const displayJob = t(jobKey) === jobKey ? job : t(jobKey);
 
-                                                    if (company && company !== 'NA') {
+                                                    const invalidCompanies = ['no', 'none', 'na', 'n/a', '-', ''];
+                                                    if (company && !invalidCompanies.includes(company.toLowerCase())) {
                                                         return `${displayJob} ${t('common.at')} ${company}`;
                                                     }
                                                     return displayJob;
@@ -430,7 +446,9 @@ const ViewProfile: React.FC = () => {
                                                             return <p key={i} className="text-gray-700"><span className="font-semibold">{t('family.siblings')}:</span> {t('common.none')}</p>;
                                                         }
 
-                                                        return <p key={i} className="text-gray-700"><span className="font-semibold">{t('family.siblings')}:</span> {val}</p>;
+                                                        // Remove (Total: X) if present to clean up display
+                                                        const cleanVal = val.replace(/\s*\(Total:\s*\d+\)/i, '').trim();
+                                                        return <p key={i} className="text-gray-700"><span className="font-semibold">{t('family.siblings')}:</span> {cleanVal}</p>;
                                                     }
 
                                                     // Fallback check
@@ -444,13 +462,15 @@ const ViewProfile: React.FC = () => {
                                         </div>
                                     </div>
 
-                                    {/* About */}
-                                    <div className="space-y-4">
-                                        <h2 className="text-xl font-serif font-bold text-primary border-b pb-2">{t('register.about')}</h2>
-                                        <p className="text-gray-700 leading-relaxed whitespace-pre-wrap">
-                                            {profile.about || 'No bio available.'}
-                                        </p>
-                                    </div>
+                                    {/* About - Only show if exists */}
+                                    {profile.about && (
+                                        <div className="space-y-4">
+                                            <h2 className="text-xl font-serif font-bold text-primary border-b pb-2">{t('register.about')}</h2>
+                                            <p className="text-gray-700 leading-relaxed whitespace-pre-wrap">
+                                                {profile.about}
+                                            </p>
+                                        </div>
+                                    )}
                                 </div>
                             </div>
                         </div>

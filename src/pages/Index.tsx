@@ -63,7 +63,7 @@ const Index: React.FC = () => {
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
               <Button asChild size="lg" className="btn-gold text-lg px-8">
                 {user ? (
-                  <Link to={profileId ? `/profile/edit/${profileId}` : '/register'}>
+                  <Link to={profileId ? `/profile/view/${profileId}` : '/register'}>
                     {profileId ? t('hero.myProfile') : t('hero.submitProfile')}
                   </Link>
                 ) : (

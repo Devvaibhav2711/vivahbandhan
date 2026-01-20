@@ -214,7 +214,19 @@ const PublicProfiles: React.FC = () => {
                                                     <div className="flex items-center text-xs text-white/90 gap-1 h-5 overflow-hidden">
                                                         <MapPin className="w-3 h-3 shrink-0" />
                                                         <span className="truncate">
-                                                            {getPrivacySafeLocation(profile.location) || 'Location Protected'}
+                                                            {(() => {
+                                                                const locRaw = profile.location || '';
+                                                                if (locRaw.includes('|')) {
+                                                                    // Format: "Full Address | City, State" - we just want City, State here
+                                                                    const parts = locRaw.split('|')[1].trim().split(',').map((s: string) => s.trim());
+                                                                    const cityKey = `city.${parts[0]}`;
+                                                                    const stateKey = `state.${parts[1]}`;
+                                                                    const city = t(cityKey) === cityKey ? parts[0] : t(cityKey);
+                                                                    const state = t(stateKey) === stateKey ? parts[1] : t(stateKey);
+                                                                    return `${city}, ${state}`;
+                                                                }
+                                                                return getPrivacySafeLocation(profile.location) || 'Location Protected';
+                                                            })()}
                                                         </span>
                                                     </div>
                                                 </div>
@@ -252,8 +264,21 @@ const PublicProfiles: React.FC = () => {
                                                 <Briefcase className="w-3 h-3" />
                                                 <span className="truncate">
                                                     {(() => {
-                                                        const text = profile.job_occupation || profile.profession || 'N/A';
-                                                        return text.replace(/\s+at\s+(NA|N\/A|null|undefined)\s*$/i, '');
+                                                        const raw = profile.job_occupation || profile.profession || 'N/A';
+                                                        if (!raw || raw === 'N/A') return 'N/A';
+
+                                                        const parts = raw.split(' at ');
+                                                        const job = parts[0];
+                                                        const company = parts[1];
+
+                                                        const jobKey = `prof.${job}`;
+                                                        const displayJob = t(jobKey) === jobKey ? job : t(jobKey);
+
+                                                        const invalidCompanies = ['no', 'none', 'na', 'n/a', '-', '', 'नाही'];
+                                                        if (company && !invalidCompanies.includes(company.toLowerCase())) {
+                                                            return `${displayJob} ${t('common.at')} ${company}`;
+                                                        }
+                                                        return displayJob;
                                                     })()}
                                                 </span>
                                             </div>

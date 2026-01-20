@@ -92,6 +92,12 @@ export const translations: Translations = {
     hi: 'यदि उपयोगकर्ता प्रीमियम स्थिति के बिना मैच का अनुरोध करने का प्रयास करते हैं तो उन्हें भुगतान जानकारी पृष्ठ पर पुनर्निर्देशित करता है।',
     mr: 'जर एखाद्या सदस्याने प्रीमियम नसताना विनंती करण्याचा प्रयत्न केला, तर त्यांना पेमेंट माहितीच्या पानावर पाठवले जाईल.'
   },
+  'admin.settings.publicProfiles': { en: "Show 'All Profiles' Menu", hi: "'सभी प्रोफाइल' मेनू दिखाएं", mr: "'सर्व प्रोफाईल्स' (All Profiles) मेनू दाखवा" },
+  'admin.settings.publicProfilesDesc': {
+    en: "Enable this to allow users to browse all public profiles from their dashboard.",
+    hi: "उपयोगकर्ताओं को अपने डैशबोर्ड से सभी सार्वजनिक प्रोफाइल ब्राउज़ करने की अनुमति देने के लिए इसे सक्षम करें।",
+    mr: "हे चालू केल्यास, सदस्यांना डॅशबोर्डवर 'सर्व प्रोफाईल्स' पाहता येतील."
+  },
   'nav.login': { en: 'Login', hi: 'लॉगिन', mr: 'लॉगिन' },
   'nav.register': { en: 'Register', hi: 'रजिस्टर', mr: 'नोंदणी' },
   'nav.dashboard': { en: 'Dashboard', hi: 'डैशबोर्ड', mr: 'डॅशबोर्ड' },

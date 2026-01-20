@@ -278,7 +278,7 @@ const AdminUserForm: React.FC = () => {
                 {/* Basic Information */}
                 <div className="space-y-4">
                     <h2 className="text-xl font-serif font-bold flex items-center gap-2 border-b pb-2 text-primary">
-                        <User className="w-5 h-5" /> Basic Information
+                        <User className="w-5 h-5" /> {t('register.basicInfo')}
                     </h2>
                     <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
                         <div className="space-y-2">
