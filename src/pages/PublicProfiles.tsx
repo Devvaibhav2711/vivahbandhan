@@ -80,7 +80,7 @@ const PublicProfiles: React.FC = () => {
         getNextPageParam: (lastPage) => lastPage.nextPage,
         initialPageParam: 0,
         enabled: isOnline && canView,
-        staleTime: 1000 * 60 * 5, // Cache for 5 minutes to prevent blinking on tab switch
+        staleTime: 0, // Always fetch fresh data to avoid stale profiles
     });
 
     // Flatten pages into a single array

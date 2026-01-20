@@ -1,4 +1,4 @@
-const CACHE_NAME = 'shubhvivahbandhan-v1';
+const CACHE_NAME = 'shubhvivahbandhan-v2';
 const STATIC_ASSETS = [
   '/',
   '/index.html',
@@ -49,6 +49,12 @@ self.addEventListener('fetch', (event) => {
   // For simplicity and safety, we filter out non-GET requests.
   if (event.request.method !== 'GET') {
     return;
+  }
+
+  // Exclude Supabase Database & Auth API calls from caching to ensure fresh data
+  // But allow Storage (Images) to be cached for performance
+  if (url.href.includes('supabase.co') && (url.pathname.includes('/rest/v1') || url.pathname.includes('/auth/v1'))) {
+      return;
   }
 
   // Define strategy based on request destination
