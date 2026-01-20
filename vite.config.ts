@@ -18,4 +18,16 @@ export default defineConfig(({ mode }) => ({
       "@": path.resolve(__dirname, "./src"),
     },
   },
+  build: {
+    rollupOptions: {
+      output: {
+        manualChunks: {
+          'vendor-react': ['react', 'react-dom', 'react-router-dom'],
+          'vendor-ui': ['@radix-ui/react-dialog', '@radix-ui/react-slot', '@radix-ui/react-toast', 'lucide-react', 'embla-carousel-react'],
+          'vendor-utils': ['@supabase/supabase-js', '@tanstack/react-query', 'date-fns', 'zod'],
+        }
+      }
+    },
+    chunkSizeWarningLimit: 1000,
+  }
 }));

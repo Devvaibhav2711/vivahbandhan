@@ -39,115 +39,75 @@ self.addEventListener('activate', (event) => {
   self.clients.claim();
 });
 
-// Fetch Event: Network-first for pages, Cache-first for assets (or similar strategy)
+// Fetch Event: Optimized strategies
 self.addEventListener('fetch', (event) => {
   const url = new URL(event.request.url);
 
-  // Exclude API calls (Supabase, etc.) from caching if needed
-  // But user wants to cache public pages.
-  // We should generally avoid caching authentication requests / sensitive data.
-  // For simplicity and safety, we filter out non-GET requests.
-  if (event.request.method !== 'GET') {
+  // 1. SKIP: Non-GET requests
+  if (event.request.method !== 'GET') return;
+
+  // 2. SKIP: Supabase API (Rest/Auth) - Keep fresh
+  if (url.href.includes('supabase.co') && (url.pathname.includes('/rest/v1') || url.pathname.includes('/auth/v1'))) {
     return;
   }
 
-  // Exclude Supabase Database & Auth API calls from caching to ensure fresh data
-  // But allow Storage (Images) to be cached for performance
-  if (url.href.includes('supabase.co') && (url.pathname.includes('/rest/v1') || url.pathname.includes('/auth/v1'))) {
-      return;
-  }
-
-  // Define strategy based on request destination
+  // 3. STRATEGY: Navigation (HTML) -> Network First, Fallback to Cache (App Shell)
   if (event.request.mode === 'navigate') {
-    // Navigation (HTML pages): Network First, fall back to Cache, then Offline Page
-    // Navigation (HTML pages): Stale-While-Revalidate
-    // Return cached shell immediately, then update cache from network
     event.respondWith(
-      caches.match(OFFLINE_URL).then((cachedResponse) => {
-        const networkFetch = fetch(event.request)
-          .then((response) => {
-            // Check if we received a valid response
-            if (!response || response.status !== 200 || response.type !== 'basic') {
-                return response;
-            }
-            // Clone and cache updated version
-            const responseToCache = response.clone();
-            caches.open(CACHE_NAME).then((cache) => {
-                cache.put(event.request, responseToCache);
-            });
-            return response;
-          })
-          .catch(() => {
-             // Network failed, just return what we have (or offline page if nothing)
-             // We already returned cache below if available? 
-             // Actually SWR pattern usually returns cache immediately.
-          });
-
-        //Ideally we match event.request (the URL), falling back to OFFLINE_URL (the App Shell)
-        // Since this is an SPA, all navigation usually serves index.html (or offline.html in our offline logic)
-        // Let's try to match the exact request first, then /index.html, then network.
-        
-        return caches.match(event.request).then((specificCache) => {
-             if (specificCache) return specificCache;
-             
-             // If specific URL not cached (rare for navigation in SPA, usually we serve index.html),
-             // We serve /index.html (App Shell) which should be in cache from install.
-             return caches.match('/index.html').then((shellCache) => {
-                 return shellCache || networkFetch; // Return shell or wait for network
-             });
-        });
-      })
-    );
-    
-    // simplified SWR for Navigation to ensure "Instant" feel:
-    // 1. Try Cache (specific URL or Shell) -> Return IMMEDIATELY
-    // 2. Fetch Network -> Update Cache
-    event.respondWith(
-        caches.match(event.request).then((cachedResponse) => {
-            // Create a promise for the network request to update cache
-            const fetchPromise = fetch(event.request).then((networkResponse) => {
-                if (networkResponse && networkResponse.status === 200 && networkResponse.type === 'basic') {
-                    const clone = networkResponse.clone();
-                    caches.open(CACHE_NAME).then((cache) => cache.put(event.request, clone));
-                }
-                return networkResponse;
-            }).catch(() => {
-                 // Network failed
-            });
-
-            // If we have a cached response, return it immediately!
-            if (cachedResponse) {
-                return cachedResponse; 
-            }
-            
-            // If not cached specifically, try the App Shell (/index.html)
-            return caches.match('/index.html').then((shellResponse) => {
-                if (shellResponse) {
-                     return shellResponse;
-                }
-                // If no shell (first load?), wait for network
-                return fetchPromise;
+      fetch(event.request)
+        .then((response) => {
+          // If valid network response, cache it (update index.html) and return
+          if (response && response.status === 200 && response.type === 'basic') {
+            const clone = response.clone();
+            caches.open(CACHE_NAME).then((cache) => cache.put(event.request, clone));
+          }
+          return response;
+        })
+        .catch(() => {
+          // Network failed? Try cache or fallback to offline.html
+          return caches.match(event.request)
+            .then((response) => {
+               if (response) return response;
+               return caches.match(OFFLINE_URL);
             });
         })
     );
-  } else {
-    // Static Assets (CSS, JS, Images): Stale-While-Revalidate or Cache First
-    // Let's use Stale-While-Revalidate for JS/CSS/Images to ensure updates are eventually seen
-    event.respondWith(
-      caches.match(event.request).then((cachedResponse) => {
-        const fetchPromise = fetch(event.request).then((networkResponse) => {
-           // Update cache with new version
-           if (networkResponse && networkResponse.status === 200 && networkResponse.type === 'basic') {
-              const responseToCache = networkResponse.clone();
-              caches.open(CACHE_NAME).then((cache) => {
-                 cache.put(event.request, responseToCache);
-              });
-           }
-           return networkResponse;
-        });
-        // Return cached response immediately if available, otherwise wait for network
-        return cachedResponse || fetchPromise;
-      })
-    );
+    return;
   }
+
+  // 4. STRATEGY: Hashed Assets (JS/CSS) -> Cache First (Immutable-ish)
+  // Vite generates files like assets/index-D8s7s.js which are unique.
+  // If we have it, return it. No need to check network.
+  if (url.pathname.includes('/assets/') && (url.pathname.endsWith('.js') || url.pathname.endsWith('.css'))) {
+     event.respondWith(
+        caches.match(event.request).then((cachedResponse) => {
+           if (cachedResponse) return cachedResponse;
+           return fetch(event.request).then((networkResponse) => {
+               if (networkResponse && networkResponse.status === 200) {
+                   const clone = networkResponse.clone();
+                   caches.open(CACHE_NAME).then((cache) => cache.put(event.request, clone));
+               }
+               return networkResponse;
+           });
+        })
+     );
+     return;
+  }
+
+  // 5. STRATEGY: Images & Others -> Stale-While-Revalidate
+  // Serve from cache immediately, but update in background
+  event.respondWith(
+    caches.match(event.request).then((cachedResponse) => {
+      const fetchPromise = fetch(event.request).then((networkResponse) => {
+        // Cache 'basic' (same-origin) and 'cors' (external images like Supabase Storage)
+        if (networkResponse && networkResponse.status === 200 && (networkResponse.type === 'basic' || networkResponse.type === 'cors')) {
+           const clone = networkResponse.clone();
+           caches.open(CACHE_NAME).then((cache) => cache.put(event.request, clone));
+        }
+        return networkResponse;
+      });
+      // Return cached if available, otherwise wait for network
+      return cachedResponse || fetchPromise;
+    })
+  );
 });
