@@ -6,6 +6,7 @@ import { useAuth } from '@/contexts/AuthContext';
 import { Button } from '@/components/ui/button';
 import LanguageSwitch from './LanguageSwitch';
 import { supabase } from '@/lib/supabase';
+import { useProfileId, usePublicProfilesSetting } from '@/hooks/useCommonData';
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -20,31 +21,12 @@ const Header: React.FC = () => {
   const location = useLocation();
   const navigate = useNavigate();
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
-  const [profileId, setProfileId] = useState<string | null>(null);
-  const [profilePhoto, setProfilePhoto] = useState<string | null>(null);
-  const [showPublicProfiles, setShowPublicProfiles] = useState(false);
 
-  useEffect(() => {
-    if (!user) {
-      setProfileId(null);
-      return;
-    }
-    const fetchProfile = async () => {
-      const { data } = await supabase.from('profiles').select('id, profile_photo').eq('user_id', user.id).maybeSingle();
-      if (data) {
-        setProfileId(data.id);
-        setProfilePhoto(data.profile_photo);
-      }
-    };
-    fetchProfile();
+  const { data: profileData } = useProfileId();
+  const { data: showPublicProfiles } = usePublicProfilesSetting();
 
-    // Check for Public Profiles Setting
-    const checkPublicSetting = async () => {
-      const { data } = await supabase.from('app_settings').select('value').eq('key', 'enable_public_profiles').maybeSingle();
-      setShowPublicProfiles(data?.value === 'true');
-    };
-    checkPublicSetting();
-  }, [user]);
+  const profileId = profileData?.id;
+  const profilePhoto = profileData?.profile_photo;
 
   const navLinks = [
     { path: '/', label: t('nav.home') },

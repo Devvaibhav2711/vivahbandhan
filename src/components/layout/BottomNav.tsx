@@ -4,56 +4,17 @@ import { Home, Heart, UserPlus, User, Search } from 'lucide-react';
 import { useAuth } from '@/contexts/AuthContext';
 import { useLanguage } from '@/contexts/LanguageContext';
 import { supabase } from '@/lib/supabase';
+import { useProfileId, usePublicProfilesSetting } from '@/hooks/useCommonData';
 
 const BottomNav: React.FC = () => {
     const { user, isAdmin } = useAuth();
     const { t } = useLanguage();
     const location = useLocation();
-    const [profileId, setProfileId] = useState<string | null>(null);
-    const [showPublicProfiles, setShowPublicProfiles] = useState(false);
 
-    useEffect(() => {
-        if (!user) {
-            setProfileId(null);
-            return;
-        }
-        const fetchProfile = async () => {
-            const { data } = await supabase.from('profiles').select('id').eq('user_id', user.id).maybeSingle();
-            if (data) setProfileId(data.id);
-        };
-        fetchProfile();
+    const { data: profileData } = useProfileId();
+    const { data: showPublicProfiles } = usePublicProfilesSetting();
 
-        // Listen for profile creation/deletion in real-time
-        const channel = supabase
-            .channel(`nav-profile-updates-${user.id}`)
-            .on(
-                'postgres_changes',
-                {
-                    event: '*',
-                    schema: 'public',
-                    table: 'profiles',
-                    filter: `user_id=eq.${user.id}`,
-                },
-                (payload) => {
-                    if (payload.eventType === 'INSERT') {
-                        setProfileId(payload.new.id);
-                    } else if (payload.eventType === 'DELETE') {
-                        setProfileId(null);
-                    }
-                }
-            )
-            .subscribe();
-
-        const checkPublicSetting = async () => {
-            const { data } = await supabase.from('app_settings').select('value').eq('key', 'enable_public_profiles').maybeSingle();
-            setShowPublicProfiles(data?.value === 'true');
-        };
-        checkPublicSetting();
-
-        return () => {
-            supabase.removeChannel(channel);
-        };
-    }, [user]);
+    const profileId = profileData?.id;
 
     // Only show if user is logged in
     if (!user) return null;

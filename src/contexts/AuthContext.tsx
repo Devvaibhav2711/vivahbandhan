@@ -26,14 +26,16 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
 
   const fetchProfile = async (userId: string, email?: string) => {
     try {
+      // Fetch only necessary fields to be lighter and potentially avoid some RLS issues if select policies exist
       const { data, error } = await supabase
         .from('users')
-        .select('*')
+        .select('id, email, phone, role, created_at')
         .eq('id', userId)
-        .single();
+        .maybeSingle();
 
       if (error) {
         console.error('Error fetching user data:', error);
+        // Fallback to basic user if DB fetch fails
         setUser({
           id: userId,
           email: email || '',
@@ -48,9 +50,26 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
           role: data.role as 'user' | 'admin',
           createdAt: data.created_at,
         });
+      } else {
+        // No profile found in public.users, but auth session exists.
+        // Create a temporary user object so they are not logged out.
+        console.warn('No public profile found for user:', userId);
+        setUser({
+          id: userId,
+          email: email || '',
+          role: 'user',
+          createdAt: new Date().toISOString()
+        });
       }
     } catch (error) {
       console.error('Unexpected error fetching user data:', error);
+      // Fallback
+      setUser({
+        id: userId,
+        email: email || '',
+        role: 'user',
+        createdAt: new Date().toISOString()
+      });
     } finally {
       setIsLoading(false);
     }
