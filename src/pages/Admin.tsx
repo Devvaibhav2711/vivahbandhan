@@ -847,7 +847,16 @@ const Admin: React.FC = () => {
                   return (
                     <div key={msg.id} className="card-elegant bg-white p-6 relative group border border-secondary/20 hover:shadow-lg transition-all flex flex-col h-full">
                       {/* Header: Sender Info */}
-                      <div className="flex items-center gap-4 mb-4">
+                      <div
+                        className={`flex items-center gap-4 mb-4 ${senderProfile ? 'cursor-pointer hover:bg-secondary/10 p-2 -mx-2 rounded-lg transition-colors' : ''}`}
+                        onClick={() => {
+                          if (senderProfile) {
+                            navigate(`/profile/edit/${senderProfile.id}`);
+                          } else {
+                            toast({ title: "No Profile", description: "This user has not created a profile yet." });
+                          }
+                        }}
+                      >
                         <div className="w-12 h-12 rounded-full border bg-muted overflow-hidden shrink-0">
                           {senderProfile && senderProfile.profile_photo ? (
                             <img src={senderProfile.profile_photo} className="w-full h-full object-cover" alt="Sender" />

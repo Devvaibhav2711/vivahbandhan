@@ -167,9 +167,21 @@ const Register: React.FC = () => {
       let targetUserId = user?.id;
 
       // 1. If NOT logged in, Sign up user
+      // 1. If NOT logged in, Sign up user
       if (!user) {
         const signUpResult = await register(formData.email, formData.password, formData.phone);
         if (!signUpResult.success) throw new Error(signUpResult.error);
+
+        // CHECK: If email confirmation is enabled, session might be null
+        if (signUpResult.data && !signUpResult.data.session) {
+          toast({
+            title: "Registration Successful",
+            description: "Please check your email to verify your account before logging in.",
+            duration: 6000
+          });
+          navigate('/login');
+          return; // STOP execution here, do not try to create profile yet
+        }
 
         const { data: { user: newUser } } = await supabase.auth.getUser();
         if (!newUser) throw new Error("User creation failed or session not found.");
@@ -207,6 +219,7 @@ const Register: React.FC = () => {
       }
 
       // 4. Create Profile
+      // ensure we have tax id or whatever else is needed? No, just standard fields.
       const profileData = {
         user_id: targetUserId,
         full_name: `${formData.firstName} ${formData.middleName ? formData.middleName + ' ' : ''}${formData.lastName}`.trim(),

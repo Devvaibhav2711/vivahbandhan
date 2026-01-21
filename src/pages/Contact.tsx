@@ -18,13 +18,39 @@ const Contact: React.FC = () => {
   const navigate = useNavigate();
   const [isSubmitting, setIsSubmitting] = useState(false);
 
+  const [defaultValues, setDefaultValues] = useState({ name: '', email: '' });
+
   useEffect(() => {
     if (authLoading) return;
     if (!user) {
       toast({ title: t('contact.loginRequired'), description: t('contact.loginMsg') });
       navigate('/login');
+    } else {
+      // Set email immediately
+      setDefaultValues(prev => ({ ...prev, email: user.email || '' }));
+
+      // Fetch profile for name
+      const fetchProfile = async () => {
+        try {
+          const { data, error } = await supabase
+            .from('profiles')
+            .select('full_name, fullName') // Support both namings if schema varies
+            .eq('user_id', user.id)
+            .single();
+
+          if (data) {
+            setDefaultValues(prev => ({
+              ...prev,
+              name: data.full_name || data.fullName || ''
+            }));
+          }
+        } catch (error) {
+          console.error("Error fetching profile:", error);
+        }
+      };
+      fetchProfile();
     }
-  }, [user, authLoading, navigate, toast]);
+  }, [user, authLoading, navigate, toast, t]);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -56,6 +82,14 @@ const Contact: React.FC = () => {
       });
 
       form.reset();
+      // Restore defaults after reset, as reset clears everything
+      // But actually, defaultValue only applies on mount/render. 
+      // If we want to persist them after reset, we might need controlled inputs or just re-apply manually.
+      // For now, let's keep it simple. The user just sent a message, empty form is fine. 
+      // Or we can reload the page? No.
+      // Let's manually set the values back if we want to keep them, but "reset" usually assumes blank slate.
+      // However, usually "Your Name" and "Email" stay filled for logged in users.
+      // Let's not overcomplicate, usually reset clears the message body which is what matters.
     } catch (error: any) {
       console.error("Contact Error:", error);
       toast({ title: "Error", description: "Failed to send message.", variant: "destructive" });
@@ -118,11 +152,31 @@ const Contact: React.FC = () => {
               <form onSubmit={handleSubmit} className="space-y-4">
                 <div className="space-y-2">
                   <Label htmlFor="name">{t('contact.name')} *</Label>
-                  <Input id="name" name="name" required />
+                  {/* Using key to force re-render when defaultValues changes if needed, but defaultValue should update if state changes before mount? 
+                      Actually with defaultValue, if it renders empty first, it won't update.
+                      We should use key={defaultValues.name} or just use a controlled component?
+                      Controlled is safer here to ensure it populates.
+                  */}
+                  <Input
+                    id="name"
+                    name="name"
+                    required
+                    defaultValue={defaultValues.name}
+                    key={defaultValues.name ? 'loaded' : 'loading'}
+                  />
                 </div>
                 <div className="space-y-2">
                   <Label htmlFor="email">{t('contact.email')} *</Label>
-                  <Input id="email" name="email" type="email" required />
+                  <Input
+                    id="email"
+                    name="email"
+                    type="email"
+                    required
+                    defaultValue={defaultValues.email}
+                    key={defaultValues.email ? 'loaded-email' : 'loading-email'}
+                    readOnly={!!defaultValues.email}
+                    className={defaultValues.email ? "bg-muted/50" : ""}
+                  />
                 </div>
                 <div className="space-y-2">
                   <Label htmlFor="subject">{t('contact.subject')} *</Label>

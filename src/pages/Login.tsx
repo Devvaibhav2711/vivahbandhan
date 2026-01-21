@@ -40,6 +40,8 @@ const Login: React.FC = () => {
       let errorMessage = result.error || t('auth.errorGeneric');
       if (errorMessage === 'Invalid login credentials') {
         errorMessage = t('auth.invalidCredentials');
+      } else if (errorMessage.includes('Email not confirmed')) {
+        errorMessage = "Please verify your email address. Check your inbox for the confirmation link.";
       }
       toast({ title: t('auth.loginFailed'), description: errorMessage, variant: 'destructive' });
     }

@@ -13,7 +13,7 @@ interface AuthContextType {
   user: User | null;
   isLoading: boolean;
   login: (email: string, password: string) => Promise<{ success: boolean; error?: string }>;
-  register: (email: string, password: string, phone?: string) => Promise<{ success: boolean; error?: string }>;
+  register: (email: string, password: string, phone?: string) => Promise<{ success: boolean; error?: string; data?: any }>;
   logout: () => void;
   isAdmin: boolean;
 }
@@ -92,7 +92,7 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
     return { success: true };
   };
 
-  const register = async (email: string, password: string, phone?: string): Promise<{ success: boolean; error?: string }> => {
+  const register = async (email: string, password: string, phone?: string): Promise<{ success: boolean; error?: string; data?: any }> => {
     setIsLoading(true);
 
     // Pass phone in metadata so the trigger can pick it up
@@ -111,8 +111,8 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
       return { success: false, error: error.message };
     }
 
-    // Success - trigger should handle creating the user row in public.users
-    return { success: true };
+    // If email confirmation is enabled, data.session will be null
+    return { success: true, data };
   };
 
   const logout = async () => {

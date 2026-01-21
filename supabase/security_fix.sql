@@ -40,6 +40,7 @@ ALTER TABLE public.contact_messages ENABLE ROW LEVEL SECURITY;
 DROP POLICY IF EXISTS "Users Create Messages" ON public.contact_messages;
 CREATE POLICY "Users Create Messages" ON public.contact_messages FOR INSERT WITH CHECK (auth.uid() = user_id);
 
--- Policy: Admin Read (Admins can view messages)
+-- Policy: Admin Manage (Admins can view and delete messages)
 DROP POLICY IF EXISTS "Admin Read Messages" ON public.contact_messages;
-CREATE POLICY "Admin Read Messages" ON public.contact_messages FOR SELECT USING (public.is_admin());
+DROP POLICY IF EXISTS "Admin Manage Messages" ON public.contact_messages;
+CREATE POLICY "Admin Manage Messages" ON public.contact_messages FOR ALL USING (public.is_admin());
