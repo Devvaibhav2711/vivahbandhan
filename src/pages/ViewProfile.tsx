@@ -26,6 +26,37 @@ const ViewProfile: React.FC = () => {
 
     const isOnline = useOnlineStatus();
 
+    const [viewerSubscription, setViewerSubscription] = useState<string | null>(null);
+    const [isPaymentWallEnabled, setIsPaymentWallEnabled] = useState(false);
+    const [checkingAccess, setCheckingAccess] = useState(true);
+
+    useEffect(() => {
+        const checkAccess = async () => {
+            // 1. Fetch Global Setting
+            const { data: setting } = await supabase
+                .from('app_settings')
+                .select('value')
+                .eq('key', 'enable_payment_wall')
+                .maybeSingle();
+
+            const wallEnabled = setting?.value === 'true';
+            setIsPaymentWallEnabled(wallEnabled);
+
+            // 2. Fetch Viewer's Subscription (if logged in and wall enabled)
+            if (user && wallEnabled && !isAdmin) {
+                const { data: viewerData } = await supabase
+                    .from('profiles')
+                    .select('subscription_type')
+                    .eq('user_id', user.id)
+                    .maybeSingle();
+
+                setViewerSubscription(viewerData?.subscription_type || 'free');
+            }
+            setCheckingAccess(false);
+        };
+        checkAccess();
+    }, [user, isAdmin]);
+
     useEffect(() => {
         const fetchProfile = async () => {
             if (!id) return;
@@ -49,14 +80,13 @@ const ViewProfile: React.FC = () => {
                         console.error("Cache fail", e);
                     }
 
-                    // ... (fetch user data logic remains same or similar)
-                    // Simplified to just logic needed
+                    // Fetch user email/phone for Contact Display
                     if (profileData.user_id) {
                         const { data: userData } = await supabase
                             .from('users')
                             .select('email, phone')
                             .eq('id', profileData.user_id)
-                            .maybeSingle(); // Use maybeSingle to avoid error if not found
+                            .maybeSingle();
                         setProfileUser(userData);
                     }
 
@@ -137,7 +167,7 @@ const ViewProfile: React.FC = () => {
         }
     };
 
-    if (loading) {
+    if (loading || checkingAccess) {
         return (
             <>
                 <div className="min-h-[60vh] flex items-center justify-center">
@@ -152,6 +182,47 @@ const ViewProfile: React.FC = () => {
     if (!profile) return <><div className="text-center py-20">Profile not found</div></>;
 
     const isOwner = user?.id === profile.user_id;
+    // Payment Wall Block
+    if (isPaymentWallEnabled && !isAdmin && !isOwner) {
+        // If user is not logged in OR (logged in but not premium)
+        if (!user || viewerSubscription !== 'premium') {
+            return (
+                <section className="py-20 bg-secondary/10 min-h-screen flex items-center justify-center">
+                    <div className="container mx-auto px-4 max-w-lg text-center">
+                        <div className="card-elegant bg-white p-8 shadow-xl border border-amber-200">
+                            <div className="w-16 h-16 bg-amber-100 rounded-full flex items-center justify-center mx-auto mb-6">
+                                <ShieldCheck className="w-8 h-8 text-amber-600" />
+                            </div>
+                            <h2 className="text-2xl font-serif font-bold text-gray-900 mb-2">{t('profile.premiumRequired') || 'Premium Access Required'}</h2>
+                            <p className="text-muted-foreground mb-6">
+                                {t('profile.premiumDesc') || 'To view full profiles and contact details, you need a Premium Membership.'}
+                            </p>
+
+                            <div className="space-y-4">
+                                <Button
+                                    onClick={() => navigate('/payment-info')}
+                                    className="w-full btn-gold py-6 text-lg shadow-lg hover:shadow-xl hover:scale-[1.02] transition-all"
+                                >
+                                    {t('profile.getPremium') || 'Get Premium Now'}
+                                </Button>
+
+                                {!user && (
+                                    <Button variant="outline" onClick={() => navigate('/login')} className="w-full">
+                                        {t('auth.login') || 'Login'}
+                                    </Button>
+                                )}
+
+                                <Button variant="ghost" onClick={() => navigate(-1)} className="w-full">
+                                    {t('common.back') || 'Go Back'}
+                                </Button>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+            );
+        }
+    }
+
     const canViewContact = isAdmin || isOwner;
 
     // Strict Contact Privacy:
