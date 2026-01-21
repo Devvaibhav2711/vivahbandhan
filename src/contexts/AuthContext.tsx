@@ -21,12 +21,20 @@ interface AuthContextType {
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
 
 export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) => {
-  const [user, setUser] = useState<User | null>(null);
+  // Initialize from LocalStorage for immediate 'logged in' state
+  const [user, setUser] = useState<User | null>(() => {
+    try {
+      const stored = localStorage.getItem('vivahbandhan-user-cache');
+      return stored ? JSON.parse(stored) : null;
+    } catch {
+      return null;
+    }
+  });
   const [isLoading, setIsLoading] = useState(true);
 
-  const fetchProfile = async (userId: string, email?: string) => {
+  const fetchProfile = async (userId: string, email?: string, retries = 3) => {
     try {
-      // Fetch only necessary fields to be lighter and potentially avoid some RLS issues if select policies exist
+      // Fetch only necessary fields
       const { data, error } = await supabase
         .from('users')
         .select('id, email, phone, role, created_at')
@@ -34,26 +42,59 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
         .maybeSingle();
 
       if (error) {
-        console.error('Error fetching user data:', error);
-        // Fallback to basic user if DB fetch fails
-        setUser({
-          id: userId,
-          email: email || '',
-          role: 'user',
-          createdAt: new Date().toISOString()
-        });
+        if (retries > 0) {
+          console.warn(`Error fetching user profile, retrying... (${retries} left)`);
+          setTimeout(() => fetchProfile(userId, email, retries - 1), 1000);
+          return;
+        }
+        console.error('Error fetching user data after retries:', error);
+        // Do not overwrite user if we have a cached version and it matches the ID?
+        // Actually best to be safe and fallback or keep existing if consistent.
+        // For now, minimal fallback if completely failed.
+        if (!user || user.id !== userId) {
+          const fallbackUser = {
+            id: userId,
+            email: email || '',
+            role: 'user' as const,
+            createdAt: new Date().toISOString()
+          };
+          setUser(fallbackUser);
+          // Do not cache fallbacks with 'user' role if they might be admin? 
+          // But we can't know. Secure default.
+        }
       } else if (data) {
-        setUser({
+        const newUser: User = {
           id: data.id,
           email: data.email,
           phone: data.phone,
           role: data.role as 'user' | 'admin',
           createdAt: data.created_at,
-        });
+        };
+        setUser(newUser);
+        localStorage.setItem('vivahbandhan-user-cache', JSON.stringify(newUser));
       } else {
-        // No profile found in public.users, but auth session exists.
-        // Create a temporary user object so they are not logged out.
+        // No data found logic
+        if (retries > 0) {
+          // It might be a replication lag if user was just created?
+          setTimeout(() => fetchProfile(userId, email, retries - 1), 1000);
+          return;
+        }
         console.warn('No public profile found for user:', userId);
+        const fallbackUser = {
+          id: userId,
+          email: email || '',
+          role: 'user' as const,
+          createdAt: new Date().toISOString()
+        };
+        setUser(fallbackUser);
+      }
+    } catch (error) {
+      console.error('Unexpected error:', error);
+      if (retries > 0) {
+        setTimeout(() => fetchProfile(userId, email, retries - 1), 1000);
+        return;
+      }
+      if (!user || user.id !== userId) {
         setUser({
           id: userId,
           email: email || '',
@@ -61,35 +102,40 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
           createdAt: new Date().toISOString()
         });
       }
-    } catch (error) {
-      console.error('Unexpected error fetching user data:', error);
-      // Fallback
-      setUser({
-        id: userId,
-        email: email || '',
-        role: 'user',
-        createdAt: new Date().toISOString()
-      });
     } finally {
-      setIsLoading(false);
+      if (retries === 0 || !isLoading) { // Only set loading false on final attempt or if already not loading
+        setIsLoading(false);
+      }
     }
   };
 
   useEffect(() => {
     supabase.auth.getSession().then(({ data: { session } }) => {
       if (session?.user) {
+        // If we have a cached user that matches, isLoading can be false immediately
+        if (user && user.id === session.user.id) {
+          setIsLoading(false);
+        }
         fetchProfile(session.user.id, session.user.email);
       } else {
+        setUser(null);
+        localStorage.removeItem('vivahbandhan-user-cache');
         setIsLoading(false);
       }
     });
 
     const { data: { subscription } } = supabase.auth.onAuthStateChange((_event, session) => {
       if (session?.user) {
-        // Fetch to ensure we have role and phone from DB
-        fetchProfile(session.user.id, session.user.email);
+        if (!user || user.id !== session.user.id) {
+          // If switching users or fresh login, ensure we fetch
+          fetchProfile(session.user.id, session.user.email);
+        } else {
+          // Even if same usage, refresh data in background
+          fetchProfile(session.user.id, session.user.email);
+        }
       } else {
         setUser(null);
+        localStorage.removeItem('vivahbandhan-user-cache');
         setIsLoading(false);
       }
     });
@@ -99,7 +145,7 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
 
   const login = async (email: string, password: string): Promise<{ success: boolean; error?: string }> => {
     setIsLoading(true);
-    const { error } = await supabase.auth.signInWithPassword({
+    const { data, error } = await supabase.auth.signInWithPassword({
       email,
       password,
     });
@@ -108,12 +154,18 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
       setIsLoading(false);
       return { success: false, error: error.message };
     }
+
+    // Explicitly fetch profile immediately on login success
+    if (data.user) {
+      await fetchProfile(data.user.id, data.user.email);
+    }
+
     return { success: true };
   };
 
   const register = async (email: string, password: string, phone?: string): Promise<{ success: boolean; error?: string; data?: any }> => {
     setIsLoading(true);
-
+    // ... registration logic ...
     // Pass phone in metadata so the trigger can pick it up
     const { data, error } = await supabase.auth.signUp({
       email,
@@ -130,14 +182,14 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
       return { success: false, error: error.message };
     }
 
-    // If email confirmation is enabled, data.session will be null
     return { success: true, data };
   };
 
   const logout = async () => {
     await supabase.auth.signOut();
     setUser(null);
-    localStorage.removeItem('vivahbandhan-user');
+    localStorage.removeItem('vivahbandhan-user-cache');
+    localStorage.removeItem('vivahbandhan-user'); // Clear legacy if exists
   };
 
   useEffect(() => {
