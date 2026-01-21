@@ -27,7 +27,7 @@ const ViewProfile: React.FC = () => {
     const isOnline = useOnlineStatus();
 
     const [viewerSubscription, setViewerSubscription] = useState<string | null>(null);
-    const [isPaymentWallEnabled, setIsPaymentWallEnabled] = useState(false);
+    const [isPremiumViewLimitEnabled, setIsPremiumViewLimitEnabled] = useState(false);
     const [checkingAccess, setCheckingAccess] = useState(true);
 
     useEffect(() => {
@@ -36,11 +36,11 @@ const ViewProfile: React.FC = () => {
             const { data: setting } = await supabase
                 .from('app_settings')
                 .select('value')
-                .eq('key', 'enable_payment_wall')
+                .eq('key', 'enable_premium_view_limit')
                 .maybeSingle();
 
             const wallEnabled = setting?.value === 'true';
-            setIsPaymentWallEnabled(wallEnabled);
+            setIsPremiumViewLimitEnabled(wallEnabled);
 
             // 2. Fetch Viewer's Subscription (if logged in and wall enabled)
             if (user && wallEnabled && !isAdmin) {
@@ -183,7 +183,7 @@ const ViewProfile: React.FC = () => {
 
     const isOwner = user?.id === profile.user_id;
     // Payment Wall Block
-    if (isPaymentWallEnabled && !isAdmin && !isOwner) {
+    if (isPremiumViewLimitEnabled && !isAdmin && !isOwner) {
         // If user is not logged in OR (logged in but not premium)
         if (!user || viewerSubscription !== 'premium') {
             return (

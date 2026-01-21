@@ -100,6 +100,16 @@ export const translations: Translations = {
     hi: "उपयोगकर्ताओं को अपने डैशबोर्ड से सभी सार्वजनिक प्रोफाइल ब्राउज़ करने की अनुमति देने के लिए इसे सक्षम करें।",
     mr: "हे चालू केल्यास, सदस्यांना डॅशबोर्डवर 'सर्व प्रोफाईल्स' पाहता येतील."
   },
+  'admin.settings.premiumView': {
+    en: 'Restrict Profile Viewing (Premium Only)',
+    hi: 'प्रोफाइल देखने पर प्रतिबंध (केवल प्रीमियम)',
+    mr: 'प्रोफाईल पाहण्यास निर्बंध (फक्त प्रीमियम)'
+  },
+  'admin.settings.premiumViewDesc': {
+    en: 'If enabled, users MUST be Premium members to view full profiles (photos, details, etc.).',
+    hi: 'यदि सक्षम है, तो उपयोगकर्ताओं को पूर्ण प्रोफ़ाइल देखने के लिए प्रीमियम सदस्य होना चाहिए।',
+    mr: 'हे चालू केल्यास, केवळ प्रीमियम सदस्यच पूर्ण प्रोफाईल (फोटो आणि माहिती) पाहू शकतील. इतर सदस्यांना अपग्रेड करण्यासाठी विनंती केली जाईल.'
+  },
   'nav.login': { en: 'Login', hi: 'लॉगिन', mr: 'लॉगिन' },
   'nav.register': { en: 'Register', hi: 'रजिस्टर', mr: 'नोंदणी' },
   'nav.dashboard': { en: 'Dashboard', hi: 'डैशबोर्ड', mr: 'डॅशबोर्ड' },
@@ -295,6 +305,21 @@ export const translations: Translations = {
 
   // Profile View
   'profile.premiumService': { en: 'Premium Matchmaking Service', hi: 'प्रीमियम मैचमेकिंग सेवा', mr: 'प्रीमियम शुभविवाहबंधन सेवा' },
+  'profile.premiumRequired': {
+    en: 'Premium Access Required',
+    hi: 'प्रीमियम एक्सेस आवश्यक',
+    mr: 'ही माहिती पाहण्यासाठी प्रीमियम मेंबरशिप आवश्यक आहे'
+  },
+  'profile.premiumDesc': {
+    en: 'To view full profiles and contact details, you need a Premium Membership. This ensures a serious and verified community.',
+    hi: 'पूर्ण प्रोफाइल और संपर्क विवरण देखने के लिए, आपको प्रीमियम सदस्यता की आवश्यकता है। यह एक गंभीर और सत्यापित समुदाय सुनिश्चित करता है।',
+    mr: 'संपूर्ण प्रोफाईल आणि संपर्क माहिती पाहण्यासाठी, कृपया प्रीमियम मेंबरशिप घ्या. यामुळे केवळ गंभीर आणि सत्यापित सदस्यच एकमेकांशी संपर्क साधू शकतात.'
+  },
+  'profile.getPremium': {
+    en: 'Get Premium Now',
+    hi: 'प्रीमियम प्राप्त करें',
+    mr: 'प्रीमियम मेंबरशिप घ्या'
+  },
 
   // Matches & Requests
   'nav.viewProfile': { en: 'View Profile', hi: 'प्रोफाइल देखें', mr: 'प्रोफाइल पहा' },

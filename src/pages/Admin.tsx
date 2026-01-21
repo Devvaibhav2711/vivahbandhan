@@ -69,6 +69,7 @@ const Admin: React.FC = () => {
   const [previousShares, setPreviousShares] = useState<any[]>([]); // Track existing shares for selected user
   const [selectedProfileShares, setSelectedProfileShares] = useState<any[]>([]); // Track existing shares for selected profile
   const [isPaymentWallEnabled, setIsPaymentWallEnabled] = useState(false);
+  const [isPremiumViewRestrictionEnabled, setIsPremiumViewRestrictionEnabled] = useState(false);
   const [isPublicProfilesEnabled, setIsPublicProfilesEnabled] = useState(false);
 
   const fetchRequests = async () => {
@@ -357,6 +358,24 @@ const Admin: React.FC = () => {
     }
   };
 
+  const handleTogglePremiumViewRestriction = async (newValue: boolean) => {
+    if (!window.confirm(`Are you sure you want to ${newValue ? 'RESTRICT' : 'ALLOW'} profile viewing for non-premium users?`)) {
+      return;
+    }
+
+    const { error } = await supabase
+      .from('app_settings')
+      .upsert({ key: 'enable_premium_view_limit', value: String(newValue) });
+
+    if (error) {
+      console.error('Error updating setting:', error);
+      toast({ title: 'Error', description: 'Failed to update setting', variant: 'destructive' });
+    } else {
+      setIsPremiumViewRestrictionEnabled(newValue);
+      toast({ title: 'Success', description: `Profile View Restriction ${newValue ? 'Enabled' : 'Disabled'}` });
+    }
+  };
+
   if (!isAdmin) {
     return (
       <>
@@ -422,7 +441,7 @@ const Admin: React.FC = () => {
               { id: 'messages', label: t('admin.tab.messages') },
               { id: 'add-user', label: t('admin.tab.addUser') },
               { id: 'shared', label: t('admin.tab.shared') },
-              { id: 'settings', label: t('admin.tab.settings') }
+              { id: 'settings', label: t('admin.tab.settings') || 'Settings' }
             ].map(tab => (
               <Button
                 key={tab.id}
@@ -990,9 +1009,9 @@ const Admin: React.FC = () => {
                 <div className="space-y-6">
                   <div className="flex items-start justify-between p-4 bg-secondary/5 rounded-lg border border-secondary/10">
                     <div className="space-y-1">
-                      <Label htmlFor="payment-wall" className="text-base font-semibold">{t('admin.settings.paymentWall')}</Label>
+                      <Label htmlFor="payment-wall" className="text-base font-semibold">{t('admin.settings.paymentWall') || 'Enable Payment Wall (Premium Profile Access)'}</Label>
                       <p className="text-sm text-muted-foreground max-w-md">
-                        {t('admin.settings.paymentWallDesc')}
+                        {t('admin.settings.paymentWallDesc') || 'If enabled, non-premium users will be blocked from viewing full profiles and contact details. They will see a "Get Premium" prompt.'}
                       </p>
                     </div>
                     <Switch
@@ -1004,9 +1023,23 @@ const Admin: React.FC = () => {
 
                   <div className="flex items-start justify-between p-4 bg-secondary/5 rounded-lg border border-secondary/10">
                     <div className="space-y-1">
-                      <Label htmlFor="public-profiles" className="text-base font-semibold">{t('admin.settings.publicProfiles')}</Label>
+                      <Label htmlFor="premium-view" className="text-base font-semibold">{t('admin.settings.premiumView') || 'Restrict Profile Viewing (Premium Only)'}</Label>
                       <p className="text-sm text-muted-foreground max-w-md">
-                        {t('admin.settings.publicProfilesDesc')}
+                        {t('admin.settings.premiumViewDesc') || 'If enabled, users MUST be Premium members to view full profiles (photos, details, etc.).'}
+                      </p>
+                    </div>
+                    <Switch
+                      id="premium-view"
+                      checked={isPremiumViewRestrictionEnabled}
+                      onCheckedChange={handleTogglePremiumViewRestriction}
+                    />
+                  </div>
+
+                  <div className="flex items-start justify-between p-4 bg-secondary/5 rounded-lg border border-secondary/10">
+                    <div className="space-y-1">
+                      <Label htmlFor="public-profiles" className="text-base font-semibold">{t('admin.settings.publicProfiles') || 'Enable "All Profiles" Public Tab'}</Label>
+                      <p className="text-sm text-muted-foreground max-w-md">
+                        {t('admin.settings.publicProfilesDesc') || 'If enabled, the "All Profiles" page is accessible. If disabled, it is hidden from the menu.'}
                       </p>
                     </div>
                     <Switch
