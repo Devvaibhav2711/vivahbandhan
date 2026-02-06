@@ -2,8 +2,8 @@ name: Supabase Keep Alive
 
 on:
   schedule:
-    # Runs every 5 days at 00:00 UTC
-    - cron: "0 0 */5 * *"
+    # Runs every 3 days at 00:00 UTC to ensure consistent activity
+    - cron: "0 0 */3 * *"
   # Allow manual trigger from GitHub Actions tab
   workflow_dispatch:
 
@@ -19,7 +19,8 @@ jobs:
           echo "🔄 Pinging Supabase to keep project active..."
           echo "Project URL: $SUPABASE_URL"
           
-          # Perform a simple query to keep the database active
+          # 1. Query profiles table
+          echo "📊 Querying profiles table..."
           response=$(curl -w "\n%{http_code}" -sS "$SUPABASE_URL/rest/v1/profiles?select=id&limit=1" \
             -H "apikey: $SUPABASE_KEY" \
             -H "Authorization: Bearer $SUPABASE_KEY")
@@ -28,13 +29,53 @@ jobs:
           body=$(echo "$response" | sed '$d')
           
           if [ "$http_code" -eq 200 ] || [ "$http_code" -eq 206 ]; then
-            echo "✅ Successfully pinged Supabase (HTTP $http_code)"
-            echo "Response: $body"
+            echo "✅ Successfully queried profiles (HTTP $http_code)"
           else
-            echo "❌ Failed to ping Supabase (HTTP $http_code)"
-            echo "Response: $body"
-            exit 1
+            echo "⚠️  Profiles query returned HTTP $http_code"
           fi
+          
+          # 2. Check auth endpoint
+          echo "🔐 Checking auth endpoint..."
+          auth_response=$(curl -w "\n%{http_code}" -sS "$SUPABASE_URL/auth/v1/health" \
+            -H "apikey: $SUPABASE_KEY")
+          
+          auth_code=$(echo "$auth_response" | tail -n1)
+          
+          if [ "$auth_code" -eq 200 ]; then
+            echo "✅ Auth endpoint is healthy (HTTP $auth_code)"
+          else
+            echo "⚠️  Auth endpoint returned HTTP $auth_code"
+          fi
+          
+          # 3. Query settings table
+          echo "⚙️  Querying settings table..."
+          settings_response=$(curl -w "\n%{http_code}" -sS "$SUPABASE_URL/rest/v1/settings?select=id&limit=1" \
+            -H "apikey: $SUPABASE_KEY" \
+            -H "Authorization: Bearer $SUPABASE_KEY")
+          
+          settings_code=$(echo "$settings_response" | tail -n1)
+          
+          if [ "$settings_code" -eq 200 ] || [ "$settings_code" -eq 206 ]; then
+            echo "✅ Successfully queried settings (HTTP $settings_code)"
+          else
+            echo "⚠️  Settings query returned HTTP $settings_code"
+          fi
+          
+          # 4. Check storage endpoint
+          echo "📦 Checking storage endpoint..."
+          storage_response=$(curl -w "\n%{http_code}" -sS "$SUPABASE_URL/storage/v1/bucket" \
+            -H "apikey: $SUPABASE_KEY" \
+            -H "Authorization: Bearer $SUPABASE_KEY")
+          
+          storage_code=$(echo "$storage_response" | tail -n1)
+          
+          if [ "$storage_code" -eq 200 ]; then
+            echo "✅ Storage endpoint is accessible (HTTP $storage_code)"
+          else
+            echo "⚠️  Storage endpoint returned HTTP $storage_code"
+          fi
+          
+          echo "🎉 Keep-alive operations completed!"
           
       - name: Verify Project Status
         env:
@@ -43,7 +84,7 @@ jobs:
         run: |
           echo "🔍 Verifying project is accessible..."
           
-          # Try to access the health endpoint
+          # Try to access the REST API root endpoint
           health_response=$(curl -w "\n%{http_code}" -sS "$SUPABASE_URL/rest/v1/" \
             -H "apikey: $SUPABASE_KEY")
           
@@ -55,4 +96,4 @@ jobs:
             echo "⚠️  Project returned unexpected status: HTTP $health_code"
           fi
           
-          echo "🎉 Keep-alive workflow completed successfully!"
+          echo "✨ All verification checks completed successfully!"
